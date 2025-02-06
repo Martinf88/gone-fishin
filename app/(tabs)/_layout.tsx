@@ -1,82 +1,111 @@
-import { View } from "react-native";
-import React from "react";
+import { View, Text } from "react-native";
 import { Tabs, Redirect } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/constants/Colors";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
+interface TabIconProps {
+    icon:
+        | React.ComponentProps<typeof Ionicons>["name"]
+        | React.ComponentProps<typeof AntDesign>["name"];
+    focused: boolean;
+    color: string;
+    label?: string;
+    isAntDesign?: boolean;
+    size: number;
+}
+
+const TabIcon = ({
+    icon,
+    focused,
+    color,
+    label,
+    isAntDesign,
+    size,
+}: TabIconProps) => {
+    const IconComponent = isAntDesign ? AntDesign : Ionicons;
+
+    return (
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
+            <IconComponent name={icon as any} size={size} color={color} />
+            {label && focused && (
+                <Text
+                    style={{
+                        color,
+                        marginTop: isAntDesign ? 0 : -4,
+                    }}
+                >
+                    {label}
+                </Text>
+            )}
+        </View>
+    );
+};
+
 const TabsLayout = () => {
     return (
-        <>
-            <Tabs
-                screenOptions={{
-                    tabBarStyle: {
-                        backgroundColor: COLORS.darkBlue,
-                        height: 60,
-                        paddingTop: 0,
-                    },
-                    tabBarIconStyle: { height: 48, width: 48 },
-                    tabBarActiveTintColor: COLORS.pewter,
-                    tabBarInactiveTintColor: COLORS.blueGray,
+        <Tabs
+            screenOptions={{
+                tabBarStyle: {
+                    backgroundColor: COLORS.darkBlue,
+                    height: 60,
+                    paddingTop: 0,
+                },
+                tabBarShowLabel: false,
+                tabBarIconStyle: { height: 48, width: 64 },
+                tabBarActiveTintColor: COLORS.pewter,
+                tabBarInactiveTintColor: COLORS.blueGray,
+                headerShown: false,
+            }}
+        >
+            <Tabs.Screen
+                name="feed"
+                options={{
+                    title: "Fångster",
+
+                    tabBarIcon: ({ color, focused }) => (
+                        <TabIcon
+                            icon="fish-outline"
+                            focused={focused}
+                            color={color}
+                            label="Fångster"
+                            size={32}
+                        />
+                    ),
                 }}
-            >
-                <Tabs.Screen
-                    name="feed"
-                    options={{
-                        title: "Fångster",
-                        headerShown: false,
-                        tabBarIconStyle: {
-                            height: 24,
-                            width: 24,
-                            marginTop: 6,
-                        },
-                        tabBarIcon: ({ color, focused }) => (
-                            <Ionicons
-                                name="fish-outline"
-                                size={24}
-                                color={color}
-                                focused={focused}
-                            />
-                        ),
-                    }}
-                />
-                <Tabs.Screen
-                    name="create"
-                    options={{
-                        title: "Create",
-                        tabBarLabel: "",
-                        headerShown: false,
-                        tabBarIcon: () => (
-                            <Ionicons
-                                name="add-circle-outline"
-                                size={48}
-                                color={COLORS.yellow}
-                            />
-                        ),
-                    }}
-                />
-                <Tabs.Screen
-                    name="profile"
-                    options={{
-                        title: "Profil",
-                        headerShown: false,
-                        tabBarIconStyle: {
-                            height: 24,
-                            width: 24,
-                            marginTop: 6,
-                        },
-                        tabBarIcon: ({ color, focused }) => (
-                            <AntDesign
-                                name="user"
-                                size={24}
-                                color={color}
-                                focused={focused}
-                            />
-                        ),
-                    }}
-                />
-            </Tabs>
-        </>
+            />
+            <Tabs.Screen
+                name="create"
+                options={{
+                    title: "Create",
+                    tabBarIcon: () => (
+                        <TabIcon
+                            icon="add-circle-outline"
+                            focused={false}
+                            color={COLORS.yellow}
+                            size={48}
+                        />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="profile"
+                options={{
+                    title: "Profil",
+
+                    tabBarIcon: ({ color, focused }) => (
+                        <TabIcon
+                            icon="user"
+                            focused={focused}
+                            color={color}
+                            label="Profil"
+                            isAntDesign
+                            size={32}
+                        />
+                    ),
+                }}
+            />
+        </Tabs>
     );
 };
 
