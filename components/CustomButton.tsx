@@ -3,13 +3,32 @@ import React from "react";
 import { COLORS } from "@/constants/Colors";
 
 interface CustomButtonProps {
-    text: string;
+    title: string;
+    handlePress: () => void;
+    containerStyles?: object;
+    textStyles?: object;
+    isLoading?: boolean;
 }
 
-const CustomButton = ({ text }: CustomButtonProps) => {
+const CustomButton = ({
+    title,
+    handlePress,
+    containerStyles,
+    isLoading,
+    textStyles,
+}: CustomButtonProps) => {
     return (
-        <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>{text}</Text>
+        <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={handlePress}
+            style={[
+                styles.button,
+                containerStyles,
+                isLoading ? { opacity: 0.5 } : {},
+            ]}
+            disabled={isLoading}
+        >
+            <Text style={[styles.buttonText, textStyles]}>{title}</Text>
         </TouchableOpacity>
     );
 };
@@ -27,5 +46,6 @@ const styles = StyleSheet.create({
         fontSize: 24,
         color: COLORS.darkBlue,
         fontFamily: "Kurale-Regular",
+        textAlign: "center",
     },
 });

@@ -1,8 +1,17 @@
-import { View, Text, ScrollView, StyleSheet, Image } from "react-native";
+import {
+    View,
+    Text,
+    ScrollView,
+    StyleSheet,
+    Image,
+    Dimensions,
+} from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "@/constants/Colors";
 import CustomButton from "@/components/CustomButton";
+import { StatusBar } from "expo-status-bar";
+import { Redirect, router } from "expo-router";
 
 const App = () => {
     return (
@@ -18,29 +27,35 @@ const App = () => {
                             Din digitala fiskedagbok.
                         </Text>
                         <Image
-                            style={{ marginTop: 20 }}
-                            source={require("@/assets/images/polaroid.png")}
+                            style={{ marginTop: 50 }}
+                            source={require("@/assets/images/polaroid-2.png")}
                         />
                     </View>
 
-                    <View style={styles.buttonWrapper}>
-                        <CustomButton text={"Logga in"} />
-                    </View>
+                    <CustomButton
+                        title={"Logga In"}
+                        handlePress={() => {
+                            router.push("/sign-in");
+                        }}
+                    />
                 </View>
             </ScrollView>
+            <StatusBar style="light" />
         </SafeAreaView>
     );
 };
 
 export default App;
 
+const { height } = Dimensions.get("window");
+
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 150,
+        paddingTop: 100,
         justifyContent: "space-between",
         alignItems: "center",
         width: "100%",
-        height: "100%",
+        minHeight: height * 0.85,
     },
     title: {
         fontSize: 54,
@@ -49,13 +64,8 @@ const styles = StyleSheet.create({
     },
     subTitle: {
         textAlign: "center",
-        marginTop: 20,
         fontSize: 24,
         color: COLORS.blueGray,
         fontFamily: "Kurale-Regular",
-    },
-
-    buttonWrapper: {
-        marginBottom: 100,
     },
 });
