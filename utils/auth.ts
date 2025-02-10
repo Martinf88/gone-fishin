@@ -3,8 +3,13 @@ import { auth } from "../firebaseConfig";
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const handleSignIn = async (email: string, password: string) => {
+export const handleSignIn = async (
+    email: string,
+    password: string,
+    setIsLoading: (value: boolean) => void
+) => {
     try {
+        setIsLoading(true);
         const userCredential = await signInWithEmailAndPassword(
             auth,
             email,
@@ -21,6 +26,7 @@ export const handleSignIn = async (email: string, password: string) => {
     } catch (error) {
         console.error(error);
     }
+    setIsLoading(false);
 };
 
 export const handleSignOut = async () => {

@@ -1,6 +1,13 @@
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import {
+    View,
+    Text,
+    TextInput,
+    StyleSheet,
+    TouchableOpacity,
+} from "react-native";
 import React, { useState } from "react";
 import { COLORS } from "@/constants/Colors";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 interface FormFieldProps {
     title?: string;
@@ -24,9 +31,7 @@ const FormField = ({
     const [showPassword, setshowPassword] = useState(false);
     return (
         <View style={[otherStyles, styles.container]}>
-            {iconComponent && (
-                <View style={styles.iconContainer}>{iconComponent}</View>
-            )}
+            {iconComponent && <View>{iconComponent}</View>}
             <TextInput
                 style={styles.input}
                 value={value}
@@ -35,6 +40,26 @@ const FormField = ({
                 onChangeText={handleChangeText}
                 secureTextEntry={keyBoardType === "password" && !showPassword}
             />
+            {title === "Password" && (
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => setshowPassword(!showPassword)}
+                >
+                    {!showPassword ? (
+                        <Ionicons
+                            name="eye-outline"
+                            size={28}
+                            color={COLORS.blueGray}
+                        />
+                    ) : (
+                        <Ionicons
+                            name="eye-off-outline"
+                            size={28}
+                            color={COLORS.blueGray}
+                        />
+                    )}
+                </TouchableOpacity>
+            )}
         </View>
     );
 };
@@ -45,18 +70,21 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
         alignItems: "center",
-        height: 45,
-    },
-    iconContainer: {
-        justifyContent: "center",
-        alignItems: "center",
+        height: 50,
     },
     input: {
+        position: "relative",
         flex: 1,
         backgroundColor: COLORS.darkBlue,
         color: COLORS.pewter,
         borderTopRightRadius: 5,
         borderBottomRightRadius: 5,
         height: "100%",
+        paddingLeft: 10,
+        fontSize: 16,
+    },
+    button: {
+        position: "absolute",
+        right: 10,
     },
 });

@@ -8,12 +8,14 @@ import FormField from "@/components/FormField";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { handleSignIn } from "@/utils/auth";
+import { Link } from "expo-router";
 
 const SignIn = () => {
     const [form, setForm] = useState({
         email: "",
         password: "",
     });
+    const [isLoading, setIsLoading] = useState(false);
 
     return (
         <SafeAreaView
@@ -22,16 +24,16 @@ const SignIn = () => {
             <ScrollView contentContainerStyle={{ height: "100%" }}>
                 <View style={styles.container}>
                     <Text style={styles.title}>Gone Fishin'</Text>
-                    <View style={{ width: "100%", paddingHorizontal: 40 }}>
+                    <View style={{ width: "100%" }}>
                         <FormField
                             title="Email"
                             value={form.email}
                             handleChangeText={(e: string) =>
                                 setForm({ ...form, email: e })
                             }
-                            otherStyles={{ marginTop: 50 }}
-                            keyBoardType="example@example.com"
-                            palceholderText="enter your email"
+                            otherStyles={{ marginTop: 80 }}
+                            keyBoardType="email"
+                            palceholderText="example@example.com"
                             iconComponent={
                                 <MaterialIcons
                                     name="alternate-email"
@@ -48,7 +50,7 @@ const SignIn = () => {
                             handleChangeText={(e: string) =>
                                 setForm({ ...form, password: e })
                             }
-                            otherStyles={{ marginTop: 50 }}
+                            otherStyles={{ marginTop: 20 }}
                             keyBoardType="password"
                             palceholderText="enter your password"
                             iconComponent={
@@ -61,23 +63,43 @@ const SignIn = () => {
                                 />
                             }
                         />
-                        <Text
-                            style={{
-                                color: COLORS.pewter,
-                                textAlign: "right",
-                            }}
-                        >
-                            Glömt lösenordet?
-                        </Text>
                     </View>
 
                     <CustomButton
                         title={"Logga In"}
                         handlePress={() =>
-                            handleSignIn(form.email, form.password)
+                            handleSignIn(
+                                form.email,
+                                form.password,
+                                setIsLoading
+                            )
                         }
-                        containerStyles={{ marginTop: 100 }}
+                        containerStyles={{ marginTop: 20 }}
+                        isLoading={isLoading}
                     />
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            marginTop: 10,
+                            justifyContent: "center",
+                            gap: 5,
+                        }}
+                    >
+                        <Text style={{ color: COLORS.pewter, fontSize: 16 }}>
+                            Saknar du konto?
+                        </Text>
+                        <Link href="/sign-up">
+                            <Text
+                                style={{
+                                    color: COLORS.yellow,
+                                    fontSize: 16,
+                                    fontWeight: "bold",
+                                }}
+                            >
+                                Registrera dig
+                            </Text>
+                        </Link>
+                    </View>
                 </View>
             </ScrollView>
             <StatusBar style="light" backgroundColor={COLORS.primary} />
@@ -92,7 +114,7 @@ const { height } = Dimensions.get("window");
 const styles = StyleSheet.create({
     container: {
         paddingTop: 100,
-        alignItems: "center",
+        paddingHorizontal: 20,
         width: "100%",
         minHeight: height * 0.85,
     },
@@ -100,19 +122,12 @@ const styles = StyleSheet.create({
         fontSize: 54,
         color: COLORS.pewter,
         fontFamily: "Kurale-Regular",
+        textAlign: "center",
     },
-    input: {
-        width: "80%",
-        height: 50,
-        backgroundColor: COLORS.darkBlue,
-        borderRadius: 10,
-        padding: 10,
-        marginBottom: 20,
-    },
+
     icon: {
         borderTopLeftRadius: 5,
         borderBottomLeftRadius: 5,
-        padding: 6,
-        height: "100%",
+        padding: 9,
     },
 });
