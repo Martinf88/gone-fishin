@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 24,
         color: COLORS.darkBlue,
-        fontFamily: "Kurale-Regular",
+        fontFamily: "OpenSans",
         textAlign: "center",
     },
 });

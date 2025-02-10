@@ -11,7 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "@/constants/Colors";
 import CustomButton from "@/components/CustomButton";
 import { StatusBar } from "expo-status-bar";
-import { Redirect, router } from "expo-router";
+import { router } from "expo-router";
 
 const App = () => {
     return (
@@ -33,7 +33,7 @@ const App = () => {
                     </View>
 
                     <CustomButton
-                        title={"Logga In"}
+                        title={"Gå vidare"}
                         handlePress={() => {
                             router.push("/sign-in");
                         }}
