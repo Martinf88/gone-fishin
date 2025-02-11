@@ -1,12 +1,16 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { COLORS } from "@/constants/Colors";
+import CustomHeader from "@/components/CustomHeader";
 
 const Profile = () => {
     return (
-        <View>
-            <Text>Profile</Text>
-        </View>
+        <>
+            <CustomHeader />
+            <View style={styles.container}>
+                <Text style={styles.text}>Profile</Text>
+            </View>
+        </>
     );
 };
 
@@ -17,6 +21,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: COLORS.primary,
     },
     text: {
         color: COLORS.pewter,
