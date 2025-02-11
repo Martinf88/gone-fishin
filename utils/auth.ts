@@ -35,7 +35,7 @@ export const handleSignIn = async ({
         );
 
         const user = userCredential.user;
-        console.log("User signed in: ", user.email);
+        console.log("User signed in: ", auth.currentUser);
 
         const jsonValue = JSON.stringify(user);
         await AsyncStorage.setItem("user", jsonValue);
@@ -50,8 +50,16 @@ export const handleSignIn = async ({
 
 export const handleSignOut = async () => {
     try {
+        const userBeforeSignOut = auth.currentUser;
+
+        if (!userBeforeSignOut) {
+            console.warn("No user is currently signed in.");
+            return;
+        }
+        console.log("Signing out user: ", userBeforeSignOut.email);
+
         await signOut(auth);
-        console.log("User signed out");
+        console.log("User signed out successfully");
 
         router.replace("/sign-in");
     } catch (error) {
