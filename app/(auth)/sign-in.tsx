@@ -1,4 +1,11 @@
-import { View, Text, ScrollView, StyleSheet, Dimensions } from "react-native";
+import {
+    View,
+    Text,
+    ScrollView,
+    StyleSheet,
+    Dimensions,
+    ActivityIndicator,
+} from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "@/constants/Colors";
@@ -24,6 +31,11 @@ const SignIn = () => {
             <ScrollView contentContainerStyle={{ height: "100%" }}>
                 <View style={styles.container}>
                     <Text style={styles.title}>Gone Fishin'</Text>
+
+                    <View>
+                        <ActivityIndicator size="large" color={COLORS.yellow} />
+                    </View>
+
                     <View style={{ width: "100%" }}>
                         <FormField
                             title="Email"

@@ -8,6 +8,7 @@ import { auth, db } from "../firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAuthStore } from "@/store/useAuthStore";
 
 interface SignInProps {
     email: string;
@@ -26,8 +27,8 @@ export const handleSignIn = async ({
     password,
     setIsLoading,
 }: SignInProps) => {
+    setIsLoading(true);
     try {
-        setIsLoading(true);
         const userCredential = await signInWithEmailAndPassword(
             auth,
             email,
@@ -37,9 +38,13 @@ export const handleSignIn = async ({
         const user = userCredential.user;
         console.log("User signed in: ", auth.currentUser);
 
-        const jsonValue = JSON.stringify(user);
-        await AsyncStorage.setItem("user", jsonValue);
+        //Store user in zustand
+        useAuthStore.getState().setUser(user);
 
+        // Persist user session in AsyncStorage
+        await AsyncStorage.setItem("user", JSON.stringify(user));
+
+        // Navigate user to the feed
         router.replace("/feed");
     } catch (error) {
         console.error("Error signing in user:", error);
