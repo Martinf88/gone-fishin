@@ -6,7 +6,7 @@ import CustomHeader from "@/components/CustomHeader";
 const Profile = () => {
     return (
         <>
-            <CustomHeader />
+            <CustomHeader title={"Profil"} showButtons={true} />
             <View style={styles.container}>
                 <Text style={styles.text}>Profile</Text>
             </View>

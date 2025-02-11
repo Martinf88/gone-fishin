@@ -12,8 +12,8 @@ import { Link } from "expo-router";
 
 const SignIn = () => {
     const [form, setForm] = useState({
-        email: "",
-        password: "",
+        email: "klasse@test.com",
+        password: "klasse",
     });
     const [isLoading, setIsLoading] = useState(false);
 

@@ -2,35 +2,37 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { COLORS } from "@/constants/Colors";
+import { handleSignOut } from "@/utils/auth";
 
 interface CustomHeaderProps {
     title: string;
     showButtons: boolean;
 }
 
-const CustomHeader = () => {
+const CustomHeader = ({ title, showButtons }: CustomHeaderProps) => {
     return (
         <View style={styles.header}>
-            <Text style={styles.text}>Profil</Text>
-            <View style={styles.buttonWrapper}>
-                <TouchableOpacity>
-                    {" "}
-                    <Ionicons
-                        name="person-outline"
-                        size={28}
-                        color={COLORS.pewter}
-                        style={styles.icon}
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Ionicons
-                        name="log-out-outline"
-                        size={28}
-                        color={COLORS.pewter}
-                        style={styles.icon}
-                    />
-                </TouchableOpacity>
-            </View>
+            <Text style={styles.text}>{title}</Text>
+            {showButtons && (
+                <View style={styles.buttonWrapper}>
+                    <TouchableOpacity>
+                        <Ionicons
+                            name="people-outline"
+                            size={32}
+                            color={COLORS.pewter}
+                            style={styles.icon}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={handleSignOut}>
+                        <Ionicons
+                            name="log-out-outline"
+                            size={32}
+                            color={COLORS.pewter}
+                            style={styles.icon}
+                        />
+                    </TouchableOpacity>
+                </View>
+            )}
         </View>
     );
 };
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingVertical: 5,
+        paddingVertical: 3,
         paddingHorizontal: 10,
     },
     text: {
@@ -53,6 +55,7 @@ const styles = StyleSheet.create({
     },
     buttonWrapper: {
         flexDirection: "row",
+        gap: 20,
     },
     icon: {},
 });
