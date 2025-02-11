@@ -68,11 +68,11 @@ const SignIn = () => {
                     <CustomButton
                         title={"Logga In"}
                         handlePress={() =>
-                            handleSignIn(
-                                form.email,
-                                form.password,
-                                setIsLoading
-                            )
+                            handleSignIn({
+                                email: form.email,
+                                password: form.password,
+                                setIsLoading: setIsLoading,
+                            })
                         }
                         containerStyles={{ marginTop: 20 }}
                         isLoading={isLoading}
