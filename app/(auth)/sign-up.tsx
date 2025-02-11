@@ -7,7 +7,7 @@ import { StatusBar } from "expo-status-bar";
 import FormField from "@/components/FormField";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { handleSignIn } from "@/utils/auth";
+import { handleSignUp } from "@/utils/auth";
 import { Link } from "expo-router";
 
 const SignUp = () => {
@@ -103,11 +103,12 @@ const SignUp = () => {
                         <CustomButton
                             title={"Skapa Konto"}
                             handlePress={() =>
-                                handleSignIn(
-                                    form.email,
-                                    form.password,
-                                    setIsLoading
-                                )
+                                handleSignUp({
+                                    email: form.email,
+                                    password: form.password,
+                                    setIsLoading: setIsLoading,
+                                    userName: form.username,
+                                })
                             }
                             isLoading={isLoading}
                         />
