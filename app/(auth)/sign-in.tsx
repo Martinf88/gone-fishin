@@ -14,7 +14,7 @@ import { StatusBar } from "expo-status-bar";
 import FormField from "@/components/FormField";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { handleSignIn } from "@/utils/auth";
+import { handleSignIn } from "@/services/auth";
 import { Link } from "expo-router";
 
 const SignIn = () => {
@@ -31,10 +31,21 @@ const SignIn = () => {
             <ScrollView contentContainerStyle={{ height: "100%" }}>
                 <View style={styles.container}>
                     <Text style={styles.title}>Gone Fishin'</Text>
-
-                    <View>
-                        <ActivityIndicator size="large" color={COLORS.yellow} />
-                    </View>
+                    {isLoading && (
+                        <View
+                            style={{
+                                position: "absolute",
+                                left: "50%",
+                                top: "60%",
+                                zIndex: 2,
+                            }}
+                        >
+                            <ActivityIndicator
+                                size="large"
+                                color={COLORS.yellow}
+                            />
+                        </View>
+                    )}
 
                     <View style={{ width: "100%" }}>
                         <FormField
@@ -129,6 +140,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         width: "100%",
         minHeight: height * 0.85,
+        position: "relative",
     },
     title: {
         fontSize: 54,

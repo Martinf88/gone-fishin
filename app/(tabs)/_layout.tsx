@@ -61,14 +61,14 @@ const TabsLayout = () => {
             <Tabs.Screen
                 name="feed"
                 options={{
-                    title: "Fångster",
+                    title: "Flöde",
 
                     tabBarIcon: ({ color, focused }) => (
                         <TabIcon
                             icon="fish-outline"
                             focused={focused}
                             color={color}
-                            label="Fångster"
+                            label="Flöde"
                             size={32}
                         />
                     ),

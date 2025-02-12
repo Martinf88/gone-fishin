@@ -13,7 +13,7 @@ interface AuthStore {
 
 export const useAuthStore = create<AuthStore>()(
     persist(
-        (set, get) => ({
+        (set) => ({
             user: null,
             isLoading: true,
 
@@ -30,7 +30,3 @@ export const useAuthStore = create<AuthStore>()(
         }
     )
 );
-
-onAuthStateChanged(auth, (user) => {
-    useAuthStore.getState().setUser(user);
-});

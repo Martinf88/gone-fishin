@@ -29,21 +29,7 @@ export const handleSignIn = async ({
 }: SignInProps) => {
     setIsLoading(true);
     try {
-        const userCredential = await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
-
-        const user = userCredential.user;
-        console.log("User signed in: ", auth.currentUser);
-
-        //Store user in zustand
-        useAuthStore.getState().setUser(user);
-
-        // Persist user session in AsyncStorage
-        await AsyncStorage.setItem("user", JSON.stringify(user));
-
+        await signInWithEmailAndPassword(auth, email, password);
         // Navigate user to the feed
         router.replace("/feed");
     } catch (error) {
@@ -55,15 +41,12 @@ export const handleSignIn = async ({
 
 export const handleSignOut = async () => {
     try {
-        const userBeforeSignOut = auth.currentUser;
-
-        if (!userBeforeSignOut) {
-            console.warn("No user is currently signed in.");
-            return;
-        }
-        console.log("Signing out user: ", userBeforeSignOut.email);
+        console.log("Signing out user...");
 
         await signOut(auth);
+        await AsyncStorage.removeItem("auth-storage");
+        useAuthStore.getState().setUser(null);
+
         console.log("User signed out successfully");
 
         router.replace("/sign-in");
