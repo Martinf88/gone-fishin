@@ -2,7 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { COLORS } from "@/constants/Colors";
-import { handleSignOut } from "@/utils/auth";
+import { handleSignOut } from "@/services/auth";
 
 interface CustomHeaderProps {
     title: string;

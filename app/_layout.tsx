@@ -1,6 +1,7 @@
 import { Slot, SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
+import { useAuthListener } from "@/utils/authListener";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -8,6 +9,7 @@ const RootLayout = () => {
     const [fontsLoaded, error] = useFonts({
         "Kurale-Regular": require("../assets/fonts/Kurale-Regular.ttf"),
     });
+    useAuthListener();
 
     useEffect(() => {
         if (error) throw error;
