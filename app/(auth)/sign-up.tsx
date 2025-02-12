@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, StyleSheet, Dimensions } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "@/constants/Colors";
 import CustomButton from "@/components/CustomButton";
@@ -8,7 +8,6 @@ import FormField from "@/components/FormField";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { handleSignUp } from "@/services/auth";
-import { Link } from "expo-router";
 
 const SignUp = () => {
     const [form, setForm] = useState({
@@ -19,23 +18,25 @@ const SignUp = () => {
     });
     const [isLoading, setIsLoading] = useState(false);
 
+    const handleInputChange = (field: keyof typeof form, value: string) => {
+        setForm((prevForm) => ({ ...prevForm, [field]: value }));
+    };
+
     return (
-        <SafeAreaView
-            style={{ backgroundColor: COLORS.primary, height: "100%" }}
-        >
-            <ScrollView contentContainerStyle={{ height: "100%" }}>
+        <SafeAreaView style={styles.safeArea}>
+            <ScrollView contentContainerStyle={styles.scrollView}>
                 <View style={styles.container}>
                     <Text style={styles.title}>Gone Fishin'</Text>
-                    <View style={{ width: "100%", paddingTop: 50, gap: 25 }}>
+                    <View style={styles.formContainer}>
                         <Text style={styles.subTitle}>Skapa konto</Text>
                         <FormField
                             title="Email"
                             value={form.email}
                             handleChangeText={(e: string) =>
-                                setForm({ ...form, email: e })
+                                handleInputChange("email", e)
                             }
-                            keyBoardType="email"
-                            palceholderText="example@example.com"
+                            keyboardType="email-adress"
+                            placeholderText="example@example.com"
                             iconComponent={
                                 <MaterialIcons
                                     name="alternate-email"
@@ -47,13 +48,13 @@ const SignUp = () => {
                             }
                         />
                         <FormField
-                            title="username"
+                            title="Användarnamn"
                             value={form.username}
                             handleChangeText={(e: string) =>
-                                setForm({ ...form, username: e })
+                                handleInputChange("username", e)
                             }
-                            keyBoardType="username"
-                            palceholderText="Användarnamn"
+                            keyboardType="username"
+                            placeholderText="Användarnamn"
                             iconComponent={
                                 <Ionicons
                                     name="person-outline"
@@ -65,13 +66,13 @@ const SignUp = () => {
                             }
                         />
                         <FormField
-                            title="Password"
+                            title="Lösenord"
                             value={form.password}
                             handleChangeText={(e: string) =>
-                                setForm({ ...form, password: e })
+                                handleInputChange("password", e)
                             }
-                            keyBoardType="password"
-                            palceholderText="Lösenord"
+                            keyboardType="password"
+                            placeholderText="Lösenord"
                             iconComponent={
                                 <Ionicons
                                     name="lock-closed-outline"
@@ -83,13 +84,13 @@ const SignUp = () => {
                             }
                         />
                         <FormField
-                            title="Password"
+                            title="Upprepa Lösenord"
                             value={form.repeatPassword}
                             handleChangeText={(e: string) =>
-                                setForm({ ...form, repeatPassword: e })
+                                handleInputChange("repeatPassword", e)
                             }
-                            keyBoardType="password"
-                            palceholderText="Upprepa lösenord"
+                            keyboardType="password"
+                            placeholderText="Upprepa lösenord"
                             iconComponent={
                                 <Ionicons
                                     name="lock-closed-outline"
@@ -106,7 +107,7 @@ const SignUp = () => {
                                 handleSignUp({
                                     email: form.email,
                                     password: form.password,
-                                    setIsLoading: setIsLoading,
+                                    setIsLoading,
                                     userName: form.username,
                                 })
                             }
@@ -115,7 +116,7 @@ const SignUp = () => {
                     </View>
                 </View>
             </ScrollView>
-            <StatusBar style="light" backgroundColor={COLORS.primary} />
+            <StatusBar style="light" />
         </SafeAreaView>
     );
 };
@@ -125,6 +126,13 @@ export default SignUp;
 const { height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
+    safeArea: {
+        backgroundColor: COLORS.primary,
+        flex: 1,
+    },
+    scrollView: {
+        flexGrow: 1,
+    },
     container: {
         paddingTop: 50,
         paddingHorizontal: 10,
@@ -142,10 +150,14 @@ const styles = StyleSheet.create({
     subTitle: {
         fontSize: 24,
         color: COLORS.pewter,
-        // fontFamily: "Kurale-Regular",
+        fontFamily: "Kurale-Regular",
         fontWeight: "bold",
     },
-
+    formContainer: {
+        width: "100%",
+        paddingTop: 50,
+        gap: 25,
+    },
     icon: {
         borderTopLeftRadius: 5,
         borderBottomLeftRadius: 5,
