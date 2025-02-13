@@ -4,28 +4,33 @@ import React from "react";
 import { COLORS } from "@/constants/Colors";
 import CustomHeader from "@/components/CustomHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import UserCard from "@/components/UserCard";
+import { useAuthStore } from "@/store/useAuthStore";
+//TODO: fetch catches with lazy loading
 const Profile = () => {
+    const user = useAuthStore((state) => state.firestoreUser);
     return (
-        <SafeAreaView
-            style={{ backgroundColor: COLORS.primary, height: "100%" }}
-        >
-            <CustomHeader title={"Profil"} showButtons={true} />
-            <View style={styles.container}>
-                <Text style={styles.text}>Profil</Text>
-            </View>
+        <>
             <StatusBar style="light" backgroundColor={COLORS.darkBlue} />
-        </SafeAreaView>
+            <SafeAreaView style={styles.safeArea}>
+                <CustomHeader title={user?.userName} showButtons={true} />
+                <View style={styles.container}>
+                    <UserCard />
+                </View>
+            </SafeAreaView>
+        </>
     );
 };
 
 export default Profile;
 
 const styles = StyleSheet.create({
+    safeArea: {
+        backgroundColor: COLORS.primary,
+        flex: 1,
+    },
     container: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
     },
     text: {
         color: COLORS.pewter,

@@ -6,21 +6,27 @@ import { onAuthStateChanged } from "firebase/auth";
 import { fetchUser } from "@/services/firestore";
 
 export const useAuthListener = () => {
-    const setUser = useAuthStore((state) => state.setUser);
+    const setAuthUser = useAuthStore((state) => state.setAuthUser);
+    const setFirestoreUser = useAuthStore((state) => state.setFirestoreUser);
     const router = useRouter();
     const pathname = usePathname();
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                const userData = fetchUser(user);
-                setUser(userData);
+        const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
+            if (authUser) {
+                setAuthUser(authUser);
+
+                const firestoreUser = await fetchUser(authUser);
+                console.log("User data: ", firestoreUser);
+
+                setFirestoreUser(firestoreUser);
 
                 if (pathname !== "/feed") {
                     router.replace("/feed");
                 }
             } else {
-                setUser(null);
+                setAuthUser(null);
+                setFirestoreUser(null);
                 router.replace("/");
             }
         });
@@ -29,5 +35,5 @@ export const useAuthListener = () => {
             console.log("Cleaning up auth listener.");
             unsubscribe();
         };
-    }, [setUser]);
+    }, []);
 };

@@ -1,6 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 
 export interface User {
+    uid: string;
     userName: string;
     email: string;
     createdAt: Timestamp;
@@ -8,7 +9,21 @@ export interface User {
     avatarId: string;
 }
 
+export interface Catch {
+    id: string;
+    userId: string;
+    bait: string;
+    length: number;
+    weight: number;
+    location: string;
+    method: string;
+    speciesId: string;
+    date?: Timestamp | null;
+    createdAt: Timestamp;
+}
+
 export interface Badge {
+    id: string;
     description: string;
     badgeId: string;
     category: string;
