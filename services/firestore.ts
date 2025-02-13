@@ -1,22 +1,49 @@
 import { db } from "@/firebaseConfig";
-import { doc, getDoc } from "firebase/firestore";
-import { User } from "firebase/auth";
+import {
+    doc,
+    getDoc,
+    collection,
+    query,
+    where,
+    getDocs,
+    Timestamp,
+} from "firebase/firestore";
+import { User as FirebaseUser } from "firebase/auth";
+import { Catch, User } from "@/types/types";
+//TODO: implementera lazy loading av catches
 
-export const fetchUser = async (user: User) => {
+export const fetchUser = async (user: FirebaseUser): Promise<User | null> => {
     try {
         const docRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            const data = docSnap.data();
-            console.log("Firestore user found: ", data);
-            return { uid: user.uid, ...data };
+            console.log("Document data: ", docSnap.data);
         } else {
-            console.warn("No Firestore user doc found! Using auth data.");
-            return user;
+            console.log("No such document exist!");
         }
+
+        const userData = docSnap.data() as User;
+
+        return userData;
     } catch (error) {
-        console.error("Error fetching firestore user data: ", error);
-        return user;
+        console.error("Error fetching user: ", error);
+        return null;
+    }
+};
+
+export const fetchCatchesByUser = async (userId: string): Promise<Catch[]> => {
+    try {
+        const catchesRef = collection(db, "catches");
+        const q = query(catchesRef, where("userId", "==", userId));
+        const querySnapShot = await getDocs(q);
+
+        return querySnapShot.docs.map((doc) => ({
+            id: doc.id,
+            ...(doc.data() as Omit<Catch, "id">),
+        }));
+    } catch (error) {
+        console.error("Error fetching catches: ", error);
+        return [];
     }
 };

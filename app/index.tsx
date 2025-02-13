@@ -9,39 +9,27 @@ import {
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "@/constants/Colors";
-import CustomButton from "@/components/CustomButton";
 import { StatusBar } from "expo-status-bar";
-import { Link, router } from "expo-router";
+import { Link } from "expo-router";
 
 const App = () => {
     return (
-        <SafeAreaView
-            style={{ backgroundColor: COLORS.primary, height: "100%" }}
-        >
-            <ScrollView contentContainerStyle={{ height: "100%" }}>
+        <SafeAreaView style={styles.safeArea}>
+            <ScrollView contentContainerStyle={styles.scrollView}>
                 <View style={styles.container}>
-                    <View style={{ alignItems: "center" }}>
+                    <View style={styles.heroSection}>
                         <Text style={styles.title}>Gone Fishin'</Text>
-
                         <Text style={styles.subTitle}>
                             Din digitala fiskedagbok.
                         </Text>
                         <Image
-                            style={{ marginTop: 50 }}
+                            style={styles.image}
                             source={require("@/assets/images/polaroid-2.png")}
                         />
                     </View>
 
                     <Link href="/sign-in">
-                        <Text
-                            style={{
-                                color: COLORS.yellow,
-                                fontSize: 20,
-                                textDecorationLine: "underline",
-                            }}
-                        >
-                            Kom igång
-                        </Text>
+                        <Text style={styles.linkText}>Kom igång</Text>
                     </Link>
                 </View>
             </ScrollView>
@@ -55,12 +43,22 @@ export default App;
 const { height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
+    safeArea: {
+        backgroundColor: COLORS.primary,
+        height: "100%",
+    },
+    scrollView: {
+        height: "100%",
+    },
     container: {
         paddingTop: 100,
         justifyContent: "space-between",
         alignItems: "center",
         width: "100%",
         minHeight: height * 0.85,
+    },
+    heroSection: {
+        alignItems: "center",
     },
     title: {
         fontSize: 54,
@@ -72,5 +70,13 @@ const styles = StyleSheet.create({
         fontSize: 24,
         color: COLORS.blueGray,
         fontFamily: "Kurale-Regular",
+    },
+    image: {
+        marginTop: 50,
+    },
+    linkText: {
+        color: COLORS.yellow,
+        fontSize: 20,
+        textDecorationLine: "underline",
     },
 });

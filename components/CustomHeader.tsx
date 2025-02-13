@@ -5,7 +5,7 @@ import { COLORS } from "@/constants/Colors";
 import { handleSignOut } from "@/services/auth";
 
 interface CustomHeaderProps {
-    title: string;
+    title: string | undefined;
     showButtons: boolean;
 }
 

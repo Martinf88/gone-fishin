@@ -24,22 +24,17 @@ const SignIn = () => {
     });
     const [isLoading, setIsLoading] = useState(false);
 
+    const handleInputChange = (field: "email" | "password", value: string) => {
+        setForm((prevForm) => ({ ...prevForm, [field]: value }));
+    };
+
     return (
-        <SafeAreaView
-            style={{ backgroundColor: COLORS.primary, height: "100%" }}
-        >
-            <ScrollView contentContainerStyle={{ height: "100%" }}>
+        <SafeAreaView style={styles.safeArea}>
+            <ScrollView contentContainerStyle={styles.scrollView}>
                 <View style={styles.container}>
                     <Text style={styles.title}>Gone Fishin'</Text>
                     {isLoading && (
-                        <View
-                            style={{
-                                position: "absolute",
-                                left: "50%",
-                                top: "60%",
-                                zIndex: 2,
-                            }}
-                        >
+                        <View style={styles.loadingContainer}>
                             <ActivityIndicator
                                 size="large"
                                 color={COLORS.yellow}
@@ -47,16 +42,16 @@ const SignIn = () => {
                         </View>
                     )}
 
-                    <View style={{ width: "100%" }}>
+                    <View style={styles.formContainer}>
                         <FormField
                             title="Email"
                             value={form.email}
                             handleChangeText={(e: string) =>
-                                setForm({ ...form, email: e })
+                                handleInputChange("email", e)
                             }
                             otherStyles={{ marginTop: 80 }}
-                            keyBoardType="email"
-                            palceholderText="example@example.com"
+                            keyboardType="email-adress"
+                            placeholderText="example@example.com"
                             iconComponent={
                                 <MaterialIcons
                                     name="alternate-email"
@@ -68,14 +63,14 @@ const SignIn = () => {
                             }
                         />
                         <FormField
-                            title="Password"
+                            title="Lösenord"
                             value={form.password}
                             handleChangeText={(e: string) =>
-                                setForm({ ...form, password: e })
+                                handleInputChange("password", e)
                             }
                             otherStyles={{ marginTop: 20 }}
-                            keyBoardType="password"
-                            palceholderText="enter your password"
+                            keyboardType="password"
+                            placeholderText="Enter your password"
                             iconComponent={
                                 <Ionicons
                                     name="lock-closed-outline"
@@ -94,38 +89,25 @@ const SignIn = () => {
                             handleSignIn({
                                 email: form.email,
                                 password: form.password,
-                                setIsLoading: setIsLoading,
+                                setIsLoading,
                             })
                         }
                         containerStyles={{ marginTop: 20 }}
                         isLoading={isLoading}
                     />
-                    <View
-                        style={{
-                            flexDirection: "row",
-                            marginTop: 10,
-                            justifyContent: "center",
-                            gap: 5,
-                        }}
-                    >
-                        <Text style={{ color: COLORS.pewter, fontSize: 16 }}>
+                    <View style={styles.registerContainer}>
+                        <Text style={styles.registerText}>
                             Saknar du konto?
                         </Text>
                         <Link href="/sign-up">
-                            <Text
-                                style={{
-                                    color: COLORS.yellow,
-                                    fontSize: 16,
-                                    fontWeight: "bold",
-                                }}
-                            >
+                            <Text style={styles.registerLink}>
                                 Registrera dig
                             </Text>
                         </Link>
                     </View>
                 </View>
             </ScrollView>
-            <StatusBar style="light" backgroundColor={COLORS.primary} />
+            <StatusBar style="light" />
         </SafeAreaView>
     );
 };
@@ -135,6 +117,13 @@ export default SignIn;
 const { height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
+    safeArea: {
+        backgroundColor: COLORS.primary,
+        flex: 1,
+    },
+    scrollView: {
+        flexGrow: 1,
+    },
     container: {
         paddingTop: 100,
         paddingHorizontal: 20,
@@ -148,7 +137,28 @@ const styles = StyleSheet.create({
         fontFamily: "Kurale-Regular",
         textAlign: "center",
     },
-
+    loadingContainer: {
+        position: "absolute",
+        left: "50%",
+        top: "60%",
+        zIndex: 2,
+    },
+    formContainer: { width: "100%" },
+    registerContainer: {
+        flexDirection: "row",
+        marginTop: 20,
+        justifyContent: "center",
+        gap: 5,
+    },
+    registerText: {
+        color: COLORS.pewter,
+        fontSize: 16,
+    },
+    registerLink: {
+        color: COLORS.yellow,
+        fontSize: 16,
+        fontWeight: "bold",
+    },
     icon: {
         borderTopLeftRadius: 5,
         borderBottomLeftRadius: 5,

@@ -7,8 +7,9 @@ import {
 import { auth, db } from "../firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { router } from "expo-router";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAuthStore } from "@/store/useAuthStore";
+
+//TODO: Move file logic to use AuthStore
 
 interface SignInProps {
     email: string;
@@ -44,8 +45,8 @@ export const handleSignOut = async () => {
         console.log("Signing out user...");
 
         await signOut(auth);
-        await AsyncStorage.removeItem("auth-storage");
-        useAuthStore.getState().setUser(null);
+        useAuthStore.getState().setAuthUser(null);
+        useAuthStore.getState().setFirestoreUser(null);
 
         console.log("User signed out successfully");
 
@@ -77,6 +78,7 @@ export const handleSignUp = async ({
             userName: userName,
             badges: [],
             avatarId: "",
+            //TODO: check if new Date() is correct. option is Timstamp.
             createdAt: new Date(),
             email: email,
         });

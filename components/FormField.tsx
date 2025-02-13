@@ -1,21 +1,15 @@
-import {
-    View,
-    Text,
-    TextInput,
-    StyleSheet,
-    TouchableOpacity,
-} from "react-native";
+import { View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { COLORS } from "@/constants/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 interface FormFieldProps {
     title?: string;
-    palceholderText?: string;
+    placeholderText?: string;
     value: string;
     handleChangeText: (e: string) => void;
     otherStyles?: object;
-    keyBoardType?: string;
+    keyboardType?: string;
     iconComponent?: JSX.Element;
 }
 
@@ -24,40 +18,35 @@ const FormField = ({
     value,
     handleChangeText,
     otherStyles,
-    keyBoardType,
-    palceholderText,
+    keyboardType,
+    placeholderText,
     iconComponent,
 }: FormFieldProps) => {
     const [showPassword, setshowPassword] = useState(false);
+
+    const isPassWordField =
+        title === "Lösenord" || title === "Upprepa Lösenord";
     return (
-        <View style={[otherStyles, styles.container]}>
+        <View style={[styles.container, otherStyles]}>
             {iconComponent && <View>{iconComponent}</View>}
             <TextInput
                 style={styles.input}
                 value={value}
-                placeholder={palceholderText}
+                placeholder={placeholderText}
                 placeholderTextColor={COLORS.blueGray}
                 onChangeText={handleChangeText}
-                secureTextEntry={keyBoardType === "password" && !showPassword}
+                secureTextEntry={keyboardType === "password" && !showPassword}
             />
-            {title === "Password" && (
+            {isPassWordField && (
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => setshowPassword(!showPassword)}
                 >
-                    {!showPassword ? (
-                        <Ionicons
-                            name="eye-outline"
-                            size={28}
-                            color={COLORS.blueGray}
-                        />
-                    ) : (
-                        <Ionicons
-                            name="eye-off-outline"
-                            size={28}
-                            color={COLORS.blueGray}
-                        />
-                    )}
+                    <Ionicons
+                        name={showPassword ? "eye-off-outline" : "eye-outline"}
+                        size={28}
+                        color={COLORS.blueGray}
+                    />
                 </TouchableOpacity>
             )}
         </View>
@@ -73,7 +62,6 @@ const styles = StyleSheet.create({
         height: 50,
     },
     input: {
-        position: "relative",
         flex: 1,
         backgroundColor: COLORS.darkBlue,
         color: COLORS.pewter,

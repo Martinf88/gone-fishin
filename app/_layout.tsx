@@ -1,7 +1,9 @@
-import { Slot, SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
 import { useAuthListener } from "@/utils/authListener";
+
+//TODO: Figure out why icons dont show on web.
 
 SplashScreen.preventAutoHideAsync();
 
