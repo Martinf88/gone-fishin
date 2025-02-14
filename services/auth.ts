@@ -45,11 +45,10 @@ export const handleSignOut = async () => {
         console.log("Signing out user...");
 
         await signOut(auth);
-        useAuthStore.getState().setAuthUser(null);
         useAuthStore.getState().setFirestoreUser(null);
 
         console.log("User signed out successfully");
-
+        console.log("After sign-out:", useAuthStore.getState().firestoreUser);
         router.replace("/sign-in");
     } catch (error) {
         console.error("Error siging out user", error);
