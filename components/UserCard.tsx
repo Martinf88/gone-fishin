@@ -1,11 +1,11 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { COLORS } from "@/constants/Colors";
 import { useAuthStore } from "@/store/useAuthStore";
 
 const UserCard = () => {
-    const { firestoreUser, catches } = useAuthStore();
+    const { totalCatches, uniqueSpeciesCount } = useAuthStore();
 
     return (
         <View style={styles.container}>
@@ -39,10 +39,8 @@ const UserCard = () => {
 
             {/* Right Side (Fångster & Unika arter) */}
             <View style={styles.textWrapper}>
-                <Text style={styles.statText}>
-                    Fångster: {firestoreUser?.userName}
-                </Text>
-                <Text style={styles.statText}>Arter: {catches.length}</Text>
+                <Text style={styles.statText}>Fångster: {totalCatches}</Text>
+                <Text style={styles.statText}>Arter: {uniqueSpeciesCount}</Text>
             </View>
         </View>
     );

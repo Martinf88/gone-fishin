@@ -5,12 +5,11 @@ export interface User {
     userName: string;
     email: string;
     createdAt: Timestamp;
-    badges: Badge[];
-    avatarId: string;
+    imageUrl: string;
 }
 
 export interface Catch {
-    id: string;
+    catchId: string;
     userId: string;
     bait: string;
     length: number;

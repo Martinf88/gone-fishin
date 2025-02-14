@@ -13,6 +13,7 @@ export const useAuthListener = () => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
+            console.log("🟡 Auth State Changed: ", authUser);
             if (authUser) {
                 setAuthUser(authUser);
 
@@ -25,6 +26,7 @@ export const useAuthListener = () => {
                     router.replace("/feed");
                 }
             } else {
+                console.log("🔴 No user found, resetting state");
                 setAuthUser(null);
                 setFirestoreUser(null);
                 router.replace("/");
