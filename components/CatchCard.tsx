@@ -1,36 +1,75 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { useAuthStore } from "@/store/useAuthStore";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { COLORS } from "@/constants/Colors";
-//TODO:  Display catch data
+import { Catch } from "@/types/types";
+import { Ionicons } from "@expo/vector-icons";
+//TODO: Fetch species name from speciesId
+interface CatchCardProps {
+    catchData: Catch;
+    username: string;
+}
 
-const CatchCard = () => {
-    const { firestoreUser } = useAuthStore();
+const CatchCard: React.FC<CatchCardProps> = ({ catchData, username }) => {
     return (
         <View style={styles.card}>
-            <View style={styles.imageWrapper}>
-                {/* {catchData && (
-                    <Image source={{ uri: firestoreUser.imageUrl }} />
-                )} */}
+            <View style={styles.headerWrapper}>
+                <Ionicons
+                    name="person-circle-outline"
+                    size={48}
+                    color={COLORS.pewter}
+                />
+                <View>
+                    <Text style={styles.usernameText}>{username}</Text>
+                    <View>
+                        <Text style={styles.headerDetails}>
+                            17h" - <Text>{catchData.location}</Text>
+                            <Text> - {catchData.speciesName}</Text>
+                        </Text>
+                    </View>
+                </View>
+            </View>
+            {/* Image (if available) */}
+            {catchData.imageUrl !== "" ? (
+                <View style={styles.imageWrapper}>
+                    <Image
+                        source={{ uri: catchData.imageUrl }}
+                        style={styles.image}
+                    />
+                </View>
+            ) : (
+                <View style={styles.imageWrapper}></View>
+            )}
 
-                <Text>{firestoreUser?.userName ?? "Användarnamn saknas"}</Text>
-            </View>
-            <View>
-                <Text>Art:</Text>
-                <Text>Vikt:</Text>
-                <Text>Längd:</Text>
-            </View>
-            <View>
-                <Text>Bete:</Text>
-                <Text>Metod:</Text>
-            </View>
-            <View>
-                <Text>Fångstdatum:</Text>
-                <Text>Plats:</Text>
-            </View>
-            <View>
-                <Text>Berättelse:</Text>
+            {/* Catch Details */}
+            <View style={styles.detailsWrapper}>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        marginRight: 50,
+                    }}
+                >
+                    <View>
+                        <Text style={styles.text}>{catchData.weight}kg</Text>
+                        <Text style={styles.text}>{catchData.length}cm</Text>
+                    </View>
+                    <View>
+                        <Text style={styles.text}>{catchData.method}</Text>
+                        <Text style={styles.text}>{catchData.bait}</Text>
+                    </View>
+                </View>
+
+                <Text style={styles.text}>
+                    {catchData.date.toDate().toLocaleString("sv-SE", {
+                        dateStyle: "short",
+                        timeStyle: "short",
+                    })}
+                </Text>
+                {catchData.story && (
+                    <View style={styles.storyWrapper}>
+                        <Text style={styles.storyText}>{catchData.story}</Text>
+                    </View>
+                )}
             </View>
         </View>
     );
@@ -40,12 +79,8 @@ export default CatchCard;
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: COLORS.blueGray,
-        borderRadius: 12,
-        padding: 15,
+        backgroundColor: COLORS.primary,
         marginBottom: 10,
-        flexDirection: "row",
-        alignItems: "center",
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
@@ -53,56 +88,53 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     imageWrapper: {
-        width: 100,
-        height: 100,
-        borderRadius: 10,
+        width: "100%",
+        maxHeight: 200,
+        borderRadius: 12,
         overflow: "hidden",
+        position: "relative",
         backgroundColor: COLORS.darkBlue,
-        justifyContent: "center",
-        alignItems: "center",
     },
     image: {
         width: "100%",
         height: "100%",
         resizeMode: "cover",
     },
-    detailsWrapper: {
-        flex: 1,
-        marginLeft: 15,
-    },
-    title: {
-        fontSize: 18,
-        fontWeight: "bold",
-        color: COLORS.pewter,
-        marginBottom: 5,
-    },
-    row: {
+    headerWrapper: {
         flexDirection: "row",
-        justifyContent: "space-between",
-        marginBottom: 4,
+        alignItems: "center",
+        backgroundColor: "rgba(0,0,0,0.1)",
+        padding: 4,
+        gap: 4,
+        flexWrap: "wrap",
     },
-    label: {
-        fontSize: 14,
-        color: COLORS.darkBlue,
-        fontWeight: "600",
+    usernameText: {
+        fontSize: 18,
+        fontFamily: "Kurale-Regular",
+        color: COLORS.blueGray,
     },
-    value: {
-        fontSize: 14,
-        color: COLORS.pewter,
+    headerDetails: {
+        fontSize: 15,
+        color: COLORS.blueGray,
+        fontFamily: "Kurale-Regular",
+    },
+    detailsWrapper: {
+        padding: 8,
+    },
+    text: {
+        fontSize: 18,
+        color: COLORS.blueGray,
+        marginBottom: 5,
+        fontFamily: "Kurale-Regular",
     },
     storyWrapper: {
-        marginTop: 10,
         paddingTop: 8,
         borderTopWidth: 1,
-        borderTopColor: COLORS.darkBlue,
-    },
-    storyTitle: {
-        fontSize: 16,
-        fontWeight: "bold",
-        color: COLORS.darkBlue,
+        borderTopColor: COLORS.blueGray,
     },
     storyText: {
-        fontSize: 14,
+        fontSize: 18,
         color: COLORS.pewter,
+        fontFamily: "Kurale-Regular",
     },
 });

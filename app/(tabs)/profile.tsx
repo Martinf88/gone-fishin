@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect } from "react";
 import { COLORS } from "@/constants/Colors";
@@ -7,10 +7,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import UserCard from "@/components/UserCard";
 import { useAuthStore } from "@/store/useAuthStore";
 import CatchCard from "@/components/CatchCard";
+import CatchList from "@/components/CatchList";
 //TODO: fetch catches with lazy loading
 const Profile = () => {
-    const firestoreUser = useAuthStore((state) => state.firestoreUser);
-    const fetchUserCatches = useAuthStore((state) => state.fetchUserCatches);
+    const { profileCatches, firestoreUser, fetchUserCatches } = useAuthStore(
+        (state) => state
+    );
 
     useEffect(() => {
         if (firestoreUser?.uid) {
@@ -26,10 +28,15 @@ const Profile = () => {
                     title={firestoreUser?.userName}
                     showButtons={true}
                 />
-                <View style={styles.container}>
-                    <UserCard />
-                    <CatchCard />
-                </View>
+                <ScrollView>
+                    <View style={styles.container}>
+                        <UserCard />
+                        <CatchList
+                            catches={profileCatches}
+                            username={firestoreUser?.userName}
+                        />
+                    </View>
+                </ScrollView>
             </SafeAreaView>
         </>
     );
@@ -39,7 +46,7 @@ export default Profile;
 
 const styles = StyleSheet.create({
     safeArea: {
-        backgroundColor: COLORS.primary,
+        backgroundColor: COLORS.darkBlue,
         flex: 1,
     },
     container: {

@@ -7,18 +7,28 @@ export interface User {
     createdAt: Timestamp;
     imageUrl: string;
 }
-
+//TODO: change speciesname to speciesId
 export interface Catch {
     catchId: string;
     userId: string;
+    imageUrl: string;
     bait: string;
     length: number;
     weight: number;
     location: string;
     method: string;
-    speciesId: string;
-    date?: Timestamp | null;
+    speciesName: string;
+    date: Timestamp;
     createdAt: Timestamp;
+    story: string;
+}
+
+export interface Species {
+    id: string;
+    name: string;
+    description: string;
+    imageUrl: string;
+    waterType: string;
 }
 
 export interface Badge {

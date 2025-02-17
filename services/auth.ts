@@ -76,8 +76,7 @@ export const handleSignUp = async ({
         await setDoc(doc(db, "users", user.uid), {
             userName: userName,
             badges: [],
-            avatarId: "",
-            //TODO: check if new Date() is correct. option is Timstamp.
+            imageUrl: "",
             createdAt: new Date(),
             email: email,
         });

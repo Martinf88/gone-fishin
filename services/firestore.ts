@@ -12,45 +12,55 @@ import { User as FirebaseUser } from "firebase/auth";
 import { Catch, User } from "@/types/types";
 //TODO: implementera lazy loading av catches
 
-export const fetchUser = async (user: FirebaseUser): Promise<User | null> => {
+export const fetchLoggedInUser = async (
+    user: FirebaseUser
+): Promise<User | null> => {
     try {
-        if (!user?.uid) {
-            console.warn("⚠️ fetchUser called with invalid user:", user);
-            return null;
-        }
+        if (!user?.uid) return null;
 
         const docRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(docRef);
 
-        if (!docSnap.exists()) {
-            console.warn("⚠️ No Firestore user found for:", user.uid);
-            return null;
-        }
-
-        // ✅ Extract Firestore user data
         const userData = docSnap.data();
 
-        // ✅ Ensure we have required fields, fallback if necessary
-        if (!userData || !userData.userName || !userData.email) {
-            console.warn("⚠️ Incomplete user data:", userData);
-            return null;
+        if (userData?.userName && userData?.email) {
+            return { uid: user.uid, ...userData } as User;
         }
-
-        // ✅ Ensure `uid` is always included
-        return { uid: user.uid, ...userData } as User;
+        return null;
     } catch (error) {
         console.error("❌ Error fetching user:", error);
         return null;
     }
 };
 
-export const fetchCatchesByUser = async (userId?: string): Promise<Catch[]> => {
+export const fetchAllUsers = async (): Promise<User[]> => {
+    try {
+        const usersRef = collection(db, "users");
+        const docSnap = await getDocs(usersRef);
+
+        return docSnap.docs.map((doc) => ({
+            uid: doc.id,
+            ...(doc.data() as Omit<User, "uid">),
+        }));
+    } catch (error) {
+        console.error("❌ Error fetching users:", error);
+        return [];
+    }
+};
+
+export const fetchCatches = async (userId?: string): Promise<Catch[]> => {
     try {
         if (!userId) {
-            console.error(
-                "🚨 Error: userId is undefined in fetchCatchesByUser"
-            );
-            return [];
+            const catchesRef = collection(db, "catches");
+            const docSnap = await getDocs(catchesRef);
+            const allCatches = docSnap.docs.map((doc) => {
+                const data = doc.data();
+                return {
+                    catchId: doc.id,
+                    ...(data as Omit<Catch, "catchId">),
+                };
+            });
+            return allCatches;
         }
 
         console.log("📢 Fetching catches for user:", userId);

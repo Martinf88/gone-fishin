@@ -1,18 +1,31 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { COLORS } from "@/constants/Colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import CustomHeader from "@/components/CustomHeader";
+import CatchList from "@/components/CatchList";
+import { useAuthStore } from "@/store/useAuthStore";
 
 const Feed = () => {
+    const { feedCatches, fetchAllCatches, fetchAllUsers } = useAuthStore(
+        (state) => state
+    );
+    useEffect(() => {
+        console.log("📢 Fetching all catches and users for feed", {
+            feedCatches,
+        });
+        fetchAllCatches();
+        fetchAllUsers();
+    }, []);
+
     return (
         <SafeAreaView
-            style={{ backgroundColor: COLORS.primary, height: "100%" }}
+            style={{ backgroundColor: COLORS.darkBlue, height: "100%" }}
         >
             <CustomHeader title={"Flöde"} showButtons={false} />
             <View style={styles.container}>
-                <Text style={styles.text}>Flöde</Text>
+                <CatchList catches={feedCatches} />
             </View>
             <StatusBar style="light" backgroundColor={COLORS.darkBlue} />
         </SafeAreaView>
