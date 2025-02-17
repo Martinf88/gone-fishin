@@ -95,3 +95,21 @@ export const handleSignUp = async ({
         setIsLoading(false);
     }
 };
+
+export const handleRegisterCatch = async ({ ...catchData }) => {
+    const user = auth.currentUser;
+    if (!user) {
+        console.error("No user signed in");
+        return;
+    }
+    try {
+        // 1. Create catch document in Firestore
+        await setDoc(doc(db, "catches", user.uid), {
+            ...catchData,
+            createdAt: new Date(),
+        });
+        console.log("Catch registered successfully");
+    } catch (error) {
+        console.error("Error registering catch:", error);
+    }
+};

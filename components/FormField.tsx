@@ -1,4 +1,10 @@
-import { View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
+import {
+    View,
+    TextInput,
+    StyleSheet,
+    TouchableOpacity,
+    Text,
+} from "react-native";
 import React, { useState } from "react";
 import { COLORS } from "@/constants/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -29,14 +35,30 @@ const FormField = ({
     return (
         <View style={[styles.container, otherStyles]}>
             {iconComponent && <View>{iconComponent}</View>}
-            <TextInput
-                style={styles.input}
-                value={value}
-                placeholder={placeholderText}
-                placeholderTextColor={COLORS.blueGray}
-                onChangeText={handleChangeText}
-                secureTextEntry={keyboardType === "password" && !showPassword}
-            />
+            <View style={{ flexDirection: "column", flex: 1 }}>
+                {keyboardType === "catch" && (
+                    <Text
+                        style={{
+                            color: COLORS.pewter,
+                            fontFamily: "Kurale-Regular",
+                            fontSize: 18,
+                        }}
+                    >
+                        {title}
+                    </Text>
+                )}
+
+                <TextInput
+                    style={styles.input}
+                    value={value}
+                    placeholder={placeholderText}
+                    placeholderTextColor={COLORS.blueGray}
+                    onChangeText={handleChangeText}
+                    secureTextEntry={
+                        keyboardType === "password" && !showPassword
+                    }
+                />
+            </View>
             {isPassWordField && (
                 <TouchableOpacity
                     style={styles.button}

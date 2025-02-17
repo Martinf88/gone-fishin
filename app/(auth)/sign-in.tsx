@@ -14,7 +14,7 @@ import { StatusBar } from "expo-status-bar";
 import FormField from "@/components/FormField";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { handleSignIn } from "@/services/auth";
+import { handleSignIn } from "@/services/handlers";
 import { Link } from "expo-router";
 
 const SignIn = () => {
