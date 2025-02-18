@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, StyleSheet, Dimensions } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "@/constants/Colors";
 import CustomButton from "@/components/CustomButton";
@@ -7,7 +7,7 @@ import { StatusBar } from "expo-status-bar";
 import FormField from "@/components/FormField";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { handleSignUp } from "@/services/auth";
+import { handleSignUp } from "@/services/handlers";
 
 const SignUp = () => {
     const [form, setForm] = useState({

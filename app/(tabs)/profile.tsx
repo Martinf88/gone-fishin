@@ -28,15 +28,11 @@ const Profile = () => {
                     title={firestoreUser?.userName}
                     showButtons={true}
                 />
-                <ScrollView>
-                    <View style={styles.container}>
-                        <UserCard />
-                        <CatchList
-                            catches={profileCatches}
-                            username={firestoreUser?.userName}
-                        />
-                    </View>
-                </ScrollView>
+
+                <View style={styles.container}>
+                    <UserCard />
+                    <CatchList catches={profileCatches} />
+                </View>
             </SafeAreaView>
         </>
     );

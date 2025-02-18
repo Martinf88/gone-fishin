@@ -14,7 +14,7 @@ import { StatusBar } from "expo-status-bar";
 import FormField from "@/components/FormField";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { handleSignIn } from "@/services/auth";
+import { handleSignIn } from "@/services/handlers";
 import { Link } from "expo-router";
 
 const SignIn = () => {
@@ -32,7 +32,7 @@ const SignIn = () => {
         <SafeAreaView style={styles.safeArea}>
             <ScrollView contentContainerStyle={styles.scrollView}>
                 <View style={styles.container}>
-                    <Text style={styles.title}>Gone Fishin'</Text>
+                    <Text style={styles.title}>Logga in</Text>
                     {isLoading && (
                         <View style={styles.loadingContainer}>
                             <ActivityIndicator

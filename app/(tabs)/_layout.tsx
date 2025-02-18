@@ -75,9 +75,10 @@ const TabsLayout = () => {
                 }}
             />
             <Tabs.Screen
-                name="create"
+                name="register-catch"
                 options={{
-                    title: "Create",
+                    title: "Registera Fångst",
+                    tabBarStyle: { display: "none" },
                     tabBarIcon: () => (
                         <TabIcon
                             icon="add-circle-outline"
