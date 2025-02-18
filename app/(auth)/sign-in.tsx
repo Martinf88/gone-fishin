@@ -32,7 +32,7 @@ const SignIn = () => {
         <SafeAreaView style={styles.safeArea}>
             <ScrollView contentContainerStyle={styles.scrollView}>
                 <View style={styles.container}>
-                    <Text style={styles.title}>Gone Fishin'</Text>
+                    <Text style={styles.title}>Logga in</Text>
                     {isLoading && (
                         <View style={styles.loadingContainer}>
                             <ActivityIndicator

@@ -7,7 +7,7 @@ export interface User {
     createdAt: Timestamp;
     imageUrl: string;
 }
-//TODO: change speciesname to speciesId
+
 export interface Catch {
     catchId: string;
     userId: string;
@@ -21,21 +21,4 @@ export interface Catch {
     date: Timestamp;
     createdAt: Timestamp;
     story: string;
-}
-
-export interface Species {
-    id: string;
-    name: string;
-    description: string;
-    imageUrl: string;
-    waterType: string;
-}
-
-export interface Badge {
-    id: string;
-    description: string;
-    badgeId: string;
-    category: string;
-    imageUrl: string;
-    unLockCriteria: string;
 }
