@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import CustomHeader from "@/components/CustomHeader";
 import CatchList from "@/components/CatchList";
-import { useAuthStore } from "@/store/useAuthStore";
+import { useAuthStore } from "@/store/useStore";
 
 const Feed = () => {
     const { feedCatches, fetchAllCatches, fetchAllUsers } = useAuthStore(

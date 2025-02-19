@@ -7,7 +7,7 @@ import {
 import { auth, db } from "../firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { router } from "expo-router";
-import { useAuthStore } from "@/store/useAuthStore";
+import { useAuthStore } from "@/store/useStore";
 
 //TODO: Move file logic to use AuthStore
 

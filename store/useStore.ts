@@ -4,8 +4,26 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Catch, User as FirestoreUser } from "@/types/types";
 import { User as FirebaseUser } from "firebase/auth";
 import { fetchAllUsers, fetchCatches } from "@/services/firestore";
+import { Timestamp } from "firebase/firestore";
 
-interface AuthStore {
+export interface CatchForm {
+    speciesName: string;
+    length: number | null;
+    weight: number | null;
+    method: string;
+    bait: string;
+    description: string;
+    location: {
+        latitude: number | null;
+        longitude: number | null;
+        address: string | null;
+    };
+    localImageUri: string | null;
+    imageUrl: string | null;
+    date: Timestamp | null;
+}
+
+interface StoreState {
     authUser: FirebaseUser | null;
     firestoreUser: FirestoreUser | null;
     allUsers: FirestoreUser[];
@@ -14,6 +32,9 @@ interface AuthStore {
     totalCatches: number;
     uniqueSpeciesCount: number;
 
+    catchForm: CatchForm;
+
+    updateCatchField: (field: keyof CatchForm, value: any) => void;
     setAuthUser: (user: FirebaseUser | null) => void;
     setFirestoreUser: (user: FirestoreUser | null) => void;
     fetchUserCatches: () => Promise<void>;
@@ -21,7 +42,7 @@ interface AuthStore {
     fetchAllUsers: () => Promise<void>;
 }
 
-export const useAuthStore = create<AuthStore>()(
+export const useAuthStore = create<StoreState>()(
     persist(
         (set, get) => ({
             authUser: null,
@@ -31,6 +52,43 @@ export const useAuthStore = create<AuthStore>()(
             feedCatches: [],
             totalCatches: 0,
             uniqueSpeciesCount: 0,
+
+            catchForm: {
+                speciesName: "",
+                length: null,
+                weight: null,
+                method: "",
+                bait: "",
+                description: "",
+                location: {
+                    latitude: null,
+                    longitude: null,
+                    address: null,
+                },
+                localImageUri: null,
+                imageUrl: null,
+                date: null,
+            },
+
+            updateCatchField: (field: keyof CatchForm, value: any) =>
+                set((state) => ({
+                    catchForm: {
+                        ...state.catchForm,
+                        [field]: value,
+                    },
+                })),
+
+            setCatchLocation: (
+                latitude: number,
+                longitude: number,
+                address: string | null
+            ) =>
+                set((state) => ({
+                    catchForm: {
+                        ...state.catchForm,
+                        location: { latitude, longitude, address },
+                    },
+                })),
 
             setAuthUser: (user) => set({ authUser: user }),
             setFirestoreUser: (user) => set({ firestoreUser: user }),

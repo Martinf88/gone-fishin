@@ -2,7 +2,7 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Catch } from "@/types/types";
 import CatchCard from "./CatchCard";
-import { useAuthStore } from "@/store/useAuthStore";
+import { useAuthStore } from "@/store/useStore";
 
 interface CatchListProps {
     catches: Catch[];

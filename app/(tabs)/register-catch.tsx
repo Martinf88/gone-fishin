@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { COLORS } from "@/constants/Colors";
-
 import CustomButton from "@/components/CustomButton";
 import { handleRegisterCatch } from "@/services/handlers";
 import { StatusBar } from "expo-status-bar";
@@ -16,22 +15,15 @@ import DateTimePicker from "@/components/DateTimePicker";
 import FormNav from "@/components/FormNav";
 import FormAddImgBtn from "@/components/FormAddImgBtn";
 import FormLocationPickerBtn from "@/components/FormLocationPickerBtn";
+import { CatchForm, useAuthStore } from "@/store/useStore";
 
 const Create = () => {
-    const [form, setForm] = useState({
-        speciesName: "",
-        length: "",
-        weight: "",
-        method: "",
-        bait: "",
-        description: "",
-        location: null,
-        date: "",
-    });
+    const { catchForm, updateCatchField } = useAuthStore((state) => state);
+
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleInputChange = (field: keyof typeof form, value: string) => {
-        setForm((prevForm) => ({ ...prevForm, [field]: value }));
+    const handleInputChange = (field: keyof CatchForm) => (text: string) => {
+        updateCatchField(field, text ? parseFloat(text) : null);
     };
 
     return (
@@ -42,9 +34,6 @@ const Create = () => {
                     {/* 📌 ImagePicker UI */}
                     <FormAddImgBtn />
 
-                    {/* 📌 LocationPicker UI */}
-                    <FormLocationPickerBtn />
-
                     {/* 📌 Formulärfält */}
                     <View style={styles.inputContainer}>
                         <Text style={styles.label}>Art</Text>
@@ -52,10 +41,8 @@ const Create = () => {
                             style={styles.input}
                             placeholder="ex. Gädda"
                             placeholderTextColor={COLORS.mistyBlue}
-                            value={form.speciesName}
-                            onChangeText={(text) =>
-                                handleInputChange("speciesName", text)
-                            }
+                            value={catchForm.speciesName}
+                            onChangeText={handleInputChange("speciesName")}
                         />
                     </View>
 
@@ -72,10 +59,12 @@ const Create = () => {
                                 placeholder="Längd i cm"
                                 placeholderTextColor={COLORS.mistyBlue}
                                 keyboardType="numeric"
-                                value={form.length}
-                                onChangeText={(text) =>
-                                    handleInputChange("length", text)
+                                value={
+                                    catchForm.length !== null
+                                        ? catchForm.length.toString()
+                                        : ""
                                 }
+                                onChangeText={handleInputChange("length")}
                             />
                         </View>
                         <View style={styles.inputContainerHalf}>
@@ -85,10 +74,12 @@ const Create = () => {
                                 placeholder="Vikt i kg"
                                 placeholderTextColor={COLORS.mistyBlue}
                                 keyboardType="numeric"
-                                value={form.weight}
-                                onChangeText={(text) =>
-                                    handleInputChange("weight", text)
+                                value={
+                                    catchForm.weight !== null
+                                        ? catchForm.weight.toString()
+                                        : ""
                                 }
+                                onChangeText={handleInputChange("weight")}
                             />
                         </View>
                     </View>
@@ -104,10 +95,8 @@ const Create = () => {
                                 style={styles.input}
                                 placeholder="ex. Spinnfiske"
                                 placeholderTextColor={COLORS.mistyBlue}
-                                value={form.method}
-                                onChangeText={(text) =>
-                                    handleInputChange("method", text)
-                                }
+                                value={catchForm.method}
+                                onChangeText={handleInputChange("method")}
                             />
                         </View>
 
@@ -115,12 +104,10 @@ const Create = () => {
                             <Text style={styles.label}>Bete</Text>
                             <TextInput
                                 style={styles.input}
-                                placeholder="Jerkbait"
+                                placeholder="ex. Jerkbait"
                                 placeholderTextColor={COLORS.mistyBlue}
-                                value={form.bait}
-                                onChangeText={(text) =>
-                                    handleInputChange("bait", text)
-                                }
+                                value={catchForm.bait}
+                                onChangeText={handleInputChange("bait")}
                             />
                         </View>
                     </View>
@@ -131,14 +118,18 @@ const Create = () => {
                             style={[styles.input, styles.descriptionInput]}
                             placeholder="Beskrivning av fångsten"
                             placeholderTextColor={COLORS.mistyBlue}
-                            value={form.description}
-                            onChangeText={(text) =>
-                                handleInputChange("description", text)
-                            }
+                            value={catchForm.description}
+                            onChangeText={handleInputChange("description")}
                             multiline
                         />
                     </View>
+                    {/* 📌 LocationPicker UI */}
+                    <FormLocationPickerBtn
+                        location={form.location}
+                        onPress={handlePickLocation}
+                    />
 
+                    {/* 📌 DateTimePicker UI */}
                     <DateTimePicker />
 
                     <CustomButton

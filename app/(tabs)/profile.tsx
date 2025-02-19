@@ -5,7 +5,7 @@ import { COLORS } from "@/constants/Colors";
 import CustomHeader from "@/components/CustomHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
 import UserCard from "@/components/UserCard";
-import { useAuthStore } from "@/store/useAuthStore";
+import { useAuthStore } from "@/store/useStore";
 import CatchCard from "@/components/CatchCard";
 import CatchList from "@/components/CatchList";
 //TODO: fetch catches with lazy loading
