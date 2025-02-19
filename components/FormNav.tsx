@@ -1,17 +1,25 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { COLORS } from "@/constants/Colors";
-import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
-const FormNav = () => {
+interface FormNavProps {
+    title: string;
+}
+
+const FormNav = ({ title }: FormNavProps) => {
     const router = useRouter();
     return (
         <View style={styles.header}>
             <TouchableOpacity onPress={() => router.back()}>
-                <Ionicons name="arrow-back" size={28} color={COLORS.pewter} />
+                <MaterialCommunityIcons
+                    name="arrow-u-left-top"
+                    size={28}
+                    color={COLORS.mistyBlue}
+                />
             </TouchableOpacity>
-            <Text style={styles.backButtonText}>Fångstdata</Text>
+            <Text style={styles.backButtonText}>{title}</Text>
         </View>
     );
 };
@@ -20,9 +28,9 @@ export default FormNav;
 
 const styles = StyleSheet.create({
     header: {
-        paddingTop: 40,
+        paddingTop: 30,
         paddingHorizontal: 10,
-        backgroundColor: COLORS.primary,
+        backgroundColor: COLORS.ebony,
         flexDirection: "row",
         alignItems: "center",
         gap: 10,

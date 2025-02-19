@@ -79,7 +79,7 @@ export default CatchCard;
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: COLORS.primary,
+        backgroundColor: COLORS.ebony,
         marginBottom: 10,
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         overflow: "hidden",
         position: "relative",
-        backgroundColor: COLORS.darkBlue,
+        backgroundColor: COLORS.cyan,
     },
     image: {
         width: "100%",
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     headerWrapper: {
         flexDirection: "row",
         alignItems: "center",
-        backgroundColor: "rgba(0,0,0,0.1)",
+        backgroundColor: COLORS.cyan,
         padding: 4,
         gap: 4,
         flexWrap: "wrap",
@@ -111,11 +111,11 @@ const styles = StyleSheet.create({
     usernameText: {
         fontSize: 18,
         fontFamily: "Kurale-Regular",
-        color: COLORS.blueGray,
+        color: COLORS.pewter,
     },
     headerDetails: {
         fontSize: 15,
-        color: COLORS.blueGray,
+        color: COLORS.pewter,
         fontFamily: "Kurale-Regular",
     },
     detailsWrapper: {
@@ -123,14 +123,14 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 18,
-        color: COLORS.blueGray,
+        color: COLORS.mistyBlue,
         marginBottom: 5,
         fontFamily: "Kurale-Regular",
     },
     storyWrapper: {
         paddingTop: 8,
         borderTopWidth: 1,
-        borderTopColor: COLORS.blueGray,
+        borderTopColor: COLORS.mistyBlue,
     },
     storyText: {
         fontSize: 18,

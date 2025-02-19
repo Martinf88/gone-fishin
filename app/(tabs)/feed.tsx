@@ -20,14 +20,12 @@ const Feed = () => {
     }, []);
 
     return (
-        <SafeAreaView
-            style={{ backgroundColor: COLORS.darkBlue, height: "100%" }}
-        >
+        <SafeAreaView style={{ backgroundColor: COLORS.ebony, height: "100%" }}>
             <CustomHeader title={"Flöde"} showButtons={false} />
             <View style={styles.container}>
                 <CatchList catches={feedCatches} />
             </View>
-            <StatusBar style="light" backgroundColor={COLORS.darkBlue} />
+            <StatusBar style="light" backgroundColor={COLORS.cyan} />
         </SafeAreaView>
     );
 };

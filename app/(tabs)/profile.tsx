@@ -22,7 +22,7 @@ const Profile = () => {
     }, [firestoreUser]);
     return (
         <>
-            <StatusBar style="light" backgroundColor={COLORS.darkBlue} />
+            <StatusBar style="light" backgroundColor={COLORS.cyan} />
             <SafeAreaView style={styles.safeArea}>
                 <CustomHeader
                     title={firestoreUser?.userName}
@@ -42,7 +42,7 @@ export default Profile;
 
 const styles = StyleSheet.create({
     safeArea: {
-        backgroundColor: COLORS.darkBlue,
+        backgroundColor: COLORS.ebony,
         flex: 1,
     },
     container: {

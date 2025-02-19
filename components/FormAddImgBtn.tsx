@@ -15,7 +15,7 @@ const FormAddImgBtn = () => {
                 />
             ) : (
                 <TouchableOpacity style={styles.imagePickerButton}>
-                    <Ionicons name="camera" size={32} color={COLORS.pewter} />
+                    <Ionicons name="camera" size={32} color={COLORS.ebony} />
                     <Text style={styles.imagePickerText}>Lägg till bild</Text>
                 </TouchableOpacity>
             )}
@@ -33,12 +33,12 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         borderRadius: 10,
-        backgroundColor: COLORS.blueGray,
+        backgroundColor: COLORS.mistyBlue,
         justifyContent: "center",
         alignItems: "center",
     },
     imagePickerText: {
-        color: COLORS.pewter,
+        color: COLORS.ebony,
         marginTop: 8,
         fontSize: 14,
     },

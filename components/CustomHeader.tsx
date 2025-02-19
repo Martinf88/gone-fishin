@@ -41,7 +41,7 @@ export default CustomHeader;
 
 const styles = StyleSheet.create({
     header: {
-        backgroundColor: COLORS.darkBlue,
+        backgroundColor: COLORS.cyan,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",

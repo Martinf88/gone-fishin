@@ -56,9 +56,7 @@ const SignIn = () => {
                                 <MaterialIcons
                                     name="alternate-email"
                                     size={32}
-                                    color={COLORS.primary}
-                                    backgroundColor={COLORS.blueGray}
-                                    style={styles.icon}
+                                    color={COLORS.cyan}
                                 />
                             }
                         />
@@ -70,14 +68,12 @@ const SignIn = () => {
                             }
                             otherStyles={{ marginTop: 20 }}
                             keyboardType="password"
-                            placeholderText="Enter your password"
+                            placeholderText="Skriv ditt lösenord"
                             iconComponent={
                                 <Ionicons
                                     name="lock-closed-outline"
                                     size={32}
-                                    color={COLORS.primary}
-                                    backgroundColor={COLORS.blueGray}
-                                    style={styles.icon}
+                                    color={COLORS.cyan}
                                 />
                             }
                         />
@@ -118,7 +114,7 @@ const { height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
     safeArea: {
-        backgroundColor: COLORS.primary,
+        backgroundColor: COLORS.ebony,
         flex: 1,
     },
     scrollView: {
@@ -151,17 +147,12 @@ const styles = StyleSheet.create({
         gap: 5,
     },
     registerText: {
-        color: COLORS.pewter,
+        color: COLORS.mistyBlue,
         fontSize: 16,
     },
     registerLink: {
         color: COLORS.yellow,
         fontSize: 16,
         fontWeight: "bold",
-    },
-    icon: {
-        borderTopLeftRadius: 5,
-        borderBottomLeftRadius: 5,
-        padding: 9,
     },
 });
