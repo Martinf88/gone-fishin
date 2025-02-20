@@ -34,7 +34,20 @@ const FormField = ({
         title === "Lösenord" || title === "Upprepa Lösenord";
     return (
         <View style={[styles.container, otherStyles]}>
-            {iconComponent && <View>{iconComponent}</View>}
+            {iconComponent && (
+                <View
+                    style={{
+                        backgroundColor: COLORS.mistyBlue,
+                        borderTopLeftRadius: 5,
+                        borderBottomLeftRadius: 5,
+                        height: 50,
+                        justifyContent: "center",
+                        paddingHorizontal: 10,
+                    }}
+                >
+                    {iconComponent}
+                </View>
+            )}
             <View style={{ flexDirection: "column", flex: 1 }}>
                 {keyboardType === "catch" && (
                     <Text
@@ -52,7 +65,7 @@ const FormField = ({
                     style={styles.input}
                     value={value}
                     placeholder={placeholderText}
-                    placeholderTextColor={COLORS.blueGray}
+                    placeholderTextColor={COLORS.mistyBlue}
                     onChangeText={handleChangeText}
                     secureTextEntry={
                         keyboardType === "password" && !showPassword
@@ -67,7 +80,7 @@ const FormField = ({
                     <Ionicons
                         name={showPassword ? "eye-off-outline" : "eye-outline"}
                         size={28}
-                        color={COLORS.blueGray}
+                        color={COLORS.mistyBlue}
                     />
                 </TouchableOpacity>
             )}
@@ -83,14 +96,13 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     input: {
-        flex: 1,
-        backgroundColor: COLORS.darkBlue,
-        color: COLORS.pewter,
+        backgroundColor: COLORS.cyan,
+        color: COLORS.mistyBlue,
         borderTopRightRadius: 5,
         borderBottomRightRadius: 5,
-        height: "100%",
-        paddingLeft: 10,
+        padding: 11,
         fontSize: 16,
+        height: 50,
     },
     button: {
         position: "absolute",

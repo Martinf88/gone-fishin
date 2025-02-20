@@ -1,7 +1,7 @@
 export const COLORS = {
-    primary: "#1F2937",
-    darkBlue: "#333652",
+    ebony: "#0D3530",
+    cyan: "#216260",
     pewter: "#E9EAEC",
     yellow: "#FAD02C",
-    blueGray: "#90ADC6",
+    mistyBlue: "#9EBFC0",
 };

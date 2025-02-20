@@ -44,7 +44,7 @@ const { height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
     safeArea: {
-        backgroundColor: COLORS.primary,
+        backgroundColor: COLORS.ebony,
         height: "100%",
     },
     scrollView: {
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     subTitle: {
         textAlign: "center",
         fontSize: 24,
-        color: COLORS.blueGray,
+        color: COLORS.mistyBlue,
         fontFamily: "Kurale-Regular",
     },
     image: {

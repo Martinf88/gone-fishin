@@ -8,6 +8,8 @@ import FormField from "@/components/FormField";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { handleSignUp } from "@/services/handlers";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import FormNav from "@/components/FormNav";
 
 const SignUp = () => {
     const [form, setForm] = useState({
@@ -24,11 +26,11 @@ const SignUp = () => {
 
     return (
         <SafeAreaView style={styles.safeArea}>
+            <FormNav title={"Skapa Konto"} />
             <ScrollView contentContainerStyle={styles.scrollView}>
                 <View style={styles.container}>
-                    <Text style={styles.title}>Gone Fishin'</Text>
+                    <Text style={styles.title}>Skapa Konto</Text>
                     <View style={styles.formContainer}>
-                        <Text style={styles.subTitle}>Skapa konto</Text>
                         <FormField
                             title="Email"
                             value={form.email}
@@ -41,9 +43,7 @@ const SignUp = () => {
                                 <MaterialIcons
                                     name="alternate-email"
                                     size={28}
-                                    color={COLORS.primary}
-                                    backgroundColor={COLORS.blueGray}
-                                    style={styles.icon}
+                                    color={COLORS.cyan}
                                 />
                             }
                         />
@@ -59,9 +59,7 @@ const SignUp = () => {
                                 <Ionicons
                                     name="person-outline"
                                     size={28}
-                                    color={COLORS.primary}
-                                    backgroundColor={COLORS.blueGray}
-                                    style={styles.icon}
+                                    color={COLORS.cyan}
                                 />
                             }
                         />
@@ -77,9 +75,7 @@ const SignUp = () => {
                                 <Ionicons
                                     name="lock-closed-outline"
                                     size={28}
-                                    color={COLORS.primary}
-                                    backgroundColor={COLORS.blueGray}
-                                    style={styles.icon}
+                                    color={COLORS.cyan}
                                 />
                             }
                         />
@@ -95,9 +91,7 @@ const SignUp = () => {
                                 <Ionicons
                                     name="lock-closed-outline"
                                     size={28}
-                                    color={COLORS.primary}
-                                    backgroundColor={COLORS.blueGray}
-                                    style={styles.icon}
+                                    color={COLORS.cyan}
                                 />
                             }
                         />
@@ -127,14 +121,14 @@ const { height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
     safeArea: {
-        backgroundColor: COLORS.primary,
+        backgroundColor: COLORS.ebony,
         flex: 1,
     },
     scrollView: {
         flexGrow: 1,
     },
     container: {
-        paddingTop: 50,
+        paddingTop: 30,
         paddingHorizontal: 10,
         width: "100%",
         // minHeight: height * 0.85,
@@ -147,20 +141,9 @@ const styles = StyleSheet.create({
         fontFamily: "Kurale-Regular",
         textAlign: "center",
     },
-    subTitle: {
-        fontSize: 24,
-        color: COLORS.pewter,
-        fontFamily: "Kurale-Regular",
-        fontWeight: "bold",
-    },
     formContainer: {
         width: "100%",
         paddingTop: 50,
         gap: 25,
-    },
-    icon: {
-        borderTopLeftRadius: 5,
-        borderBottomLeftRadius: 5,
-        padding: 11,
     },
 });

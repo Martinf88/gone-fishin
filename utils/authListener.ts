@@ -1,5 +1,5 @@
 import { useRouter, usePathname } from "expo-router";
-import { useAuthStore } from "@/store/useAuthStore";
+import { useAuthStore } from "@/store/useStore";
 import { useEffect } from "react";
 import { auth } from "@/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";

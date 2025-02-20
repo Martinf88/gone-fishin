@@ -2,7 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { COLORS } from "@/constants/Colors";
-import { useAuthStore } from "@/store/useAuthStore";
+import { useAuthStore } from "@/store/useStore";
 
 const UserCard = () => {
     const { totalCatches, uniqueSpeciesCount } = useAuthStore();
@@ -12,16 +12,12 @@ const UserCard = () => {
             {/* Left Side (Profile Picture + Username) */}
 
             <View style={styles.imageWrapper}>
-                <Ionicons
-                    name="person-circle"
-                    size={80}
-                    color={COLORS.darkBlue}
-                />
+                <Ionicons name="person-circle" size={80} color={COLORS.cyan} />
                 <TouchableOpacity
                     style={{
                         position: "absolute",
-                        backgroundColor: COLORS.darkBlue,
-                        borderColor: COLORS.blueGray,
+                        backgroundColor: COLORS.cyan,
+                        borderColor: COLORS.mistyBlue,
                         borderWidth: 2,
                         borderRadius: 999,
                         left: 50,
@@ -32,7 +28,7 @@ const UserCard = () => {
                     <Ionicons
                         name="pencil-outline"
                         size={32}
-                        color={COLORS.blueGray}
+                        color={COLORS.mistyBlue}
                     />
                 </TouchableOpacity>
             </View>
@@ -52,12 +48,12 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
         alignItems: "center",
-        backgroundColor: COLORS.blueGray,
+        backgroundColor: COLORS.mistyBlue,
         paddingHorizontal: 25,
         height: 150,
     },
     imageWrapper: {
-        borderColor: COLORS.darkBlue,
+        borderColor: COLORS.cyan,
         borderWidth: 10,
         borderRadius: 50,
         justifyContent: "center",
@@ -72,6 +68,6 @@ const styles = StyleSheet.create({
     statText: {
         fontSize: 18,
         fontFamily: "Kurale-Regular",
-        color: COLORS.pewter,
+        color: COLORS.ebony,
     },
 });

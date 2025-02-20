@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import CustomHeader from "@/components/CustomHeader";
 import CatchList from "@/components/CatchList";
-import { useAuthStore } from "@/store/useAuthStore";
+import { useAuthStore } from "@/store/useStore";
 
 const Feed = () => {
     const { feedCatches, fetchAllCatches, fetchAllUsers } = useAuthStore(
@@ -20,14 +20,12 @@ const Feed = () => {
     }, []);
 
     return (
-        <SafeAreaView
-            style={{ backgroundColor: COLORS.darkBlue, height: "100%" }}
-        >
+        <SafeAreaView style={{ backgroundColor: COLORS.ebony, height: "100%" }}>
             <CustomHeader title={"Flöde"} showButtons={false} />
             <View style={styles.container}>
                 <CatchList catches={feedCatches} />
             </View>
-            <StatusBar style="light" backgroundColor={COLORS.darkBlue} />
+            <StatusBar style="light" backgroundColor={COLORS.cyan} />
         </SafeAreaView>
     );
 };

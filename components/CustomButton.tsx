@@ -37,14 +37,14 @@ export default CustomButton;
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: COLORS.yellow,
+        backgroundColor: COLORS.mistyBlue,
         paddingHorizontal: 32,
         paddingVertical: 6,
         borderRadius: 5,
     },
     buttonText: {
         fontSize: 24,
-        color: COLORS.darkBlue,
+        color: COLORS.ebony,
         fontFamily: "OpenSans",
         textAlign: "center",
     },
