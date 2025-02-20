@@ -16,10 +16,10 @@ import FormNav from "@/components/FormNav";
 import FormAddImgBtn from "@/components/FormAddImgBtn";
 import FormLocationPickerBtn from "@/components/FormLocationPickerBtn";
 import { CatchForm, useAuthStore } from "@/store/useStore";
+import { Picker } from "@react-native-picker/picker";
 
 const Create = () => {
     const { catchForm, updateCatchField } = useAuthStore((state) => state);
-
     const [isLoading, setIsLoading] = useState(false);
 
     const handleInputChange = (field: keyof CatchForm) => (text: string) => {
@@ -35,15 +35,32 @@ const Create = () => {
                     <FormAddImgBtn />
 
                     {/* 📌 Formulärfält */}
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Art</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="ex. Gädda"
-                            placeholderTextColor={COLORS.mistyBlue}
-                            value={catchForm.speciesName}
-                            onChangeText={handleInputChange("speciesName")}
-                        />
+                    <View style={styles.inputWrapper}>
+                        <View
+                            style={[
+                                styles.inputContainerHalf,
+                                { marginRight: 10 },
+                            ]}
+                        >
+                            <Text style={styles.label}>Art</Text>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="ex. Gädda"
+                                placeholderTextColor={COLORS.mistyBlue}
+                                value={catchForm.speciesName}
+                                onChangeText={handleInputChange("speciesName")}
+                            />
+                        </View>
+                        <View style={styles.inputContainerHalf}>
+                            <Text style={styles.label}>Bete</Text>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="ex. Jerkbait"
+                                placeholderTextColor={COLORS.mistyBlue}
+                                value={catchForm.bait}
+                                onChangeText={handleInputChange("bait")}
+                            />
+                        </View>
                     </View>
 
                     <View style={styles.inputWrapper}>
@@ -83,32 +100,32 @@ const Create = () => {
                             />
                         </View>
                     </View>
-                    <View style={styles.inputWrapper}>
-                        <View
-                            style={[
-                                styles.inputContainerHalf,
-                                { marginRight: 10 },
-                            ]}
-                        >
-                            <Text style={styles.label}>Metod</Text>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="ex. Spinnfiske"
-                                placeholderTextColor={COLORS.mistyBlue}
-                                value={catchForm.method}
-                                onChangeText={handleInputChange("method")}
-                            />
-                        </View>
-
-                        <View style={styles.inputContainerHalf}>
-                            <Text style={styles.label}>Bete</Text>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="ex. Jerkbait"
-                                placeholderTextColor={COLORS.mistyBlue}
-                                value={catchForm.bait}
-                                onChangeText={handleInputChange("bait")}
-                            />
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Metod</Text>
+                        <View style={styles.pickerWrapper}>
+                            <Picker
+                                style={styles.picker}
+                                selectedValue={catchForm.method}
+                                onValueChange={(itemValue) =>
+                                    updateCatchField("method", itemValue)
+                                }
+                            >
+                                <Picker.Item label="Välj metod" value="" />
+                                <Picker.Item label="Spinnfiske" value="spinn" />
+                                <Picker.Item label="Flugfiske" value="fly" />
+                                <Picker.Item label="Trolling" value="troll" />
+                                <Picker.Item label="Havsfiske" value="sea" />
+                                <Picker.Item label="Handrev" value="hand" />
+                                <Picker.Item label="Bottenmete" value="mete" />
+                                <Picker.Item label="Jerkfiske" value="jerk" />
+                                <Picker.Item label="Jiggfiske" value="jigg" />
+                                <Picker.Item label="Flötmete" value="float" />
+                                <Picker.Item label="Isfiske" value="ice" />
+                                <Picker.Item
+                                    label="Vertikalfiske"
+                                    value="vert"
+                                />
+                            </Picker>
                         </View>
                     </View>
 
@@ -124,10 +141,10 @@ const Create = () => {
                         />
                     </View>
                     {/* 📌 LocationPicker UI */}
-                    <FormLocationPickerBtn
-                        location={form.location}
-                        onPress={handlePickLocation}
-                    />
+                    {/* <FormLocationPickerBtn
+                    location={form.location}
+                    onPress={handlePickLocation}
+                    /> */}
 
                     {/* 📌 DateTimePicker UI */}
                     <DateTimePicker />
@@ -135,7 +152,7 @@ const Create = () => {
                     <CustomButton
                         title="Bekräfta"
                         handlePress={() =>
-                            handleRegisterCatch({ ...form, setIsLoading })
+                            handleRegisterCatch({ ...catchForm, setIsLoading })
                         }
                         isLoading={isLoading}
                         containerStyles={{ marginTop: 20 }}
@@ -188,6 +205,13 @@ const styles = StyleSheet.create({
         padding: 12,
         borderRadius: 5,
         height: 45,
+    },
+    pickerWrapper: {
+        backgroundColor: COLORS.cyan,
+        borderRadius: 5,
+    },
+    picker: {
+        color: COLORS.pewter,
     },
     descriptionInput: {
         height: 100,

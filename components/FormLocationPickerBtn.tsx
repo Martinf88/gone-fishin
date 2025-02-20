@@ -4,18 +4,20 @@ import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/constants/Colors";
 
 interface FormLocationPickerBtnProps {
-    location: string | null;
-    onPress: () => void;
+    // location: string | null;
+    // onPress: () => void;
 }
 
-const FormLocationPickerBtn = ({
-    location,
-    onPress,
-}: FormLocationPickerBtnProps) => {
+const FormLocationPickerBtn = (
+    {
+        // location,
+        // onPress,
+    }: FormLocationPickerBtnProps
+) => {
     return (
         <View style={styles.container}>
             <Text style={styles.label}>Fångstplats</Text>
-            <TouchableOpacity style={styles.button} onPress={onPress}>
+            <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>
                     {location ? `📍 ${location}` : "Välj plats"}
                 </Text>

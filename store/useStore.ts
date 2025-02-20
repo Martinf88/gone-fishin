@@ -18,7 +18,6 @@ export interface CatchForm {
         longitude: number | null;
         address: string | null;
     };
-    localImageUri: string | null;
     imageUrl: string | null;
     date: Timestamp | null;
 }
@@ -33,6 +32,9 @@ interface StoreState {
     uniqueSpeciesCount: number;
 
     catchForm: CatchForm;
+    localImageUri: string | null;
+
+    setLocalImageUri: (uri: string | null) => void;
 
     updateCatchField: (field: keyof CatchForm, value: any) => void;
     setAuthUser: (user: FirebaseUser | null) => void;
@@ -65,10 +67,14 @@ export const useAuthStore = create<StoreState>()(
                     longitude: null,
                     address: null,
                 },
-                localImageUri: null,
                 imageUrl: null,
                 date: null,
             },
+            localImageUri: null,
+            setLocalImageUri: (uri: string | null) =>
+                set(() => ({
+                    localImageUri: uri,
+                })),
 
             updateCatchField: (field: keyof CatchForm, value: any) =>
                 set((state) => ({
