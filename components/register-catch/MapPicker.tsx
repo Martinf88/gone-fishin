@@ -13,9 +13,7 @@ import {
 import MapView, { Marker, MapPressEvent } from "react-native-maps";
 import * as Location from "expo-location";
 import { COLORS } from "@/constants/Colors";
-import { Ionicons } from "@expo/vector-icons";
-import CustomButton from "./CustomButton";
-import FormNav from "./FormNav";
+import CustomButton from "../common/CustomButton";
 import { useAuthStore } from "@/store/useStore";
 
 interface MapPickerProps {
@@ -24,7 +22,6 @@ interface MapPickerProps {
 }
 
 const MapPicker = ({ isVisible, onClose }: MapPickerProps) => {
-    const { catchForm } = useAuthStore((state) => state);
     const { setCatchLocation } = useAuthStore((state) => state);
 
     const [location, setLocation] = useState<{

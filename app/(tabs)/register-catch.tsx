@@ -8,13 +8,13 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { COLORS } from "@/constants/Colors";
-import CustomButton from "@/components/CustomButton";
+import CustomButton from "@/components/common/CustomButton";
 import CatchesService from "@/services/catches";
 import { StatusBar } from "expo-status-bar";
-import DateTimePicker from "@/components/DateTimePicker";
-import FormNav from "@/components/FormNav";
-import FormAddImgBtn from "@/components/FormAddImgBtn";
-import FormSelectLocation from "@/components/FormSelectLocation";
+import DateTimePicker from "@/components/register-catch/DateTimePicker";
+import FormNav from "@/components/common/FormNav";
+import FormAddImgBtn from "@/components/register-catch/FormAddImgBtn";
+import FormSelectLocation from "@/components/register-catch/FormSelectLocation";
 import { CatchForm, useAuthStore } from "@/store/useStore";
 import { Picker } from "@react-native-picker/picker";
 import { useRouter } from "expo-router";

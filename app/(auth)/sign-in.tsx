@@ -9,9 +9,9 @@ import {
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "@/constants/Colors";
-import CustomButton from "@/components/CustomButton";
+import CustomButton from "@/components/common/CustomButton";
 import { StatusBar } from "expo-status-bar";
-import FormField from "@/components/FormField";
+import FormField from "@/components/common/FormField";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { handleSignIn } from "@/services/auth";

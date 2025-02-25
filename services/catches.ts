@@ -12,6 +12,7 @@ import {
     where,
     addDoc,
 } from "firebase/firestore";
+import { uploadToCloudinary } from "./uploadToCloudinary";
 const PAGE_SIZE = 10;
 const catchesRef = collection(db, "catches");
 
@@ -131,7 +132,6 @@ const CatchesService = {
             return;
         }
         try {
-            // 1. Create catch document in Firestore
             await addDoc(collection(db, "catches"), {
                 userId: user.uid,
                 ...catchData,
