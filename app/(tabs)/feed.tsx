@@ -10,6 +10,8 @@ import { DocumentSnapshot } from "firebase/firestore";
 import { Catch } from "@/types/types";
 import CatchesService from "@/services/catches";
 
+//TODO: add loading when waiting for catches
+
 const Feed = () => {
     const { fetchAllUsers } = useAuthStore((state) => state);
     const [catches, setCatches] = useState<Catch[]>([]);

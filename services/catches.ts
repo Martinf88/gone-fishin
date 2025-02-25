@@ -13,6 +13,8 @@ import {
     addDoc,
 } from "firebase/firestore";
 import { uploadToCloudinary } from "./uploadToCloudinary";
+import { useAuthStore } from "@/store/useStore";
+import { Alert } from "react-native";
 const PAGE_SIZE = 10;
 const catchesRef = collection(db, "catches");
 
@@ -126,15 +128,30 @@ const CatchesService = {
     },
 
     async handleRegisterCatch({ ...catchData }) {
+        console.log("handleRegisterCatch is being called!");
+
         const user = auth.currentUser;
         if (!user) {
             console.error("No user signed in");
             return;
         }
+
+        const { localImageUri } = useAuthStore.getState();
+
+        console.log("📸 localImageUri before upload:", localImageUri);
         try {
+            let imageUrl = null;
+
+            if (localImageUri) {
+                console.log("📤 Calling uploadToCloudinary...");
+                imageUrl = await uploadToCloudinary(localImageUri);
+                console.log("✅ Image uploaded successfully:", imageUrl);
+                Alert.alert("Success", "Image uploaded to Cloudinary!");
+            }
             await addDoc(collection(db, "catches"), {
                 userId: user.uid,
                 ...catchData,
+                imageUrl,
                 createdAt: new Date(),
             });
             console.log("Catch registered successfully");

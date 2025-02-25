@@ -11,6 +11,8 @@ import { handleSignUp } from "@/services/auth";
 import FormNav from "@/components/common/FormNav";
 import { useRouter } from "expo-router";
 
+//TODO: validate form
+
 const SignUp = () => {
     const [form, setForm] = useState({
         email: "",

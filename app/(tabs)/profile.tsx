@@ -10,6 +10,9 @@ import CatchList from "@/components/common/CatchList";
 import { Catch } from "@/types/types";
 import { DocumentSnapshot } from "firebase/firestore";
 import CatchesService from "@/services/catches";
+
+//TODO: add loading when waiting for catches
+
 const Profile = () => {
     const { firestoreUser } = useAuthStore((state) => state);
     const [userCatches, setUserCatches] = useState<Catch[]>([]);

@@ -19,6 +19,10 @@ import { CatchForm, useAuthStore } from "@/store/useStore";
 import { Picker } from "@react-native-picker/picker";
 import { useRouter } from "expo-router";
 
+//TODO: onBlur seems to be a bit buggy, its easy to not get the value from a field. Find a solution.
+//TODO: clear form after submit
+//TODO: validate form
+
 const Create = () => {
     const { catchForm, updateCatchField } = useAuthStore((state) => state);
     const [localForm, setLocalForm] = useState(catchForm);

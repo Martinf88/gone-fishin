@@ -17,6 +17,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { handleSignIn } from "@/services/auth";
 import { Link } from "expo-router";
 
+//TODO: validate form
+
 const SignIn = () => {
     const [form, setForm] = useState({
         email: "abborren@abborren.com",
