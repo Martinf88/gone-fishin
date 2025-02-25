@@ -37,7 +37,7 @@ const FormField = ({
             {iconComponent && (
                 <View
                     style={{
-                        backgroundColor: COLORS.mistyBlue,
+                        backgroundColor: COLORS.action,
                         borderTopLeftRadius: 5,
                         borderBottomLeftRadius: 5,
                         height: 50,
@@ -52,7 +52,7 @@ const FormField = ({
                 {keyboardType === "catch" && (
                     <Text
                         style={{
-                            color: COLORS.pewter,
+                            color: COLORS.white,
                             fontFamily: "Kurale-Regular",
                             fontSize: 18,
                         }}
@@ -65,7 +65,7 @@ const FormField = ({
                     style={styles.input}
                     value={value}
                     placeholder={placeholderText}
-                    placeholderTextColor={COLORS.mistyBlue}
+                    placeholderTextColor={COLORS.placeholder}
                     onChangeText={handleChangeText}
                     secureTextEntry={
                         keyboardType === "password" && !showPassword
@@ -80,7 +80,7 @@ const FormField = ({
                     <Ionicons
                         name={showPassword ? "eye-off-outline" : "eye-outline"}
                         size={28}
-                        color={COLORS.mistyBlue}
+                        color={COLORS.placeholder}
                     />
                 </TouchableOpacity>
             )}
@@ -96,8 +96,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     input: {
-        backgroundColor: COLORS.cyan,
-        color: COLORS.mistyBlue,
+        backgroundColor: COLORS.secondary,
+        color: COLORS.white,
         borderTopRightRadius: 5,
         borderBottomRightRadius: 5,
         padding: 11,

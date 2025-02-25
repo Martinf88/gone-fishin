@@ -3,6 +3,7 @@ import React from "react";
 import { COLORS } from "@/constants/Colors";
 import { Catch } from "@/types/types";
 import { Ionicons } from "@expo/vector-icons";
+import { getTimeSinceUpload } from "@/helper-functions/getTimeSinceUpload";
 //TODO: Fetch species name from speciesId
 interface CatchCardProps {
     catchData: Catch;
@@ -16,20 +17,20 @@ const CatchCard: React.FC<CatchCardProps> = ({ catchData, username }) => {
                 <Ionicons
                     name="person-circle-outline"
                     size={48}
-                    color={COLORS.pewter}
+                    color={COLORS.white}
                 />
                 <View>
                     <Text style={styles.usernameText}>{username}</Text>
                     <View>
                         <Text style={styles.headerDetails}>
-                            17h" - <Text>{catchData.location}</Text>
+                            {getTimeSinceUpload(catchData.createdAt)}
                             <Text> - {catchData.speciesName}</Text>
                         </Text>
                     </View>
                 </View>
             </View>
             {/* Image (if available) */}
-            {catchData.imageUrl !== "" ? (
+            {catchData.imageUrl !== null ? (
                 <View style={styles.imageWrapper}>
                     <Image
                         source={{ uri: catchData.imageUrl }}
@@ -50,24 +51,38 @@ const CatchCard: React.FC<CatchCardProps> = ({ catchData, username }) => {
                     }}
                 >
                     <View>
-                        <Text style={styles.text}>{catchData.weight}kg</Text>
-                        <Text style={styles.text}>{catchData.length}cm</Text>
+                        <Text style={styles.text}>
+                            Vikt: {catchData.weight}kg
+                        </Text>
+                        <Text style={styles.text}>
+                            Längd: {catchData.length}cm
+                        </Text>
                     </View>
                     <View>
-                        <Text style={styles.text}>{catchData.method}</Text>
-                        <Text style={styles.text}>{catchData.bait}</Text>
+                        <Text style={styles.text}>
+                            Metod: {catchData.method}
+                        </Text>
+                        <Text style={styles.text}>Bete: {catchData.bait}</Text>
                     </View>
                 </View>
 
                 <Text style={styles.text}>
-                    {catchData.date.toDate().toLocaleString("sv-SE", {
-                        dateStyle: "short",
-                        timeStyle: "short",
-                    })}
+                    Fångstdatum:
+                    {catchData.date
+                        ? catchData.date.toDate().toLocaleString("sv-SE", {
+                              dateStyle: "short",
+                              timeStyle: "short",
+                          })
+                        : "No Date Available"}
                 </Text>
-                {catchData.story && (
+                <Text style={styles.text}>
+                    Plats: Visa plats med karta via länk!!!
+                </Text>
+                {catchData.description && (
                     <View style={styles.storyWrapper}>
-                        <Text style={styles.storyText}>{catchData.story}</Text>
+                        <Text style={styles.storyText}>
+                            Berättelse: {catchData.description}
+                        </Text>
                     </View>
                 )}
             </View>
@@ -79,7 +94,7 @@ export default CatchCard;
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: COLORS.ebony,
+        backgroundColor: COLORS.primary,
         marginBottom: 10,
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
@@ -93,7 +108,7 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         overflow: "hidden",
         position: "relative",
-        backgroundColor: COLORS.cyan,
+        backgroundColor: COLORS.secondary,
     },
     image: {
         width: "100%",
@@ -103,7 +118,7 @@ const styles = StyleSheet.create({
     headerWrapper: {
         flexDirection: "row",
         alignItems: "center",
-        backgroundColor: COLORS.cyan,
+        backgroundColor: COLORS.secondary,
         padding: 4,
         gap: 4,
         flexWrap: "wrap",
@@ -111,11 +126,11 @@ const styles = StyleSheet.create({
     usernameText: {
         fontSize: 18,
         fontFamily: "Kurale-Regular",
-        color: COLORS.pewter,
+        color: COLORS.white,
     },
     headerDetails: {
         fontSize: 15,
-        color: COLORS.pewter,
+        color: COLORS.white,
         fontFamily: "Kurale-Regular",
     },
     detailsWrapper: {
@@ -123,18 +138,18 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 18,
-        color: COLORS.mistyBlue,
+        color: COLORS.white,
         marginBottom: 5,
         fontFamily: "Kurale-Regular",
     },
     storyWrapper: {
         paddingTop: 8,
         borderTopWidth: 1,
-        borderTopColor: COLORS.mistyBlue,
+        borderTopColor: COLORS.white,
     },
     storyText: {
         fontSize: 18,
-        color: COLORS.pewter,
+        color: COLORS.white,
         fontFamily: "Kurale-Regular",
     },
 });

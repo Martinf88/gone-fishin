@@ -1,31 +1,67 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { useEffect } from "react";
+import { StyleSheet, View } from "react-native";
+import React, { useEffect, useState } from "react";
 import { COLORS } from "@/constants/Colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import CustomHeader from "@/components/CustomHeader";
 import CatchList from "@/components/CatchList";
 import { useAuthStore } from "@/store/useStore";
+import { DocumentSnapshot } from "firebase/firestore";
+import { Catch } from "@/types/types";
+import CatchesService from "@/services/catches";
 
 const Feed = () => {
-    const { feedCatches, fetchAllCatches, fetchAllUsers } = useAuthStore(
-        (state) => state
-    );
+    const { fetchAllUsers } = useAuthStore((state) => state);
+    const [catches, setCatches] = useState<Catch[]>([]);
+    const [lastDoc, setLastDoc] = useState<DocumentSnapshot | null>(null);
+    const [hasMore, setHasMore] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
+
+    const fetchInitialCatches = async () => {
+        setLoading(true);
+        const { catches, lastDoc, hasMore } =
+            await CatchesService.fetchCatchesLazy(null);
+        setCatches(catches);
+        setLastDoc(lastDoc);
+        setHasMore(hasMore);
+        setLoading(false);
+    };
+
+    const fetchMoreCatches = async () => {
+        if (!hasMore || loading) return;
+        setLoading(true);
+        const {
+            catches: newCatches,
+            lastDoc: newLastDoc,
+            hasMore: moreData,
+        } = await CatchesService.fetchCatchesLazy(lastDoc);
+        setCatches((prev) => [...prev, ...newCatches]);
+        setLastDoc(newLastDoc);
+        setHasMore(moreData);
+        setLoading(false);
+    };
+
     useEffect(() => {
-        console.log("📢 Fetching all catches and users for feed", {
-            feedCatches,
+        console.log("📢 Fetching all catches lazy and users for feed", {
+            catches,
         });
-        fetchAllCatches();
+        fetchInitialCatches();
         fetchAllUsers();
     }, []);
 
     return (
-        <SafeAreaView style={{ backgroundColor: COLORS.ebony, height: "100%" }}>
+        <SafeAreaView
+            style={{ backgroundColor: COLORS.primary, height: "100%" }}
+        >
             <CustomHeader title={"Flöde"} showButtons={false} />
             <View style={styles.container}>
-                <CatchList catches={feedCatches} />
+                <CatchList
+                    catches={catches}
+                    loading={loading}
+                    fetchMoreCatches={fetchMoreCatches}
+                />
             </View>
-            <StatusBar style="light" backgroundColor={COLORS.cyan} />
+            <StatusBar style="light" backgroundColor={COLORS.secondary} />
         </SafeAreaView>
     );
 };
@@ -39,6 +75,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     text: {
-        color: COLORS.pewter,
+        color: COLORS.white,
     },
 });

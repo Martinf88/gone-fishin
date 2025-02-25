@@ -7,9 +7,9 @@ import { StatusBar } from "expo-status-bar";
 import FormField from "@/components/FormField";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { handleSignUp } from "@/services/handlers";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { handleSignUp } from "@/services/auth";
 import FormNav from "@/components/FormNav";
+import { useRouter } from "expo-router";
 
 const SignUp = () => {
     const [form, setForm] = useState({
@@ -19,6 +19,7 @@ const SignUp = () => {
         username: "",
     });
     const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
 
     const handleInputChange = (field: keyof typeof form, value: string) => {
         setForm((prevForm) => ({ ...prevForm, [field]: value }));
@@ -26,7 +27,7 @@ const SignUp = () => {
 
     return (
         <SafeAreaView style={styles.safeArea}>
-            <FormNav title={"Skapa Konto"} />
+            <FormNav title={"Skapa Konto"} onPress={() => router.back()} />
             <ScrollView contentContainerStyle={styles.scrollView}>
                 <View style={styles.container}>
                     <Text style={styles.title}>Skapa Konto</Text>
@@ -43,7 +44,7 @@ const SignUp = () => {
                                 <MaterialIcons
                                     name="alternate-email"
                                     size={28}
-                                    color={COLORS.cyan}
+                                    color={COLORS.secondary}
                                 />
                             }
                         />
@@ -59,7 +60,7 @@ const SignUp = () => {
                                 <Ionicons
                                     name="person-outline"
                                     size={28}
-                                    color={COLORS.cyan}
+                                    color={COLORS.secondary}
                                 />
                             }
                         />
@@ -75,7 +76,7 @@ const SignUp = () => {
                                 <Ionicons
                                     name="lock-closed-outline"
                                     size={28}
-                                    color={COLORS.cyan}
+                                    color={COLORS.secondary}
                                 />
                             }
                         />
@@ -91,7 +92,7 @@ const SignUp = () => {
                                 <Ionicons
                                     name="lock-closed-outline"
                                     size={28}
-                                    color={COLORS.cyan}
+                                    color={COLORS.secondary}
                                 />
                             }
                         />
@@ -121,7 +122,7 @@ const { height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
     safeArea: {
-        backgroundColor: COLORS.ebony,
+        backgroundColor: COLORS.primary,
         flex: 1,
     },
     scrollView: {
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 42,
-        color: COLORS.pewter,
+        color: COLORS.white,
         fontFamily: "Kurale-Regular",
         textAlign: "center",
     },

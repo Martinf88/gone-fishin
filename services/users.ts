@@ -3,15 +3,15 @@ import {
     doc,
     getDoc,
     collection,
-    query,
-    where,
     getDocs,
     orderBy,
+    onSnapshot,
 } from "firebase/firestore";
 import { User as FirebaseUser } from "firebase/auth";
 import { Catch, User } from "@/types/types";
 //TODO: implementera lazy loading av catches
 
+//USERS
 export const fetchLoggedInUser = async (
     user: FirebaseUser
 ): Promise<User | null> => {
@@ -44,44 +44,6 @@ export const fetchAllUsers = async (): Promise<User[]> => {
         }));
     } catch (error) {
         console.error("❌ Error fetching users:", error);
-        return [];
-    }
-};
-
-export const fetchCatches = async (userId?: string): Promise<Catch[]> => {
-    try {
-        if (!userId) {
-            const catchesRef = collection(db, "catches");
-            const docSnap = await getDocs(catchesRef);
-            const allCatches = docSnap.docs.map((doc) => {
-                const data = doc.data();
-                return {
-                    catchId: doc.id,
-                    ...(data as Omit<Catch, "catchId">),
-                };
-            });
-            return allCatches;
-        }
-
-        console.log("📢 Fetching catches for user:", userId);
-
-        const catchesRef = collection(db, "catches");
-        const q = query(catchesRef, where("userId", "==", userId));
-
-        const querySnapshot = await getDocs(q);
-
-        const catches = querySnapshot.docs.map((doc) => {
-            const data = doc.data();
-            return {
-                catchId: doc.id,
-                ...(data as Omit<Catch, "catchId">),
-            };
-        });
-
-        console.log("✅ Catches fetched:", catches);
-        return catches;
-    } catch (error) {
-        console.error("🚨 Error fetching catches:", error);
         return [];
     }
 };

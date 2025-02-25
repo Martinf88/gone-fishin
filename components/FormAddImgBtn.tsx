@@ -17,7 +17,7 @@ const FormAddImgBtn = () => {
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            mediaTypes: ["images"],
             allowsEditing: false,
             aspect: [4, 3],
             quality: 0.6,
@@ -59,14 +59,11 @@ const FormAddImgBtn = () => {
                         <Ionicons
                             name={"close-circle"}
                             size={24}
-                            color={COLORS.pewter}
+                            color={COLORS.white}
                         />
                     </TouchableOpacity>
 
-                    <TouchableOpacity
-                        style={styles.uploadButton}
-                        onPress={handleUpload}
-                    >
+                    <TouchableOpacity onPress={handleUpload}>
                         <Text style={styles.uploadButtonText}>
                             Upload Image
                         </Text>
@@ -77,7 +74,7 @@ const FormAddImgBtn = () => {
                     style={styles.imagePickerButton}
                     onPress={pickImage}
                 >
-                    <Ionicons name="camera" size={32} color={COLORS.ebony} />
+                    <Ionicons name="camera" size={32} color={COLORS.primary} />
                     <Text style={styles.imagePickerText}>Lägg till bild</Text>
                 </TouchableOpacity>
             )}
@@ -103,14 +100,9 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         padding: 4,
     },
-    uploadButton: {
-        marginTop: 10,
-        backgroundColor: COLORS.yellow,
-        padding: 10,
-        borderRadius: 5,
-    },
+
     uploadButtonText: {
-        color: COLORS.ebony,
+        color: COLORS.primary,
         fontSize: 16,
         fontWeight: "bold",
     },
@@ -118,12 +110,12 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         borderRadius: 10,
-        backgroundColor: COLORS.mistyBlue,
+        backgroundColor: COLORS.action,
         justifyContent: "center",
         alignItems: "center",
     },
     imagePickerText: {
-        color: COLORS.ebony,
+        color: COLORS.primary,
         marginTop: 8,
         fontSize: 14,
     },

@@ -12,12 +12,16 @@ const UserCard = () => {
             {/* Left Side (Profile Picture + Username) */}
 
             <View style={styles.imageWrapper}>
-                <Ionicons name="person-circle" size={80} color={COLORS.cyan} />
+                <Ionicons
+                    name="person-circle"
+                    size={80}
+                    color={COLORS.secondary}
+                />
                 <TouchableOpacity
                     style={{
                         position: "absolute",
-                        backgroundColor: COLORS.cyan,
-                        borderColor: COLORS.mistyBlue,
+                        backgroundColor: COLORS.secondary,
+                        borderColor: COLORS.action,
                         borderWidth: 2,
                         borderRadius: 999,
                         left: 50,
@@ -28,7 +32,7 @@ const UserCard = () => {
                     <Ionicons
                         name="pencil-outline"
                         size={32}
-                        color={COLORS.mistyBlue}
+                        color={COLORS.action}
                     />
                 </TouchableOpacity>
             </View>
@@ -48,12 +52,12 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
         alignItems: "center",
-        backgroundColor: COLORS.mistyBlue,
+        backgroundColor: COLORS.action,
         paddingHorizontal: 25,
         height: 150,
     },
     imageWrapper: {
-        borderColor: COLORS.cyan,
+        borderColor: COLORS.secondary,
         borderWidth: 10,
         borderRadius: 50,
         justifyContent: "center",
@@ -68,6 +72,6 @@ const styles = StyleSheet.create({
     statText: {
         fontSize: 18,
         fontFamily: "Kurale-Regular",
-        color: COLORS.ebony,
+        color: COLORS.primary,
     },
 });

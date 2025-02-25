@@ -2,21 +2,20 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { COLORS } from "@/constants/Colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
 
 interface FormNavProps {
     title: string;
+    onPress: () => void;
 }
 
-const FormNav = ({ title }: FormNavProps) => {
-    const router = useRouter();
+const FormNav = ({ title, onPress }: FormNavProps) => {
     return (
         <View style={styles.header}>
-            <TouchableOpacity onPress={() => router.back()}>
+            <TouchableOpacity onPress={onPress}>
                 <MaterialCommunityIcons
                     name="arrow-u-left-top"
                     size={28}
-                    color={COLORS.mistyBlue}
+                    color={COLORS.white}
                 />
             </TouchableOpacity>
             <Text style={styles.backButtonText}>{title}</Text>
@@ -30,7 +29,7 @@ const styles = StyleSheet.create({
     header: {
         paddingTop: 30,
         paddingHorizontal: 10,
-        backgroundColor: COLORS.ebony,
+        backgroundColor: COLORS.primary,
         flexDirection: "row",
         alignItems: "center",
         gap: 10,
@@ -38,7 +37,7 @@ const styles = StyleSheet.create({
 
     backButtonText: {
         fontSize: 18,
-        color: COLORS.pewter,
+        color: COLORS.white,
         fontFamily: "Kurale-Regular",
         fontWeight: "bold",
         marginBottom: 3,

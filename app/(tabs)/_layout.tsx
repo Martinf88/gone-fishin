@@ -47,14 +47,14 @@ const TabsLayout = () => {
         <Tabs
             screenOptions={{
                 tabBarStyle: {
-                    backgroundColor: COLORS.cyan,
+                    backgroundColor: COLORS.secondary,
                     height: 60,
                     paddingTop: 0,
                 },
                 tabBarShowLabel: false,
                 tabBarIconStyle: { height: 48, width: 64 },
-                tabBarActiveTintColor: COLORS.pewter,
-                tabBarInactiveTintColor: COLORS.mistyBlue,
+                tabBarActiveTintColor: COLORS.white,
+                tabBarInactiveTintColor: COLORS.white,
                 headerShown: false,
             }}
         >
@@ -83,7 +83,7 @@ const TabsLayout = () => {
                         <TabIcon
                             icon="add-circle-outline"
                             focused={false}
-                            color={COLORS.yellow}
+                            color={COLORS.action}
                             size={48}
                         />
                     ),
