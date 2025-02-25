@@ -1,7 +1,9 @@
 export const COLORS = {
-    ebony: "#0D3530",
-    cyan: "#216260",
-    pewter: "#E9EAEC",
-    yellow: "#FAD02C",
-    mistyBlue: "#9EBFC0",
+    primary: "#001D3D", // Dark Cosmic Blue
+    secondary: "#003166", // Desaturated Deep Blue
+    action: "#FFDD33", // Neon Yellow-Gold
+    link: "#FFDD33", // Vibrant Red-Orange
+    placeholder: "#6A8095", // Cool Grayish Blue
+    white: "#F8F9FA", // Soft White
+    black: "#0C0C0C", // Deepest Black
 };

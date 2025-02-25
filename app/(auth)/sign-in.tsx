@@ -14,7 +14,7 @@ import { StatusBar } from "expo-status-bar";
 import FormField from "@/components/FormField";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { handleSignIn } from "@/services/handlers";
+import { handleSignIn } from "@/services/auth";
 import { Link } from "expo-router";
 
 const SignIn = () => {
@@ -37,7 +37,7 @@ const SignIn = () => {
                         <View style={styles.loadingContainer}>
                             <ActivityIndicator
                                 size="large"
-                                color={COLORS.yellow}
+                                color={COLORS.link}
                             />
                         </View>
                     )}
@@ -56,7 +56,7 @@ const SignIn = () => {
                                 <MaterialIcons
                                     name="alternate-email"
                                     size={32}
-                                    color={COLORS.cyan}
+                                    color={COLORS.secondary}
                                 />
                             }
                         />
@@ -73,7 +73,7 @@ const SignIn = () => {
                                 <Ionicons
                                     name="lock-closed-outline"
                                     size={32}
-                                    color={COLORS.cyan}
+                                    color={COLORS.secondary}
                                 />
                             }
                         />
@@ -97,7 +97,7 @@ const SignIn = () => {
                         </Text>
                         <Link href="/sign-up">
                             <Text style={styles.registerLink}>
-                                Registrera dig
+                                Registrera dig nu!
                             </Text>
                         </Link>
                     </View>
@@ -114,7 +114,7 @@ const { height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
     safeArea: {
-        backgroundColor: COLORS.ebony,
+        backgroundColor: COLORS.primary,
         flex: 1,
     },
     scrollView: {
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 54,
-        color: COLORS.pewter,
+        color: COLORS.white,
         fontFamily: "Kurale-Regular",
         textAlign: "center",
     },
@@ -147,11 +147,11 @@ const styles = StyleSheet.create({
         gap: 5,
     },
     registerText: {
-        color: COLORS.mistyBlue,
+        color: COLORS.white,
         fontSize: 16,
     },
     registerLink: {
-        color: COLORS.yellow,
+        color: COLORS.link,
         fontSize: 16,
         fontWeight: "bold",
     },

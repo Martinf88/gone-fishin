@@ -5,10 +5,12 @@ export const uploadToCloudinary = async (imageUri: string) => {
 
     const formData = new FormData();
 
+    const uniqueFileName = `catch_${Date.now()}.jpg`;
+
     formData.append("file", {
         uri: imageUri,
         type: "image/jpeg",
-        name: "upload.jpg",
+        name: uniqueFileName,
     } as any);
 
     formData.append("upload_preset", "fiskeapp_unsigned");

@@ -9,26 +9,33 @@ import {
 import React, { useState } from "react";
 import { COLORS } from "@/constants/Colors";
 import CustomButton from "@/components/CustomButton";
-import { handleRegisterCatch } from "@/services/handlers";
+import CatchesService from "@/services/catches";
 import { StatusBar } from "expo-status-bar";
 import DateTimePicker from "@/components/DateTimePicker";
 import FormNav from "@/components/FormNav";
 import FormAddImgBtn from "@/components/FormAddImgBtn";
-import FormLocationPickerBtn from "@/components/FormLocationPickerBtn";
+import FormSelectLocation from "@/components/FormSelectLocation";
 import { CatchForm, useAuthStore } from "@/store/useStore";
 import { Picker } from "@react-native-picker/picker";
+import { useRouter } from "expo-router";
 
 const Create = () => {
     const { catchForm, updateCatchField } = useAuthStore((state) => state);
+    const [localForm, setLocalForm] = useState(catchForm);
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleInputChange = (field: keyof CatchForm) => (text: string) => {
-        updateCatchField(field, text ? parseFloat(text) : null);
+    const router = useRouter();
+
+    const handleInputChange = (field: keyof CatchForm, value: any) => {
+        setLocalForm((prev) => ({ ...prev, [field]: value }));
+    };
+    const handleBlur = (field: keyof CatchForm) => {
+        updateCatchField(field, localForm[field]);
     };
 
     return (
         <SafeAreaView style={styles.safeArea}>
-            <FormNav title={"FångstData"} />
+            <FormNav title={"FångstData"} onPress={() => router.back()} />
             <ScrollView contentContainerStyle={styles.scrollView}>
                 <View style={styles.container}>
                     {/* 📌 ImagePicker UI */}
@@ -46,9 +53,12 @@ const Create = () => {
                             <TextInput
                                 style={styles.input}
                                 placeholder="ex. Gädda"
-                                placeholderTextColor={COLORS.mistyBlue}
-                                value={catchForm.speciesName}
-                                onChangeText={handleInputChange("speciesName")}
+                                placeholderTextColor={COLORS.placeholder}
+                                value={localForm.speciesName}
+                                onChangeText={(text) =>
+                                    handleInputChange("speciesName", text)
+                                }
+                                onBlur={() => handleBlur("speciesName")}
                             />
                         </View>
                         <View style={styles.inputContainerHalf}>
@@ -56,9 +66,12 @@ const Create = () => {
                             <TextInput
                                 style={styles.input}
                                 placeholder="ex. Jerkbait"
-                                placeholderTextColor={COLORS.mistyBlue}
-                                value={catchForm.bait}
-                                onChangeText={handleInputChange("bait")}
+                                placeholderTextColor={COLORS.placeholder}
+                                value={localForm.bait}
+                                onChangeText={(text) =>
+                                    handleInputChange("bait", text)
+                                }
+                                onBlur={() => handleBlur("bait")}
                             />
                         </View>
                     </View>
@@ -74,14 +87,17 @@ const Create = () => {
                             <TextInput
                                 style={styles.input}
                                 placeholder="Längd i cm"
-                                placeholderTextColor={COLORS.mistyBlue}
+                                placeholderTextColor={COLORS.placeholder}
                                 keyboardType="numeric"
                                 value={
-                                    catchForm.length !== null
-                                        ? catchForm.length.toString()
+                                    localForm.length !== null
+                                        ? localForm.length.toString()
                                         : ""
                                 }
-                                onChangeText={handleInputChange("length")}
+                                onChangeText={(number) =>
+                                    handleInputChange("length", number)
+                                }
+                                onBlur={() => handleBlur("length")}
                             />
                         </View>
                         <View style={styles.inputContainerHalf}>
@@ -89,14 +105,17 @@ const Create = () => {
                             <TextInput
                                 style={styles.input}
                                 placeholder="Vikt i kg"
-                                placeholderTextColor={COLORS.mistyBlue}
+                                placeholderTextColor={COLORS.placeholder}
                                 keyboardType="numeric"
                                 value={
-                                    catchForm.weight !== null
-                                        ? catchForm.weight.toString()
+                                    localForm.weight !== null
+                                        ? localForm.weight.toString()
                                         : ""
                                 }
-                                onChangeText={handleInputChange("weight")}
+                                onChangeText={(number) =>
+                                    handleInputChange("weight", number)
+                                }
+                                onBlur={() => handleBlur("weight")}
                             />
                         </View>
                     </View>
@@ -130,21 +149,21 @@ const Create = () => {
                     </View>
 
                     <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Beskrivning</Text>
+                        <Text style={styles.label}>Berättelse</Text>
                         <TextInput
                             style={[styles.input, styles.descriptionInput]}
-                            placeholder="Beskrivning av fångsten"
-                            placeholderTextColor={COLORS.mistyBlue}
-                            value={catchForm.description}
-                            onChangeText={handleInputChange("description")}
+                            placeholder="Berätta om din fångst..."
+                            placeholderTextColor={COLORS.placeholder}
+                            value={localForm.description}
+                            onChangeText={(text) =>
+                                handleInputChange("description", text)
+                            }
+                            onBlur={() => handleBlur("description")}
                             multiline
                         />
                     </View>
                     {/* 📌 LocationPicker UI */}
-                    {/* <FormLocationPickerBtn
-                    location={form.location}
-                    onPress={handlePickLocation}
-                    /> */}
+                    <FormSelectLocation />
 
                     {/* 📌 DateTimePicker UI */}
                     <DateTimePicker />
@@ -152,7 +171,7 @@ const Create = () => {
                     <CustomButton
                         title="Bekräfta"
                         handlePress={() =>
-                            handleRegisterCatch({ ...catchForm, setIsLoading })
+                            CatchesService.handleRegisterCatch({ ...catchForm })
                         }
                         isLoading={isLoading}
                         containerStyles={{ marginTop: 20 }}
@@ -168,7 +187,7 @@ export default Create;
 
 const styles = StyleSheet.create({
     safeArea: {
-        backgroundColor: COLORS.ebony,
+        backgroundColor: COLORS.primary,
         flex: 1,
     },
     scrollView: {
@@ -194,24 +213,24 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 18,
-        color: COLORS.pewter,
+        color: COLORS.white,
         marginBottom: 5,
         fontFamily: "Kurale-Regular",
     },
     input: {
-        backgroundColor: COLORS.cyan,
-        color: COLORS.pewter,
+        backgroundColor: COLORS.secondary,
+        color: COLORS.white,
         fontSize: 16,
         padding: 12,
         borderRadius: 5,
         height: 45,
     },
     pickerWrapper: {
-        backgroundColor: COLORS.cyan,
+        backgroundColor: COLORS.secondary,
         borderRadius: 5,
     },
     picker: {
-        color: COLORS.pewter,
+        color: COLORS.white,
     },
     descriptionInput: {
         height: 100,

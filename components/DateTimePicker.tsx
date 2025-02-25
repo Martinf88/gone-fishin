@@ -3,12 +3,14 @@ import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { CatchForm, useAuthStore } from "@/store/useStore";
 
 const DateTimePicker = () => {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [selectedTime, setSelectedTime] = useState<Date | null>(null);
+    const { updateCatchField } = useAuthStore((state) => state);
 
     // Show/hide date picker
     const showDatePicker = () => setDatePickerVisibility(true);
@@ -21,12 +23,14 @@ const DateTimePicker = () => {
     // Handle date selection
     const handleDateConfirm = (date: Date) => {
         setSelectedDate(date);
+        updateCatchField("date", date);
         hideDatePicker();
     };
 
     // Handle time selection
     const handleTimeConfirm = (time: Date) => {
         setSelectedTime(time);
+        updateCatchField("time", time);
         hideTimePicker();
     };
 
@@ -44,7 +48,7 @@ const DateTimePicker = () => {
                     <Ionicons
                         name="calendar-outline"
                         size={24}
-                        color={COLORS.pewter}
+                        color={COLORS.white}
                     />
                 </TouchableOpacity>
                 <DateTimePickerModal
@@ -63,7 +67,7 @@ const DateTimePicker = () => {
                     <Ionicons
                         name="time-outline"
                         size={24}
-                        color={COLORS.pewter}
+                        color={COLORS.white}
                     />
                 </TouchableOpacity>
                 <DateTimePickerModal
@@ -102,7 +106,7 @@ const styles = StyleSheet.create({
         // alignItems: "center",
     },
     label: {
-        color: COLORS.pewter,
+        color: COLORS.white,
         fontSize: 18,
         fontFamily: "Kurale-Regular",
     },
@@ -112,7 +116,7 @@ const styles = StyleSheet.create({
     },
     button: {
         flex: 1,
-        backgroundColor: COLORS.cyan,
+        backgroundColor: COLORS.secondary,
         padding: 12,
         borderRadius: 5,
         marginVertical: 5,
@@ -120,7 +124,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
     },
     buttonText: {
-        color: COLORS.pewter,
+        color: COLORS.white,
         fontSize: 16,
         fontFamily: "Kurale-Regular",
     },
@@ -129,7 +133,7 @@ const styles = StyleSheet.create({
         gap: 10,
     },
     selectedText: {
-        color: COLORS.pewter,
+        color: COLORS.white,
         fontSize: 16,
         fontFamily: "Kurale-Regular",
         marginTop: 5,

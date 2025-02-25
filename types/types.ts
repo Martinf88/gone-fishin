@@ -15,10 +15,14 @@ export interface Catch {
     bait: string;
     length: number;
     weight: number;
-    location: string;
+    location: {
+        latitude: string;
+        longitude: string;
+    };
     method: string;
     speciesName: string;
     date: Timestamp;
+    time: Timestamp;
     createdAt: Timestamp;
-    story: string;
+    description: string;
 }
