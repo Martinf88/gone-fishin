@@ -1,13 +1,10 @@
 import { Catch } from "@/types/types";
 import { auth, db } from "@/firebaseConfig";
 import {
-    doc,
-    getDoc,
     collection,
     getDocs,
     orderBy,
     onSnapshot,
-    setDoc,
     query,
     limit,
     startAfter,

@@ -4,13 +4,14 @@ import { COLORS } from "@/constants/Colors";
 import { Catch } from "@/types/types";
 import { Ionicons } from "@expo/vector-icons";
 import { getTimeSinceUpload } from "@/helper-functions/getTimeSinceUpload";
+import { useGetUserName } from "@/helper-functions/getUsername";
 //TODO: Fetch species name from speciesId
 interface CatchCardProps {
     catchData: Catch;
-    username: string;
 }
 
-const CatchCard: React.FC<CatchCardProps> = ({ catchData, username }) => {
+const CatchCard: React.FC<CatchCardProps> = ({ catchData }) => {
+    const username = useGetUserName(catchData.userId);
     return (
         <View style={styles.card}>
             <View style={styles.headerWrapper}>
