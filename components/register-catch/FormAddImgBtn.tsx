@@ -11,6 +11,8 @@ import { COLORS } from "@/constants/Colors";
 import * as ImagePicker from "expo-image-picker";
 import { useAuthStore } from "@/store/useStore";
 import { uploadToCloudinary } from "@/services/uploadToCloudinary";
+import { useEffect } from "react";
+import CustomButton from "../common/CustomButton";
 
 const FormAddImgBtn = () => {
     const { localImageUri, setLocalImageUri } = useAuthStore((state) => state);
@@ -27,6 +29,11 @@ const FormAddImgBtn = () => {
             setLocalImageUri(result.assets[0].uri);
         }
     };
+
+    //TODO: Remove after testing is done
+    useEffect(() => {
+        console.log("Updated localImageUri:", localImageUri);
+    }, [localImageUri]);
 
     const handleUpload = async () => {
         if (!localImageUri) {
@@ -62,12 +69,11 @@ const FormAddImgBtn = () => {
                             color={COLORS.white}
                         />
                     </TouchableOpacity>
-
-                    <TouchableOpacity onPress={handleUpload}>
-                        <Text style={styles.uploadButtonText}>
-                            Upload Image
-                        </Text>
-                    </TouchableOpacity>
+                    {/* TODO: Remove Upload button after testing is done*/}
+                    <CustomButton
+                        title={"Upload Image"}
+                        handlePress={handleUpload}
+                    />
                 </View>
             ) : (
                 <TouchableOpacity

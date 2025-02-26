@@ -3,12 +3,14 @@ import React, { useEffect, useState } from "react";
 import { COLORS } from "@/constants/Colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
-import CustomHeader from "@/components/CustomHeader";
-import CatchList from "@/components/CatchList";
+import CustomHeader from "@/components/common/CustomHeader";
+import CatchList from "@/components/common/CatchList";
 import { useAuthStore } from "@/store/useStore";
 import { DocumentSnapshot } from "firebase/firestore";
 import { Catch } from "@/types/types";
 import CatchesService from "@/services/catches";
+
+//TODO: add loading when waiting for catches
 
 const Feed = () => {
     const { fetchAllUsers } = useAuthStore((state) => state);

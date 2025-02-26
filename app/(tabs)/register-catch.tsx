@@ -6,31 +6,51 @@ import {
     TextInput,
     Text,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { COLORS } from "@/constants/Colors";
-import CustomButton from "@/components/CustomButton";
+import CustomButton from "@/components/common/CustomButton";
 import CatchesService from "@/services/catches";
 import { StatusBar } from "expo-status-bar";
-import DateTimePicker from "@/components/DateTimePicker";
-import FormNav from "@/components/FormNav";
-import FormAddImgBtn from "@/components/FormAddImgBtn";
-import FormSelectLocation from "@/components/FormSelectLocation";
+import DateTimePicker from "@/components/register-catch/DateTimePicker";
+import FormNav from "@/components/common/FormNav";
+import FormAddImgBtn from "@/components/register-catch/FormAddImgBtn";
+import FormSelectLocation from "@/components/register-catch/FormSelectLocation";
 import { CatchForm, useAuthStore } from "@/store/useStore";
 import { Picker } from "@react-native-picker/picker";
 import { useRouter } from "expo-router";
+import CustomPicker from "@/components/common/CustomPicker";
+
+//TODO: onBlur seems to be a bit buggy, its easy to not get the value from a field. Find a solution.
+//TODO: clear form after submit
+//TODO: validate form
 
 const Create = () => {
-    const { catchForm, updateCatchField } = useAuthStore((state) => state);
-    const [localForm, setLocalForm] = useState(catchForm);
+    const { catchForm, updateCatchField, resetCatchForm } = useAuthStore(
+        (state) => state
+    );
     const [isLoading, setIsLoading] = useState(false);
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    const [selectedTime, setSelectedTime] = useState<Date | null>(null);
 
     const router = useRouter();
 
     const handleInputChange = (field: keyof CatchForm, value: any) => {
-        setLocalForm((prev) => ({ ...prev, [field]: value }));
+        updateCatchField(field, value);
     };
-    const handleBlur = (field: keyof CatchForm) => {
-        updateCatchField(field, localForm[field]);
+    const handleSubmit = async () => {
+        try {
+            setIsLoading(true);
+
+            await CatchesService.handleRegisterCatch(catchForm);
+
+            resetCatchForm();
+            setSelectedDate(null);
+            setSelectedTime(null);
+        } catch (error) {
+            console.error("Error submitting catch:", error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -54,11 +74,10 @@ const Create = () => {
                                 style={styles.input}
                                 placeholder="ex. Gädda"
                                 placeholderTextColor={COLORS.placeholder}
-                                value={localForm.speciesName}
+                                value={catchForm.speciesName}
                                 onChangeText={(text) =>
                                     handleInputChange("speciesName", text)
                                 }
-                                onBlur={() => handleBlur("speciesName")}
                             />
                         </View>
                         <View style={styles.inputContainerHalf}>
@@ -67,11 +86,10 @@ const Create = () => {
                                 style={styles.input}
                                 placeholder="ex. Jerkbait"
                                 placeholderTextColor={COLORS.placeholder}
-                                value={localForm.bait}
+                                value={catchForm.bait}
                                 onChangeText={(text) =>
                                     handleInputChange("bait", text)
                                 }
-                                onBlur={() => handleBlur("bait")}
                             />
                         </View>
                     </View>
@@ -90,14 +108,13 @@ const Create = () => {
                                 placeholderTextColor={COLORS.placeholder}
                                 keyboardType="numeric"
                                 value={
-                                    localForm.length !== null
-                                        ? localForm.length.toString()
+                                    catchForm.length !== null
+                                        ? catchForm.length.toString()
                                         : ""
                                 }
                                 onChangeText={(number) =>
                                     handleInputChange("length", number)
                                 }
-                                onBlur={() => handleBlur("length")}
                             />
                         </View>
                         <View style={styles.inputContainerHalf}>
@@ -108,45 +125,34 @@ const Create = () => {
                                 placeholderTextColor={COLORS.placeholder}
                                 keyboardType="numeric"
                                 value={
-                                    localForm.weight !== null
-                                        ? localForm.weight.toString()
+                                    catchForm.weight !== null
+                                        ? catchForm.weight.toString()
                                         : ""
                                 }
                                 onChangeText={(number) =>
                                     handleInputChange("weight", number)
                                 }
-                                onBlur={() => handleBlur("weight")}
                             />
                         </View>
                     </View>
                     <View style={styles.inputContainer}>
                         <Text style={styles.label}>Metod</Text>
-                        <View style={styles.pickerWrapper}>
-                            <Picker
-                                style={styles.picker}
-                                selectedValue={catchForm.method}
-                                onValueChange={(itemValue) =>
-                                    updateCatchField("method", itemValue)
-                                }
-                            >
-                                <Picker.Item label="Välj metod" value="" />
-                                <Picker.Item label="Spinnfiske" value="spinn" />
-                                <Picker.Item label="Flugfiske" value="fly" />
-                                <Picker.Item label="Trolling" value="troll" />
-                                <Picker.Item label="Havsfiske" value="sea" />
-                                <Picker.Item label="Handrev" value="hand" />
-                                <Picker.Item label="Bottenmete" value="mete" />
-                                <Picker.Item label="Jerkfiske" value="jerk" />
-                                <Picker.Item label="Jiggfiske" value="jigg" />
-                                <Picker.Item label="Flötmete" value="float" />
-                                <Picker.Item label="Isfiske" value="ice" />
-                                <Picker.Item
-                                    label="Vertikalfiske"
-                                    value="vert"
-                                />
-                            </Picker>
-                        </View>
+                        <CustomPicker
+                            selectedValue={catchForm.method}
+                            updateCatchField={updateCatchField}
+                        />
                     </View>
+
+                    {/* 📌 LocationPicker UI */}
+                    <FormSelectLocation />
+
+                    {/* 📌 DateTimePicker UI */}
+                    <DateTimePicker
+                        selectedDate={selectedDate}
+                        selectedTime={selectedTime}
+                        setSelectedDate={setSelectedDate}
+                        setSelectedTime={setSelectedTime}
+                    />
 
                     <View style={styles.inputContainer}>
                         <Text style={styles.label}>Berättelse</Text>
@@ -154,25 +160,15 @@ const Create = () => {
                             style={[styles.input, styles.descriptionInput]}
                             placeholder="Berätta om din fångst..."
                             placeholderTextColor={COLORS.placeholder}
-                            value={localForm.description}
+                            value={catchForm.description}
                             onChangeText={(text) =>
                                 handleInputChange("description", text)
                             }
-                            onBlur={() => handleBlur("description")}
-                            multiline
                         />
                     </View>
-                    {/* 📌 LocationPicker UI */}
-                    <FormSelectLocation />
-
-                    {/* 📌 DateTimePicker UI */}
-                    <DateTimePicker />
-
                     <CustomButton
                         title="Bekräfta"
-                        handlePress={() =>
-                            CatchesService.handleRegisterCatch({ ...catchForm })
-                        }
+                        handlePress={handleSubmit}
                         isLoading={isLoading}
                         containerStyles={{ marginTop: 20 }}
                     />
@@ -205,11 +201,11 @@ const styles = StyleSheet.create({
 
     /* 📌 Styling för TextInputs */
     inputContainer: {
-        marginBottom: 10,
+        marginBottom: 15,
     },
     inputContainerHalf: {
         flex: 1,
-        marginBottom: 10,
+        marginBottom: 15,
     },
     label: {
         fontSize: 18,
@@ -222,16 +218,11 @@ const styles = StyleSheet.create({
         color: COLORS.white,
         fontSize: 16,
         padding: 12,
-        borderRadius: 5,
+        borderBottomWidth: 1,
+        borderBottomColor: COLORS.placeholder,
         height: 45,
     },
-    pickerWrapper: {
-        backgroundColor: COLORS.secondary,
-        borderRadius: 5,
-    },
-    picker: {
-        color: COLORS.white,
-    },
+
     descriptionInput: {
         height: 100,
         textAlignVertical: "top",

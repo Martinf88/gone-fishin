@@ -3,13 +3,23 @@ import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { CatchForm, useAuthStore } from "@/store/useStore";
+import { useAuthStore } from "@/store/useStore";
 
-const DateTimePicker = () => {
+interface DateTimePickerProps {
+    selectedDate: Date | null;
+    selectedTime: Date | null;
+    setSelectedDate: (date: Date) => void;
+    setSelectedTime: (time: Date) => void;
+}
+
+const DateTimePicker = ({
+    selectedDate,
+    selectedTime,
+    setSelectedDate,
+    setSelectedTime,
+}: DateTimePickerProps) => {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-    const [selectedTime, setSelectedTime] = useState<Date | null>(null);
     const { updateCatchField } = useAuthStore((state) => state);
 
     // Show/hide date picker
@@ -22,15 +32,21 @@ const DateTimePicker = () => {
 
     // Handle date selection
     const handleDateConfirm = (date: Date) => {
-        setSelectedDate(date);
-        updateCatchField("date", date);
+        const dateOnly = new Date(date);
+        dateOnly.setHours(0, 0, 0, 0); // ✅ Removes time part
+
+        setSelectedDate(dateOnly);
+        updateCatchField("date", dateOnly); // ✅ Store only the date part
         hideDatePicker();
     };
 
     // Handle time selection
     const handleTimeConfirm = (time: Date) => {
-        setSelectedTime(time);
-        updateCatchField("time", time);
+        const timeOnly = new Date();
+        timeOnly.setHours(time.getHours(), time.getMinutes(), 0, 0); // ✅ Removes date part
+
+        setSelectedTime(timeOnly);
+        updateCatchField("time", timeOnly); // ✅ Store only the time part
         hideTimePicker();
     };
 
@@ -44,7 +60,11 @@ const DateTimePicker = () => {
                     style={[styles.button, { marginRight: 10 }]}
                     onPress={showDatePicker}
                 >
-                    <Text style={styles.buttonText}>Välj Datum</Text>
+                    <Text style={styles.buttonText}>
+                        {selectedDate
+                            ? selectedDate.toLocaleDateString()
+                            : "Välj Datum"}
+                    </Text>
                     <Ionicons
                         name="calendar-outline"
                         size={24}
@@ -63,7 +83,14 @@ const DateTimePicker = () => {
                     style={styles.button}
                     onPress={showTimePicker}
                 >
-                    <Text style={styles.buttonText}>Välj Tid</Text>
+                    <Text style={styles.buttonText}>
+                        {selectedTime
+                            ? selectedTime.toLocaleTimeString([], {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                              })
+                            : "Välj Tid"}
+                    </Text>
                     <Ionicons
                         name="time-outline"
                         size={24}
@@ -76,24 +103,6 @@ const DateTimePicker = () => {
                     onConfirm={handleTimeConfirm}
                     onCancel={hideTimePicker}
                 />
-            </View>
-
-            {/* 📌 Display selected values */}
-            <View style={styles.selectedContainer}>
-                {selectedDate && (
-                    <Text style={styles.selectedText}>
-                        📅 Datum: {selectedDate.toLocaleDateString()}
-                    </Text>
-                )}
-                {selectedTime && (
-                    <Text style={styles.selectedText}>
-                        ⏰ Tid:{" "}
-                        {selectedTime.toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                        })}
-                    </Text>
-                )}
             </View>
         </View>
     );
@@ -122,20 +131,12 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         flexDirection: "row",
         justifyContent: "space-between",
+        borderWidth: 1,
+        borderColor: COLORS.placeholder,
     },
     buttonText: {
         color: COLORS.white,
         fontSize: 16,
         fontFamily: "Kurale-Regular",
-    },
-    selectedContainer: {
-        flexDirection: "row",
-        gap: 10,
-    },
-    selectedText: {
-        color: COLORS.white,
-        fontSize: 16,
-        fontFamily: "Kurale-Regular",
-        marginTop: 5,
     },
 });

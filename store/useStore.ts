@@ -35,6 +35,7 @@ interface StoreState {
     catchForm: CatchForm;
     localImageUri: string | null;
 
+    resetCatchForm: () => void;
     setLocalImageUri: (uri: string | null) => void;
     updateCatchField: (field: keyof CatchForm, value: any) => void;
     setCatchLocation: (latitude: number, longitude: number) => void;
@@ -71,6 +72,27 @@ export const useAuthStore = create<StoreState>()(
                 time: null,
             },
             localImageUri: null,
+
+            resetCatchForm: () =>
+                set({
+                    catchForm: {
+                        speciesName: "",
+                        length: null,
+                        weight: null,
+                        method: "",
+                        bait: "",
+                        description: "",
+                        location: {
+                            latitude: null,
+                            longitude: null,
+                        },
+                        imageUrl: null,
+                        date: null,
+                        time: null,
+                    },
+                    localImageUri: null,
+                }),
+
             setLocalImageUri: (uri: string | null) =>
                 set(() => ({
                     localImageUri: uri,

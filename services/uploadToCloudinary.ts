@@ -1,4 +1,6 @@
 export const uploadToCloudinary = async (imageUri: string) => {
+    console.log("UploadToCloduinary is being called!");
+
     if (!imageUri) throw new Error("No image selected");
 
     console.log("📸 Selected Image URI:", imageUri);
