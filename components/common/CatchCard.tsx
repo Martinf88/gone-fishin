@@ -5,7 +5,7 @@ import { Catch } from "@/types/types";
 import { Ionicons } from "@expo/vector-icons";
 import { getTimeSinceUpload } from "@/helper-functions/getTimeSinceUpload";
 import { useGetUserName } from "@/helper-functions/getUsername";
-//TODO: Fetch species name from speciesId
+//TODO: style the CatchCard
 interface CatchCardProps {
     catchData: Catch;
 }

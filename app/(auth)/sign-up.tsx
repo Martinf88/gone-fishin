@@ -12,6 +12,7 @@ import FormNav from "@/components/common/FormNav";
 import { useRouter } from "expo-router";
 
 //TODO: validate form
+//TODO: add repeatPassword functionality
 
 const SignUp = () => {
     const [form, setForm] = useState({

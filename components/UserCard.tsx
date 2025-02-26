@@ -4,6 +4,9 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { COLORS } from "@/constants/Colors";
 import { useAuthStore } from "@/store/useStore";
 
+//TODO: add profileimage and a nicer default icon
+//TODO: style the userCard
+
 const UserCard = () => {
     const { totalCatches, uniqueSpeciesCount } = useAuthStore();
 

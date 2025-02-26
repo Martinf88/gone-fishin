@@ -18,11 +18,10 @@ import { handleSignIn } from "@/services/auth";
 import { Link } from "expo-router";
 
 //TODO: validate form
-
 const SignIn = () => {
     const [form, setForm] = useState({
-        email: "abborren@abborren.com",
-        password: "abborren",
+        email: "makrill88@gmail.com",
+        password: "Makrill",
     });
     const [isLoading, setIsLoading] = useState(false);
 
