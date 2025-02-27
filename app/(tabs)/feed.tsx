@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, RefreshControl } from "react-native";
 import React, { useEffect, useState } from "react";
 import { COLORS } from "@/constants/Colors";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -9,6 +9,7 @@ import { useAuthStore } from "@/store/useStore";
 import { DocumentSnapshot } from "firebase/firestore";
 import { Catch } from "@/types/types";
 import CatchesService from "@/services/catches";
+import { handleRefreshHelper } from "@/helper-functions/handleRefresh";
 
 //TODO: add loading when waiting for catches
 
@@ -18,6 +19,7 @@ const Feed = () => {
     const [lastDoc, setLastDoc] = useState<DocumentSnapshot | null>(null);
     const [hasMore, setHasMore] = useState<boolean>(true);
     const [loading, setLoading] = useState<boolean>(false);
+    const [refreshing, setRefreshing] = useState(false);
 
     const fetchInitialCatches = async () => {
         setLoading(true);
@@ -37,10 +39,19 @@ const Feed = () => {
             lastDoc: newLastDoc,
             hasMore: moreData,
         } = await CatchesService.fetchCatchesLazy(lastDoc);
+        console.log("new catches: ", newCatches);
+
         setCatches((prev) => [...prev, ...newCatches]);
         setLastDoc(newLastDoc);
         setHasMore(moreData);
         setLoading(false);
+    };
+
+    const handleRefresh = async () => {
+        handleRefreshHelper({
+            setRefreshing,
+            fetchFunction: fetchInitialCatches,
+        });
     };
 
     useEffect(() => {
@@ -61,6 +72,14 @@ const Feed = () => {
                     catches={catches}
                     loading={loading}
                     fetchMoreCatches={fetchMoreCatches}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={handleRefresh}
+                            colors={[COLORS.primary]}
+                            progressBackgroundColor={COLORS.white}
+                        />
+                    }
                 />
             </View>
             <StatusBar style="light" backgroundColor={COLORS.secondary} />
@@ -73,10 +92,7 @@ export default Feed;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    text: {
-        color: COLORS.white,
+        // justifyContent: "center",
+        // alignItems: "center",
     },
 });

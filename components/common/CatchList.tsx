@@ -9,6 +9,7 @@ interface CatchListProps {
     loading: boolean;
     fetchMoreCatches: () => void;
     headerComponent?: React.ReactElement;
+    refreshControl: JSX.Element;
 }
 
 const CatchList = ({
@@ -16,6 +17,7 @@ const CatchList = ({
     loading,
     fetchMoreCatches,
     headerComponent,
+    refreshControl,
 }: CatchListProps) => {
     return (
         <FlatList
@@ -24,6 +26,7 @@ const CatchList = ({
             renderItem={({ item, index }) => (
                 <CatchCard catchData={item} index={index} />
             )}
+            refreshControl={refreshControl}
             onEndReached={fetchMoreCatches}
             onEndReachedThreshold={0.5}
             ListFooterComponent={
