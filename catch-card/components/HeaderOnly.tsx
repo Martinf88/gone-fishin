@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { getTimeSinceUpload } from "@/helper-functions/getTimeSinceUpload";
-import { useGetUserName } from "@/helper-functions/getUsername";
+import { useGetUserName } from "@/hooks/getUsername";
 import { COLORS } from "@/constants/Colors";
 import { Catch } from "@/types/types";
 

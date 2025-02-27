@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { RefreshControl, StyleSheet, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { COLORS } from "@/constants/Colors";
@@ -10,6 +10,7 @@ import { Catch } from "@/types/types";
 import { DocumentSnapshot } from "firebase/firestore";
 import CatchesService from "@/services/catches";
 import UserCard from "@/components/UserCard";
+import { handleRefreshHelper } from "@/helper-functions/handleRefresh";
 
 //TODO: add loading when waiting for catches
 
@@ -19,6 +20,7 @@ const Profile = () => {
     const [lastDoc, setLastDoc] = useState<DocumentSnapshot | null>(null);
     const [hasMore, setHasMore] = useState<boolean>(true);
     const [loading, setLoading] = useState<boolean>(false);
+    const [refreshing, setRefreshing] = useState(false);
 
     const fetchInitialCatches = async () => {
         setLoading(true);
@@ -54,6 +56,14 @@ const Profile = () => {
         setLoading(false);
     };
 
+    //Helper function
+    const handleRefresh = async () => {
+        handleRefreshHelper({
+            setRefreshing,
+            fetchFunction: fetchInitialCatches,
+        });
+    };
+
     useEffect(() => {
         if (firestoreUser?.uid) {
             console.log(
@@ -78,6 +88,14 @@ const Profile = () => {
                         catches={userCatches}
                         loading={loading}
                         headerComponent={<UserCard />}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={handleRefresh}
+                                colors={[COLORS.primary]}
+                                progressBackgroundColor={COLORS.white}
+                            />
+                        }
                     />
                 </View>
             </SafeAreaView>

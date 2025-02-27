@@ -24,6 +24,8 @@ const CatchesService = {
         lastDoc: DocumentSnapshot | null;
         hasMore: boolean;
     }> {
+        console.log("FetchCatchesLzy");
+
         try {
             let q = query(
                 catchesRef,
@@ -103,28 +105,6 @@ const CatchesService = {
                 hasMore: false,
             };
         }
-    },
-
-    subscribeToUpdates(callback: (newCatches: Catch[]) => void): () => void {
-        const q = query(
-            catchesRef,
-            orderBy("createdAt", "desc"),
-            limit(PAGE_SIZE)
-        );
-
-        return onSnapshot(q, (snapshot) => {
-            const newCatches: Catch[] = snapshot
-                .docChanges()
-                .filter((change) => change.type === "added")
-                .map((change) => ({
-                    catchId: change.doc.id,
-                    ...(change.doc.data() as Omit<Catch, "catchId">),
-                }));
-
-            if (newCatches.length > 0) {
-                callback(newCatches);
-            }
-        });
     },
 
     async handleRegisterCatch({ ...catchData }) {
