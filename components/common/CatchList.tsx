@@ -1,21 +1,29 @@
 import { ActivityIndicator, FlatList, StyleSheet } from "react-native";
 import React from "react";
 import { Catch } from "@/types/types";
-import CatchCard from "./CatchCard";
+import CatchCard from "../../catch-card/CatchCard";
 import { COLORS } from "@/constants/Colors";
 
 interface CatchListProps {
     catches: Catch[];
     loading: boolean;
     fetchMoreCatches: () => void;
+    headerComponent?: React.ReactElement;
 }
 
-const CatchList = ({ catches, loading, fetchMoreCatches }: CatchListProps) => {
+const CatchList = ({
+    catches,
+    loading,
+    fetchMoreCatches,
+    headerComponent,
+}: CatchListProps) => {
     return (
         <FlatList
             data={catches}
-            keyExtractor={(item) => item.catchId}
-            renderItem={({ item }) => <CatchCard catchData={item} />}
+            keyExtractor={(item) => String(item.catchId)}
+            renderItem={({ item, index }) => (
+                <CatchCard catchData={item} index={index} />
+            )}
             onEndReached={fetchMoreCatches}
             onEndReachedThreshold={0.5}
             ListFooterComponent={
@@ -23,15 +31,11 @@ const CatchList = ({ catches, loading, fetchMoreCatches }: CatchListProps) => {
                     <ActivityIndicator size="large" color={COLORS.secondary} />
                 ) : null
             }
-            contentContainerStyle={styles.listContainer}
+            ListHeaderComponent={headerComponent}
         />
     );
 };
 
 export default CatchList;
 
-const styles = StyleSheet.create({
-    listContainer: {
-        paddingBottom: 20,
-    },
-});
+const styles = StyleSheet.create({});

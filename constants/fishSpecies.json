@@ -1,0 +1,110 @@
+[
+    {
+        "name": "Gädda",
+        "type": "sötvatten"
+    },
+    {
+        "name": "Abborre",
+        "type": "sötvatten"
+    },
+    {
+        "name": "Gös",
+        "type": "sötvatten"
+    },
+    {
+        "name": "Braxen",
+        "type": "sötvatten"
+    },
+    {
+        "name": "Mört",
+        "type": "sötvatten"
+    },
+    {
+        "name": "Sutare",
+        "type": "sötvatten"
+    },
+    {
+        "name": "Lake",
+        "type": "sötvatten"
+    },
+    {
+        "name": "Regnbåge",
+        "type": "sötvatten"
+    },
+    {
+        "name": "Öring",
+        "type": "sötvatten"
+    },
+    {
+        "name": "Harr",
+        "type": "sötvatten"
+    },
+    {
+        "name": "Lax",
+        "type": "sötvatten"
+    },
+    {
+        "name": "Röding",
+        "type": "sötvatten"
+    },
+    {
+        "name": "Bäckröding",
+        "type": "sötvatten"
+    },
+    {
+        "name": "Torsk",
+        "type": "saltvatten"
+    },
+    {
+        "name": "Gråsej",
+        "type": "saltvatten"
+    },
+    {
+        "name": "Kolja",
+        "type": "saltvatten"
+    },
+    {
+        "name": "Makrill",
+        "type": "saltvatten"
+    },
+    {
+        "name": "Havskatt",
+        "type": "saltvatten"
+    },
+    {
+        "name": "Havsöring",
+        "type": "saltvatten"
+    },
+    {
+        "name": "Hälleflundra",
+        "type": "saltvatten"
+    },
+    {
+        "name": "Rödspätta",
+        "type": "saltvatten"
+    },
+    {
+        "name": "Sill",
+        "type": "saltvatten"
+    },
+    {
+        "name": "Pigghaj",
+        "type": "saltvatten"
+    },
+    {
+        "name": "Blågylta",
+        "type": "saltvatten"
+    },
+    {
+        "name": "Berggylta",
+        "type": "saltvatten"
+    },
+    {
+        "name": "Fjärsing",
+        "type": "saltvatten"
+    },
+    {
+        "name": "Horngädda/Näbbgädda",
+        "type": "saltvatten"
+    }
+]

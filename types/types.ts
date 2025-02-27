@@ -25,4 +25,5 @@ export interface Catch {
     time: Timestamp;
     createdAt: Timestamp;
     description: string;
+    likes: string[];
 }

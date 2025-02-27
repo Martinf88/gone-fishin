@@ -69,6 +69,7 @@ const Create = () => {
                                 { marginRight: 10 },
                             ]}
                         >
+                            {/* TODO: Gör om till autocomplete search på en lista med arter */}
                             <Text style={styles.label}>Art</Text>
                             <TextInput
                                 style={styles.input}

@@ -1,49 +1,36 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { COLORS } from "@/constants/Colors";
 import { useAuthStore } from "@/store/useStore";
 
-//TODO: add profileimage and a nicer default icon
-//TODO: style the userCard
-
 const UserCard = () => {
+    // TODO:set totalCatches and uniqueSpeciesCount
+    //TODO: make usercard scroll with the flatlist if possible
     const { totalCatches, uniqueSpeciesCount } = useAuthStore();
 
     return (
         <View style={styles.container}>
-            {/* Left Side (Profile Picture + Username) */}
-
-            <View style={styles.imageWrapper}>
+            {/* Left Side (Profile Picture) */}
+            <TouchableOpacity style={styles.imageWrapper}>
                 <Ionicons
-                    name="person-circle"
+                    name="camera-outline"
                     size={80}
-                    color={COLORS.secondary}
+                    color={COLORS.white}
                 />
-                <TouchableOpacity
-                    style={{
-                        position: "absolute",
-                        backgroundColor: COLORS.secondary,
-                        borderColor: COLORS.action,
-                        borderWidth: 2,
-                        borderRadius: 999,
-                        left: 50,
-                        top: 45,
-                        padding: 5,
-                    }}
-                >
-                    <Ionicons
-                        name="pencil-outline"
-                        size={32}
-                        color={COLORS.action}
-                    />
-                </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
 
             {/* Right Side (Fångster & Unika arter) */}
-            <View style={styles.textWrapper}>
-                <Text style={styles.statText}>Fångster: {totalCatches}</Text>
-                <Text style={styles.statText}>Arter: {uniqueSpeciesCount}</Text>
+            <View style={styles.statsWrapper}>
+                <View style={styles.statItem}>
+                    <Text style={styles.numberDisplay}>{totalCatches}</Text>
+                    <Text style={styles.statText}>Totala fångster</Text>
+                </View>
+                <View style={styles.statItem}>
+                    <Text style={styles.numberDisplay}>
+                        {uniqueSpeciesCount}
+                    </Text>
+                    <Text style={styles.statText}>Unika arter</Text>
+                </View>
             </View>
         </View>
     );
@@ -54,27 +41,37 @@ export default UserCard;
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
+        // alignSelf: "center",
         alignItems: "center",
-        backgroundColor: COLORS.action,
-        paddingHorizontal: 25,
-        height: 150,
+        backgroundColor: COLORS.primary,
+        padding: 20,
+        flexShrink: 1,
     },
     imageWrapper: {
-        borderColor: COLORS.secondary,
-        borderWidth: 10,
+        borderColor: COLORS.white,
+        backgroundColor: COLORS.secondary,
+        borderWidth: 1,
         borderRadius: 50,
         justifyContent: "center",
         alignItems: "center",
+        width: 100,
+        height: 100,
     },
-    textWrapper: {
-        flex: 1,
-        justifyContent: "center",
-        paddingLeft: 20,
-        marginLeft: 40,
+    statsWrapper: {
+        flexDirection: "row",
+    },
+    statItem: {
+        alignItems: "center",
+        marginHorizontal: 10,
+    },
+    numberDisplay: {
+        fontSize: 30,
+        color: COLORS.white,
+        fontFamily: "Kurale-Regular",
     },
     statText: {
-        fontSize: 18,
+        fontSize: 16,
         fontFamily: "Kurale-Regular",
-        color: COLORS.primary,
+        color: COLORS.white,
     },
 });
