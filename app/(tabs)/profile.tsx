@@ -4,12 +4,12 @@ import React, { useEffect, useState } from "react";
 import { COLORS } from "@/constants/Colors";
 import CustomHeader from "@/components/common/CustomHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
-import UserCard from "@/components/UserCard";
 import { useAuthStore } from "@/store/useStore";
 import CatchList from "@/components/common/CatchList";
 import { Catch } from "@/types/types";
 import { DocumentSnapshot } from "firebase/firestore";
 import CatchesService from "@/services/catches";
+import UserCard from "@/components/UserCard";
 
 //TODO: add loading when waiting for catches
 
@@ -73,11 +73,11 @@ const Profile = () => {
                 />
 
                 <View style={styles.container}>
-                    <UserCard />
                     <CatchList
                         fetchMoreCatches={fetchMoreCatches}
                         catches={userCatches}
                         loading={loading}
+                        headerComponent={<UserCard />}
                     />
                 </View>
             </SafeAreaView>
