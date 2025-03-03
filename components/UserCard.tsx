@@ -1,12 +1,13 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { COLORS } from "@/constants/Colors";
-import { useAuthStore } from "@/store/useStore";
 
-const UserCard = () => {
+interface UserCardProps {
+    totalCatches: number | null;
+}
+
+const UserCard = ({ totalCatches }: UserCardProps) => {
     // TODO:set totalCatches and uniqueSpeciesCount
-    //TODO: make usercard scroll with the flatlist if possible
-    const { totalCatches, uniqueSpeciesCount } = useAuthStore();
 
     return (
         <View style={styles.container}>
@@ -24,12 +25,6 @@ const UserCard = () => {
                 <View style={styles.statItem}>
                     <Text style={styles.numberDisplay}>{totalCatches}</Text>
                     <Text style={styles.statText}>Totala fångster</Text>
-                </View>
-                <View style={styles.statItem}>
-                    <Text style={styles.numberDisplay}>
-                        {uniqueSpeciesCount}
-                    </Text>
-                    <Text style={styles.statText}>Unika arter</Text>
                 </View>
             </View>
         </View>

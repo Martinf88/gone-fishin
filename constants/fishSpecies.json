@@ -1,71 +1,43 @@
 [
     {
-        "label": "Gädda",
-        "value": "Gädda"
-    },
-    {
         "label": "Abborre",
         "value": "Abborre"
     },
     {
-        "label": "Gös",
-        "value": "Gös"
+        "label": "Berggylta",
+        "value": "Berggylta"
+    },
+    {
+        "label": "Blågylta",
+        "value": "Blågylta"
     },
     {
         "label": "Braxen",
         "value": "Braxen"
     },
     {
-        "label": "Mört",
-        "value": "Mört"
-    },
-    {
-        "label": "Sutare",
-        "value": "Sutare"
-    },
-    {
-        "label": "Lake",
-        "value": "Lake"
-    },
-    {
-        "label": "Regnbåge",
-        "value": "Regnbåge"
-    },
-    {
-        "label": "Öring",
-        "value": "Öring"
-    },
-    {
-        "label": "Harr",
-        "value": "Harr"
-    },
-    {
-        "label": "Lax",
-        "value": "Lax"
-    },
-    {
-        "label": "Röding",
-        "value": "Röding"
-    },
-    {
         "label": "Bäckröding",
         "value": "Bäckröding"
     },
     {
-        "label": "Torsk",
-        "value": "Torsk"
+        "label": "Fjärsing",
+        "value": "Fjärsing"
     },
     {
         "label": "Gråsej",
         "value": "Gråsej"
     },
     {
-        "label": "Kolja",
-        "value": "Kolja"
+        "label": "Gädda",
+        "value": "Gädda"
     },
     {
-        "label": "Makrill",
-        "value": "Makrill"
+        "label": "Gös",
+        "value": "Gös"
+    },
+    {
+        "label": "Harr",
+        "value": "Harr"
     },
     {
         "label": "Havskatt",
@@ -76,8 +48,44 @@
         "value": "Havsöring"
     },
     {
+        "label": "Horngädda/Näbbgädda",
+        "value": "Horngädda/Näbbgädda"
+    },
+    {
         "label": "Hälleflundra",
         "value": "Hälleflundra"
+    },
+    {
+        "label": "Kolja",
+        "value": "Kolja"
+    },
+    {
+        "label": "Lake",
+        "value": "Lake"
+    },
+    {
+        "label": "Lax",
+        "value": "Lax"
+    },
+    {
+        "label": "Makrill",
+        "value": "Makrill"
+    },
+    {
+        "label": "Mört",
+        "value": "Mört"
+    },
+    {
+        "label": "Pigghaj",
+        "value": "Pigghaj"
+    },
+    {
+        "label": "Regnbåge",
+        "value": "Regnbåge"
+    },
+    {
+        "label": "Röding",
+        "value": "Röding"
     },
     {
         "label": "Rödspätta",
@@ -88,23 +96,15 @@
         "value": "Sill"
     },
     {
-        "label": "Pigghaj",
-        "value": "Pigghaj"
+        "label": "Sutare",
+        "value": "Sutare"
     },
     {
-        "label": "Blågylta",
-        "value": "Blågylta"
+        "label": "Torsk",
+        "value": "Torsk"
     },
     {
-        "label": "Berggylta",
-        "value": "Berggylta"
-    },
-    {
-        "label": "Fjärsing",
-        "value": "Fjärsing"
-    },
-    {
-        "label": "Horngädda/Näbbgädda",
-        "value": "Horngädda/Näbbgädda"
+        "label": "Öring",
+        "value": "Öring"
     }
 ]
