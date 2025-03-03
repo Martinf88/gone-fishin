@@ -1,110 +1,110 @@
 [
     {
-        "name": "Gädda",
-        "type": "sötvatten"
+        "label": "Gädda",
+        "value": "Gädda"
     },
     {
-        "name": "Abborre",
-        "type": "sötvatten"
+        "label": "Abborre",
+        "value": "Abborre"
     },
     {
-        "name": "Gös",
-        "type": "sötvatten"
+        "label": "Gös",
+        "value": "Gös"
     },
     {
-        "name": "Braxen",
-        "type": "sötvatten"
+        "label": "Braxen",
+        "value": "Braxen"
     },
     {
-        "name": "Mört",
-        "type": "sötvatten"
+        "label": "Mört",
+        "value": "Mört"
     },
     {
-        "name": "Sutare",
-        "type": "sötvatten"
+        "label": "Sutare",
+        "value": "Sutare"
     },
     {
-        "name": "Lake",
-        "type": "sötvatten"
+        "label": "Lake",
+        "value": "Lake"
     },
     {
-        "name": "Regnbåge",
-        "type": "sötvatten"
+        "label": "Regnbåge",
+        "value": "Regnbåge"
     },
     {
-        "name": "Öring",
-        "type": "sötvatten"
+        "label": "Öring",
+        "value": "Öring"
     },
     {
-        "name": "Harr",
-        "type": "sötvatten"
+        "label": "Harr",
+        "value": "Harr"
     },
     {
-        "name": "Lax",
-        "type": "sötvatten"
+        "label": "Lax",
+        "value": "Lax"
     },
     {
-        "name": "Röding",
-        "type": "sötvatten"
+        "label": "Röding",
+        "value": "Röding"
     },
     {
-        "name": "Bäckröding",
-        "type": "sötvatten"
+        "label": "Bäckröding",
+        "value": "Bäckröding"
     },
     {
-        "name": "Torsk",
-        "type": "saltvatten"
+        "label": "Torsk",
+        "value": "Torsk"
     },
     {
-        "name": "Gråsej",
-        "type": "saltvatten"
+        "label": "Gråsej",
+        "value": "Gråsej"
     },
     {
-        "name": "Kolja",
-        "type": "saltvatten"
+        "label": "Kolja",
+        "value": "Kolja"
     },
     {
-        "name": "Makrill",
-        "type": "saltvatten"
+        "label": "Makrill",
+        "value": "Makrill"
     },
     {
-        "name": "Havskatt",
-        "type": "saltvatten"
+        "label": "Havskatt",
+        "value": "Havskatt"
     },
     {
-        "name": "Havsöring",
-        "type": "saltvatten"
+        "label": "Havsöring",
+        "value": "Havsöring"
     },
     {
-        "name": "Hälleflundra",
-        "type": "saltvatten"
+        "label": "Hälleflundra",
+        "value": "Hälleflundra"
     },
     {
-        "name": "Rödspätta",
-        "type": "saltvatten"
+        "label": "Rödspätta",
+        "value": "Rödspätta"
     },
     {
-        "name": "Sill",
-        "type": "saltvatten"
+        "label": "Sill",
+        "value": "Sill"
     },
     {
-        "name": "Pigghaj",
-        "type": "saltvatten"
+        "label": "Pigghaj",
+        "value": "Pigghaj"
     },
     {
-        "name": "Blågylta",
-        "type": "saltvatten"
+        "label": "Blågylta",
+        "value": "Blågylta"
     },
     {
-        "name": "Berggylta",
-        "type": "saltvatten"
+        "label": "Berggylta",
+        "value": "Berggylta"
     },
     {
-        "name": "Fjärsing",
-        "type": "saltvatten"
+        "label": "Fjärsing",
+        "value": "Fjärsing"
     },
     {
-        "name": "Horngädda/Näbbgädda",
-        "type": "saltvatten"
+        "label": "Horngädda/Näbbgädda",
+        "value": "Horngädda/Näbbgädda"
     }
 ]

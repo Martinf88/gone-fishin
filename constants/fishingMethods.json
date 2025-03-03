@@ -1,0 +1,13 @@
+[
+    { "label": "Spinnfiske", "value": "Spinnfiske" },
+    { "label": "Flugfiske", "value": "Flugfiske" },
+    { "label": "Trolling", "value": "Trolling" },
+    { "label": "Havsfiske", "value": "HavsFiske" },
+    { "label": "Handrev", "value": "Handrev" },
+    { "label": "Bottenmete", "value": "Bottenmete" },
+    { "label": "Jerkfiske", "value": "Jerkfiske" },
+    { "label": "Jiggfiske", "value": "Jiggfiske" },
+    { "label": "Flötmete", "value": "Flötmete" },
+    { "label": "Isfiske", "value": "IsFiske" },
+    { "label": "Vertikalfiske", "value": "Vertikalfiske" }
+]
