@@ -16,12 +16,10 @@ import FormNav from "@/components/common/FormNav";
 import FormAddImgBtn from "@/components/register-catch/FormAddImgBtn";
 import FormSelectLocation from "@/components/register-catch/FormSelectLocation";
 import { CatchForm, useAuthStore } from "@/store/useStore";
-import { Picker } from "@react-native-picker/picker";
 import { useRouter } from "expo-router";
-import CustomPicker from "@/components/common/CustomPicker";
-
-//TODO: onBlur seems to be a bit buggy, its easy to not get the value from a field. Find a solution.
-//TODO: clear form after submit
+import CustomPicker from "@/components/register-catch/CustomPicker";
+import fishSpecies from "@/constants/fishSpecies.json";
+import fishingMethods from "@/constants/fishingMethods.json";
 //TODO: validate form
 
 const Create = () => {
@@ -62,37 +60,27 @@ const Create = () => {
                     <FormAddImgBtn />
 
                     {/* 📌 Formulärfält */}
-                    <View style={styles.inputWrapper}>
-                        <View
-                            style={[
-                                styles.inputContainerHalf,
-                                { marginRight: 10 },
-                            ]}
-                        >
-                            {/* TODO: Gör om till autocomplete search på en lista med arter */}
-                            <Text style={styles.label}>Art</Text>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="ex. Gädda"
-                                placeholderTextColor={COLORS.placeholder}
-                                value={catchForm.speciesName}
-                                onChangeText={(text) =>
-                                    handleInputChange("speciesName", text)
-                                }
-                            />
-                        </View>
-                        <View style={styles.inputContainerHalf}>
-                            <Text style={styles.label}>Bete</Text>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="ex. Jerkbait"
-                                placeholderTextColor={COLORS.placeholder}
-                                value={catchForm.bait}
-                                onChangeText={(text) =>
-                                    handleInputChange("bait", text)
-                                }
-                            />
-                        </View>
+                    <View style={[styles.inputContainer]}>
+                        <Text style={styles.label}>Art</Text>
+                        <CustomPicker
+                            selectedValue={catchForm.speciesName}
+                            updateCatchField={updateCatchField}
+                            field="speciesName"
+                            items={fishSpecies}
+                        />
+                    </View>
+
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Bete</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="ex. Jerkbait"
+                            placeholderTextColor={COLORS.placeholder}
+                            value={catchForm.bait}
+                            onChangeText={(text) =>
+                                handleInputChange("bait", text)
+                            }
+                        />
                     </View>
 
                     <View style={styles.inputWrapper}>
@@ -141,6 +129,8 @@ const Create = () => {
                         <CustomPicker
                             selectedValue={catchForm.method}
                             updateCatchField={updateCatchField}
+                            field="method"
+                            items={fishingMethods}
                         />
                     </View>
 
@@ -171,7 +161,7 @@ const Create = () => {
                         title="Bekräfta"
                         handlePress={handleSubmit}
                         isLoading={isLoading}
-                        containerStyles={{ marginTop: 20 }}
+                        containerStyles={{ marginTop: 10 }}
                     />
                 </View>
             </ScrollView>
@@ -221,7 +211,7 @@ const styles = StyleSheet.create({
         padding: 12,
         borderBottomWidth: 1,
         borderBottomColor: COLORS.placeholder,
-        height: 45,
+        height: 50,
     },
 
     descriptionInput: {

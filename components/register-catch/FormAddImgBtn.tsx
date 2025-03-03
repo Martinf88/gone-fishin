@@ -93,6 +93,7 @@ export default FormAddImgBtn;
 const styles = StyleSheet.create({
     imagePickerContainer: {
         alignItems: "center",
+        paddingBottom: 20,
     },
     imagePreviewContainer: {
         position: "relative",

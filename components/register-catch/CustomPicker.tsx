@@ -8,11 +8,15 @@ import { CatchForm } from "@/store/useStore";
 interface CustomPickerProps {
     selectedValue: string;
     updateCatchField: (field: keyof CatchForm, value: any) => void;
+    field: keyof CatchForm; // ✅ Allows using this picker for different fields
+    items: { label: string; value: string }[]; // ✅ Now accepts a list of items as a prop
 }
 
 const CustomPicker = ({
     selectedValue,
     updateCatchField,
+    field,
+    items,
 }: CustomPickerProps) => {
     return (
         <View style={styles.pickerWrapper}>
@@ -20,21 +24,17 @@ const CustomPicker = ({
                 style={styles.picker}
                 selectedValue={selectedValue}
                 onValueChange={(itemValue) =>
-                    updateCatchField("method", itemValue)
+                    updateCatchField(field, itemValue)
                 }
             >
-                <Picker.Item label="Välj metod" value="" />
-                <Picker.Item label="Spinnfiske" value="Spinnfiske" />
-                <Picker.Item label="Flugfiske" value="Flugfiske" />
-                <Picker.Item label="Trolling" value="Trolling" />
-                <Picker.Item label="Havsfiske" value="HavsFiske" />
-                <Picker.Item label="Handrev" value="Handrev" />
-                <Picker.Item label="Bottenmete" value="Bottenmete" />
-                <Picker.Item label="Jerkfiske" value="Jerkfiske" />
-                <Picker.Item label="Jiggfiske" value="Jiggfiske" />
-                <Picker.Item label="Flötmete" value="Flötmete" />
-                <Picker.Item label="Isfiske" value="IsFiske" />
-                <Picker.Item label="Vertikalfiske" value="Vertikalfiske" />
+                <Picker.Item label="Välj ett alternativ" value="" />
+                {items.map((item) => (
+                    <Picker.Item
+                        key={item.value}
+                        label={item.label}
+                        value={item.value}
+                    />
+                ))}
             </Picker>
             {/* Custom Down Arrow */}
             <Ionicons
