@@ -29,8 +29,6 @@ interface StoreState {
     allUsers: FirestoreUser[];
     profileCatches: Catch[];
     feedCatches: Catch[];
-    totalCatches: number;
-    uniqueSpeciesCount: number;
 
     catchForm: CatchForm;
     localImageUri: string | null;
@@ -53,8 +51,6 @@ export const useAuthStore = create<StoreState>()(
             allUsers: [],
             profileCatches: [],
             feedCatches: [],
-            totalCatches: 0,
-            uniqueSpeciesCount: 0,
 
             catchForm: {
                 speciesName: "",

@@ -6,6 +6,8 @@ export interface User {
     email: string;
     createdAt: Timestamp;
     imageUrl: string;
+    totalCatches: number;
+    uniqueSpeciesCount: number;
 }
 
 export interface Catch {

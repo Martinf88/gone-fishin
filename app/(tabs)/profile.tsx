@@ -17,6 +17,7 @@ import { handleRefreshHelper } from "@/helper-functions/handleRefresh";
 const Profile = () => {
     const { firestoreUser } = useAuthStore((state) => state);
     const [userCatches, setUserCatches] = useState<Catch[]>([]);
+    const [totalCatches, setTotalCatches] = useState(null);
     const [lastDoc, setLastDoc] = useState<DocumentSnapshot | null>(null);
     const [hasMore, setHasMore] = useState<boolean>(true);
     const [loading, setLoading] = useState<boolean>(false);
@@ -33,7 +34,11 @@ const Profile = () => {
                 firestoreUser.uid,
                 null
             );
+        const totalCatches = await CatchesService.fetchTotalCatches(
+            firestoreUser.uid
+        );
         setUserCatches(userCatches);
+        setTotalCatches(totalCatches);
         setLastDoc(lastDoc);
         setHasMore(hasMore);
         setLoading(false);
@@ -87,7 +92,9 @@ const Profile = () => {
                         fetchMoreCatches={fetchMoreCatches}
                         catches={userCatches}
                         loading={loading}
-                        headerComponent={<UserCard />}
+                        headerComponent={
+                            <UserCard totalCatches={totalCatches} />
+                        }
                         refreshControl={
                             <RefreshControl
                                 refreshing={refreshing}

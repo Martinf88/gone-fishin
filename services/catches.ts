@@ -11,6 +11,11 @@ import {
     DocumentSnapshot,
     where,
     addDoc,
+    setDoc,
+    doc,
+    updateDoc,
+    increment,
+    getDoc,
 } from "firebase/firestore";
 import { uploadToCloudinary } from "./uploadToCloudinary";
 import { useAuthStore } from "@/store/useStore";
@@ -19,6 +24,21 @@ const PAGE_SIZE = 10;
 const catchesRef = collection(db, "catches");
 
 const CatchesService = {
+    async fetchTotalCatches(userId: string) {
+        try {
+            const userRef = doc(db, "users", userId);
+            const userSnap = await getDoc(userRef);
+
+            if (userSnap.exists()) {
+                return userSnap.data().totalCatches || 0;
+            }
+            return 0;
+        } catch (error) {
+            console.error("🚨 Error fetching total catches:", error);
+            return 0;
+        }
+    },
+
     async fetchCatchesLazy(lastDoc: DocumentSnapshot | null = null): Promise<{
         catches: Catch[];
         lastDoc: DocumentSnapshot | null;
@@ -135,6 +155,12 @@ const CatchesService = {
                 createdAt: new Date(),
             });
             console.log("Catch registered successfully");
+
+            const userRef = doc(db, "users", user.uid);
+            await updateDoc(userRef, {
+                totalCatches: increment(1),
+            });
+            console.log("✅ Updated totalCatches for user:", user.uid);
         } catch (error) {
             console.error("Error registering catch:", error);
         }
