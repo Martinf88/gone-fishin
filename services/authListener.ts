@@ -3,7 +3,7 @@ import { useAuthStore } from "@/store/useStore";
 import { useEffect } from "react";
 import { auth } from "@/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
-import { fetchLoggedInUser } from "@/services/users";
+import UsersService from "@/services/users";
 
 export const useAuthListener = () => {
     const setAuthUser = useAuthStore((state) => state.setAuthUser);
@@ -17,7 +17,9 @@ export const useAuthListener = () => {
             if (authUser) {
                 setAuthUser(authUser);
 
-                const firestoreUser = await fetchLoggedInUser(authUser);
+                const firestoreUser = await UsersService.fetchLoggedInUser(
+                    authUser.uid
+                );
                 console.log("User data: ", firestoreUser);
 
                 setFirestoreUser(firestoreUser);

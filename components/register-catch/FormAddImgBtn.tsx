@@ -1,21 +1,14 @@
-import {
-    StyleSheet,
-    Text,
-    View,
-    Image,
-    TouchableOpacity,
-    Alert,
-} from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { COLORS } from "@/constants/Colors";
 import * as ImagePicker from "expo-image-picker";
 import { useAuthStore } from "@/store/useStore";
-import { uploadToCloudinary } from "@/services/uploadToCloudinary";
 import { useEffect } from "react";
-import CustomButton from "../common/CustomButton";
 
 const FormAddImgBtn = () => {
-    const { localImageUri, setLocalImageUri } = useAuthStore((state) => state);
+    const { localFormImageUri, setLocalFormImageUri } = useAuthStore(
+        (state) => state
+    );
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -26,42 +19,26 @@ const FormAddImgBtn = () => {
         });
 
         if (!result.canceled) {
-            setLocalImageUri(result.assets[0].uri);
+            setLocalFormImageUri(result.assets[0].uri);
         }
     };
 
     //TODO: Remove after testing is done
     useEffect(() => {
-        console.log("Updated localImageUri:", localImageUri);
-    }, [localImageUri]);
-
-    const handleUpload = async () => {
-        if (!localImageUri) {
-            Alert.alert("Error", "No image selected!");
-            return;
-        }
-
-        try {
-            const imageUrl = await uploadToCloudinary(localImageUri);
-            console.log("✅ Image uploaded successfully:", imageUrl);
-            Alert.alert("Success", "Image uploaded to Cloudinary!");
-        } catch (error) {
-            console.error("Upload error:", error);
-            Alert.alert("Error", "Failed to upload image.");
-        }
-    };
+        console.log("Updated localImageUri:", localFormImageUri);
+    }, [localFormImageUri]);
 
     return (
         <View style={styles.imagePickerContainer}>
-            {localImageUri ? (
+            {localFormImageUri ? (
                 <View style={styles.imagePreviewContainer}>
                     <Image
-                        source={{ uri: localImageUri }}
+                        source={{ uri: localFormImageUri }}
                         style={styles.imagePreview}
                     />
                     <TouchableOpacity
                         style={styles.removeButton}
-                        onPress={() => setLocalImageUri(null)}
+                        onPress={() => setLocalFormImageUri(null)}
                     >
                         <Ionicons
                             name={"close-circle"}
@@ -69,18 +46,13 @@ const FormAddImgBtn = () => {
                             color={COLORS.white}
                         />
                     </TouchableOpacity>
-                    {/* TODO: Remove Upload button after testing is done*/}
-                    <CustomButton
-                        title={"Upload Image"}
-                        handlePress={handleUpload}
-                    />
                 </View>
             ) : (
                 <TouchableOpacity
                     style={styles.imagePickerButton}
                     onPress={pickImage}
                 >
-                    <Ionicons name="camera" size={32} color={COLORS.primary} />
+                    <Ionicons name="camera" size={32} color={COLORS.white} />
                     <Text style={styles.imagePickerText}>Lägg till bild</Text>
                 </TouchableOpacity>
             )}
@@ -108,21 +80,18 @@ const styles = StyleSheet.create({
         padding: 4,
     },
 
-    uploadButtonText: {
-        color: COLORS.primary,
-        fontSize: 16,
-        fontWeight: "bold",
-    },
     imagePickerButton: {
         width: 100,
         height: 100,
         borderRadius: 10,
-        backgroundColor: COLORS.action,
+        borderWidth: 1,
+        borderColor: COLORS.white,
+        backgroundColor: COLORS.secondary,
         justifyContent: "center",
         alignItems: "center",
     },
     imagePickerText: {
-        color: COLORS.primary,
+        color: COLORS.white,
         marginTop: 8,
         fontSize: 14,
     },

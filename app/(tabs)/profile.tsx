@@ -9,13 +9,14 @@ import CatchList from "@/components/common/CatchList";
 import { Catch } from "@/types/types";
 import { DocumentSnapshot } from "firebase/firestore";
 import CatchesService from "@/services/catches";
-import UserCard from "@/components/UserCard";
+// import UsersService from "@/services/users";
+import UserCard from "@/components/user-card/UserCard";
 import { handleRefreshHelper } from "@/helper-functions/handleRefresh";
 
 //TODO: add loading when waiting for catches
 
 const Profile = () => {
-    const { firestoreUser } = useAuthStore((state) => state);
+    const { firestoreUser, authUser } = useAuthStore((state) => state);
     const [userCatches, setUserCatches] = useState<Catch[]>([]);
     const [totalCatches, setTotalCatches] = useState(null);
     const [lastDoc, setLastDoc] = useState<DocumentSnapshot | null>(null);
@@ -29,11 +30,13 @@ const Profile = () => {
             setLoading(false);
             return;
         }
+
         const { userCatches, lastDoc, hasMore } =
             await CatchesService.fetchCatchesWithUidLazy(
                 firestoreUser.uid,
                 null
             );
+        // await UsersService.fetchLoggedInUser(firestoreUser.uid);
         const totalCatches = await CatchesService.fetchTotalCatches(
             firestoreUser.uid
         );

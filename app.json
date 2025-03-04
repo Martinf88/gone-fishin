@@ -22,6 +22,12 @@
             "output": "static",
             "favicon": "./assets/images/favicon.png"
         },
+        "extra": {
+            "CLOUDINARY_CLOUD_NAME": "dy7vmxy79",
+            "CLOUDINARY_UPLOAD_PRESET": "fiskeapp_unsigned",
+            "CLOUDINARY_PROFILE_FOLDER": "Profile",
+            "CLOUDINARY_CATCHES_FOLDER": "Catches"
+        },
         "plugins": [
             "expo-router",
             [
