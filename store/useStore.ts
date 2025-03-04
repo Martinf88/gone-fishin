@@ -3,9 +3,10 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Catch, User as FirestoreUser } from "@/types/types";
 import { User as FirebaseUser } from "firebase/auth";
-import { fetchAllUsers } from "@/services/users";
+import UsersService from "@/services/users";
 import { Timestamp } from "firebase/firestore";
-import CatchesService from "@/services/catches";
+
+// const [localProfileUri, setLocalProfileUri] = useState<string | null>(null);
 
 export interface CatchForm {
     speciesName: string;
@@ -31,10 +32,13 @@ interface StoreState {
     feedCatches: Catch[];
 
     catchForm: CatchForm;
-    localImageUri: string | null;
+    localFormImageUri: string | null;
+
+    localProfileImgUri: string | null;
 
     resetCatchForm: () => void;
-    setLocalImageUri: (uri: string | null) => void;
+    setLocalFormImageUri: (uri: string | null) => void;
+    setLocalProfileImgUri: (uri: string | null) => void;
     updateCatchField: (field: keyof CatchForm, value: any) => void;
     setCatchLocation: (latitude: number, longitude: number) => void;
     setAuthUser: (user: FirebaseUser | null) => void;
@@ -67,7 +71,9 @@ export const useAuthStore = create<StoreState>()(
                 date: null,
                 time: null,
             },
-            localImageUri: null,
+            localFormImageUri: null,
+
+            localProfileImgUri: null,
 
             resetCatchForm: () =>
                 set({
@@ -86,12 +92,17 @@ export const useAuthStore = create<StoreState>()(
                         date: null,
                         time: null,
                     },
-                    localImageUri: null,
+                    localFormImageUri: null,
                 }),
 
-            setLocalImageUri: (uri: string | null) =>
+            setLocalFormImageUri: (uri: string | null) =>
                 set(() => ({
-                    localImageUri: uri,
+                    localFormImageUri: uri,
+                })),
+
+            setLocalProfileImgUri: (uri: string | null) =>
+                set(() => ({
+                    localProfileImgUri: uri,
                 })),
 
             updateCatchField: (field: keyof CatchForm, value: any) =>
@@ -113,7 +124,7 @@ export const useAuthStore = create<StoreState>()(
             setAuthUser: (user) => set({ authUser: user }),
             setFirestoreUser: (user) => set({ firestoreUser: user }),
             fetchAllUsers: async () => {
-                const allUsers = await fetchAllUsers();
+                const allUsers = await UsersService.fetchAllUsers();
                 set({ allUsers });
             },
         }),

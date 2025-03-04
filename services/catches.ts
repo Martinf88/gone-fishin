@@ -4,20 +4,18 @@ import {
     collection,
     getDocs,
     orderBy,
-    onSnapshot,
     query,
     limit,
     startAfter,
     DocumentSnapshot,
     where,
     addDoc,
-    setDoc,
     doc,
     updateDoc,
     increment,
     getDoc,
 } from "firebase/firestore";
-import { uploadToCloudinary } from "./uploadToCloudinary";
+import CloudinaryService from "./uploadToCloudinary";
 import { useAuthStore } from "@/store/useStore";
 import { Alert } from "react-native";
 const PAGE_SIZE = 10;
@@ -107,7 +105,6 @@ const CatchesService = {
                 catchId: doc.id,
                 ...(doc.data() as Omit<Catch, "catchId">),
             }));
-            console.log("✅ Catches fetched:", userCatches);
 
             return {
                 userCatches,
@@ -136,15 +133,18 @@ const CatchesService = {
             return;
         }
 
-        const { localImageUri } = useAuthStore.getState();
+        const { localFormImageUri } = useAuthStore.getState();
 
-        console.log("📸 localImageUri before upload:", localImageUri);
+        console.log("📸 localFormImageUri before upload:", localFormImageUri);
         try {
             let imageUrl = null;
 
-            if (localImageUri) {
+            if (localFormImageUri) {
                 console.log("📤 Calling uploadToCloudinary...");
-                imageUrl = await uploadToCloudinary(localImageUri);
+                imageUrl =
+                    await CloudinaryService.uploadCatchesImageToCloudinary(
+                        localFormImageUri
+                    );
                 console.log("✅ Image uploaded successfully:", imageUrl);
                 Alert.alert("Success", "Image uploaded to Cloudinary!");
             }
