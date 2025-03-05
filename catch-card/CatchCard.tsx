@@ -32,7 +32,7 @@ const CatchCard: React.FC<CatchCardProps> = ({ catchData, index }) => {
             {(showDetails || !hasImage) && (
                 <CatchDetails catchData={catchData} />
             )}
-            <SocialContainer likes={catchData.likes} />
+            <SocialContainer catchData={catchData} />
         </View>
     );
 };
