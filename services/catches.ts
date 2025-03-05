@@ -14,6 +14,9 @@ import {
     updateDoc,
     increment,
     getDoc,
+    arrayUnion,
+    arrayRemove,
+    onSnapshot,
 } from "firebase/firestore";
 import CloudinaryService from "./uploadToCloudinary";
 import { useAuthStore } from "@/store/useStore";
@@ -152,6 +155,7 @@ const CatchesService = {
                 ...catchData,
                 imageUrl,
                 createdAt: new Date(),
+                likes: [],
             });
             console.log("Catch registered successfully");
             Alert.alert("Succe!", "Din fångst är upplad!");
@@ -163,6 +167,41 @@ const CatchesService = {
             console.log("✅ Updated totalCatches for user:", user.uid);
         } catch (error) {
             console.error("Error registering catch:", error);
+        }
+    },
+    // Update Catch
+    async updateCatchLike(catchId: string, userId: string) {
+        if (!catchId || !userId) {
+            console.warn("Missing id");
+            return;
+        }
+
+        try {
+            console.log("Starting update of catch");
+            const catchRef = doc(db, "catches", catchId);
+            const catchSnap = await getDoc(catchRef);
+
+            if (!catchSnap.exists()) {
+                console.warn("Catch not found!");
+                return;
+            }
+
+            const catchData = catchSnap.data();
+            const likes = catchData.likes || [];
+
+            if (likes.includes(userId)) {
+                await updateDoc(catchRef, {
+                    likes: arrayRemove(userId),
+                });
+                console.log("Removed like from catch");
+            } else {
+                await updateDoc(catchRef, {
+                    likes: arrayUnion(userId),
+                });
+                console.log("Like added to catch");
+            }
+        } catch (error) {
+            console.error("Error updating like: ", error);
         }
     },
 };
