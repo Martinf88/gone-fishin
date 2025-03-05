@@ -5,6 +5,8 @@ import { Catch } from "@/types/types";
 import { COLORS } from "@/constants/Colors";
 import { getTimeSinceUpload } from "@/helper-functions/getTimeSinceUpload";
 import { useGetUserName } from "@/hooks/getUsername";
+import { useAuthStore } from "@/store/useStore";
+import Profile from "@/app/(tabs)/profile";
 
 interface ImageAndHeaderProps {
     catchData: Catch;
@@ -12,6 +14,7 @@ interface ImageAndHeaderProps {
 }
 
 const ImageAndHeader = ({ catchData, onPress }: ImageAndHeaderProps) => {
+    const { firestoreUser } = useAuthStore((state) => state);
     const username = useGetUserName(catchData.userId);
     return (
         <View style={styles.ImageAndHeader}>
@@ -20,11 +23,20 @@ const ImageAndHeader = ({ catchData, onPress }: ImageAndHeaderProps) => {
             {/* Overlay Header */}
             <View style={styles.overlay}>
                 <View style={styles.overlayDetails}>
-                    <Ionicons
-                        name="person-circle-outline"
-                        size={48}
-                        color={COLORS.white}
-                    />
+                    <View style={styles.ProfileImageWrapper}>
+                        {firestoreUser?.imageUrl ? (
+                            <Image
+                                source={{ uri: firestoreUser.imageUrl }}
+                                style={styles.profileImage}
+                            />
+                        ) : (
+                            <Ionicons
+                                name="person-circle-outline"
+                                size={48}
+                                color={COLORS.white}
+                            />
+                        )}
+                    </View>
                     <View>
                         <Text style={styles.largeText}>{username}</Text>
                         <Text style={styles.smallText}>
@@ -55,12 +67,21 @@ const styles = StyleSheet.create({
         height: "100%",
         resizeMode: "cover",
     },
+    ProfileImageWrapper: {
+        width: 50,
+        height: 50,
+    },
+    profileImage: {
+        width: "100%",
+        height: "100%",
+        borderRadius: 999,
+    },
     overlay: {
         position: "absolute",
         top: 0,
         left: 0,
         right: 0,
-        backgroundColor: "rgba(0, 0, 0, 0.2)",
+        backgroundColor: "rgba(0, 0, 0, 0.4)",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",

@@ -1,44 +1,22 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { COLORS } from "@/constants/Colors";
-import * as ImagePicker from "expo-image-picker";
-import { useAuthStore } from "@/store/useStore";
-import { useEffect } from "react";
+import { useImagePicker } from "@/hooks/useImagePicker";
 
-const FormAddImgBtn = () => {
-    const { localFormImageUri, setLocalFormImageUri } = useAuthStore(
-        (state) => state
-    );
-
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ["images"],
-            allowsEditing: false,
-            aspect: [4, 3],
-            quality: 0.6,
-        });
-
-        if (!result.canceled) {
-            setLocalFormImageUri(result.assets[0].uri);
-        }
-    };
-
-    //TODO: Remove after testing is done
-    useEffect(() => {
-        console.log("Updated localImageUri:", localFormImageUri);
-    }, [localFormImageUri]);
+const FormAddImg = () => {
+    const { selectedImage, clearImage, pickImage } = useImagePicker("form");
 
     return (
         <View style={styles.imagePickerContainer}>
-            {localFormImageUri ? (
+            {selectedImage ? (
                 <View style={styles.imagePreviewContainer}>
                     <Image
-                        source={{ uri: localFormImageUri }}
+                        source={{ uri: selectedImage }}
                         style={styles.imagePreview}
                     />
                     <TouchableOpacity
                         style={styles.removeButton}
-                        onPress={() => setLocalFormImageUri(null)}
+                        onPress={clearImage}
                     >
                         <Ionicons
                             name={"close-circle"}
@@ -60,7 +38,7 @@ const FormAddImgBtn = () => {
     );
 };
 
-export default FormAddImgBtn;
+export default FormAddImg;
 
 const styles = StyleSheet.create({
     imagePickerContainer: {

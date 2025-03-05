@@ -15,20 +15,11 @@ const CustomHeader = ({ title, showButtons }: CustomHeaderProps) => {
             <Text style={styles.text}>{title}</Text>
             {showButtons && (
                 <View style={styles.buttonWrapper}>
-                    <TouchableOpacity>
-                        <Ionicons
-                            name="people-outline"
-                            size={32}
-                            color={COLORS.white}
-                            style={styles.icon}
-                        />
-                    </TouchableOpacity>
                     <TouchableOpacity onPress={handleSignOut}>
                         <Ionicons
                             name="log-out-outline"
                             size={32}
                             color={COLORS.white}
-                            style={styles.icon}
                         />
                     </TouchableOpacity>
                 </View>
@@ -45,7 +36,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingVertical: 3,
+        paddingVertical: 10,
         paddingHorizontal: 10,
     },
     text: {
@@ -57,5 +48,4 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 20,
     },
-    icon: {},
 });

@@ -9,14 +9,13 @@ import CatchList from "@/components/common/CatchList";
 import { Catch } from "@/types/types";
 import { DocumentSnapshot } from "firebase/firestore";
 import CatchesService from "@/services/catches";
-// import UsersService from "@/services/users";
 import UserCard from "@/components/user-card/UserCard";
 import { handleRefreshHelper } from "@/helper-functions/handleRefresh";
 
 //TODO: add loading when waiting for catches
 
 const Profile = () => {
-    const { firestoreUser, authUser } = useAuthStore((state) => state);
+    const { firestoreUser } = useAuthStore((state) => state);
     const [userCatches, setUserCatches] = useState<Catch[]>([]);
     const [totalCatches, setTotalCatches] = useState(null);
     const [lastDoc, setLastDoc] = useState<DocumentSnapshot | null>(null);
@@ -85,10 +84,7 @@ const Profile = () => {
         <>
             <StatusBar style="light" backgroundColor={COLORS.secondary} />
             <SafeAreaView style={styles.safeArea}>
-                <CustomHeader
-                    title={firestoreUser?.userName}
-                    showButtons={true}
-                />
+                <CustomHeader title={"Profil"} showButtons={true} />
 
                 <View style={styles.container}>
                     <CatchList

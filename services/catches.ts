@@ -146,7 +146,6 @@ const CatchesService = {
                         localFormImageUri
                     );
                 console.log("✅ Image uploaded successfully:", imageUrl);
-                Alert.alert("Success", "Image uploaded to Cloudinary!");
             }
             await addDoc(collection(db, "catches"), {
                 userId: user.uid,
@@ -155,6 +154,7 @@ const CatchesService = {
                 createdAt: new Date(),
             });
             console.log("Catch registered successfully");
+            Alert.alert("Succe!", "Din fångst är upplad!");
 
             const userRef = doc(db, "users", user.uid);
             await updateDoc(userRef, {

@@ -13,7 +13,7 @@ import CatchesService from "@/services/catches";
 import { StatusBar } from "expo-status-bar";
 import DateTimePicker from "@/components/register-catch/DateTimePicker";
 import FormNav from "@/components/common/FormNav";
-import FormAddImgBtn from "@/components/register-catch/FormAddImgBtn";
+import FormAddImg from "@/components/register-catch/FormAddImg";
 import FormSelectLocation from "@/components/register-catch/FormSelectLocation";
 import { CatchForm, useAuthStore } from "@/store/useStore";
 import { useRouter } from "expo-router";
@@ -55,7 +55,7 @@ const Create = () => {
             <ScrollView contentContainerStyle={styles.scrollView}>
                 <View style={styles.container}>
                     {/* 📌 ImagePicker UI */}
-                    <FormAddImgBtn />
+                    <FormAddImg />
 
                     {/* 📌 Form Fields */}
                     <View style={styles.inputWrapper}>
