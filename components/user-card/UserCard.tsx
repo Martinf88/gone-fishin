@@ -10,7 +10,6 @@ interface UserCardProps {
 
 const UserCard = ({ totalCatches }: UserCardProps) => {
     const { firestoreUser } = useAuthStore((state) => state);
-
     return (
         <View style={styles.container}>
             {/* Left Side (Profile Picture) */}
@@ -18,10 +17,38 @@ const UserCard = ({ totalCatches }: UserCardProps) => {
             <ProfileImgPicker />
 
             {/* Right Side (Fångster & Unika arter) */}
-
-            <View style={styles.statItem}>
-                <Text style={styles.numberDisplay}>{totalCatches}</Text>
-                <Text style={styles.statText}>Totala fångster</Text>
+            <Text style={styles.userName}>{firestoreUser?.userName}</Text>
+            <View style={styles.statsWrapper}>
+                <View
+                    style={[
+                        styles.statItem,
+                        { flex: 1, alignSelf: "flex-start" },
+                    ]}
+                >
+                    <Text style={styles.numberDisplay}>{totalCatches}</Text>
+                    <Text style={styles.statText}>Fångster</Text>
+                </View>
+                <View
+                    style={[
+                        styles.statItem,
+                        {
+                            flex: 1,
+                            alignSelf: "center",
+                        },
+                    ]}
+                >
+                    <Text style={styles.numberDisplay}>0</Text>
+                    <Text style={styles.statText}>Följer</Text>
+                </View>
+                <View
+                    style={[
+                        styles.statItem,
+                        { flex: 1, alignSelf: "flex-end" },
+                    ]}
+                >
+                    <Text style={styles.numberDisplay}>0</Text>
+                    <Text style={styles.statText}>Följare</Text>
+                </View>
             </View>
         </View>
     );
@@ -31,20 +58,27 @@ export default UserCard;
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: "row",
-        justifyContent: "space-between",
         alignItems: "center",
-        backgroundColor: COLORS.primary,
-        padding: 40,
-        flexShrink: 1,
+        backgroundColor: COLORS.secondary,
+    },
+    userName: {
+        color: COLORS.white,
+        fontSize: 28,
+        fontFamily: "Kurale-Regular",
+        marginTop: 10,
+    },
+    statsWrapper: {
+        flexDirection: "row",
+        width: "100%",
+        alignItems: "center",
+        paddingBottom: 10,
     },
 
     statItem: {
         alignItems: "center",
-        marginHorizontal: 10,
     },
     numberDisplay: {
-        fontSize: 30,
+        fontSize: 24,
         color: COLORS.white,
         fontFamily: "Kurale-Regular",
     },
