@@ -5,7 +5,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import CustomHeader from "@/components/common/CustomHeader";
 import CatchList from "@/components/common/CatchList";
-import { useAuthStore } from "@/store/useStore";
 import { DocumentSnapshot } from "firebase/firestore";
 import { Catch } from "@/types/types";
 import CatchesService from "@/services/catches";
@@ -14,7 +13,6 @@ import { handleRefreshHelper } from "@/helper-functions/handleRefresh";
 //TODO: add loading when waiting for catches
 
 const Feed = () => {
-    const { fetchAllUsers } = useAuthStore((state) => state);
     const [catches, setCatches] = useState<Catch[]>([]);
     const [lastDoc, setLastDoc] = useState<DocumentSnapshot | null>(null);
     const [hasMore, setHasMore] = useState<boolean>(true);
@@ -59,7 +57,6 @@ const Feed = () => {
             catches,
         });
         fetchInitialCatches();
-        fetchAllUsers();
     }, []);
 
     return (

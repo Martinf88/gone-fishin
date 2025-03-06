@@ -43,8 +43,6 @@ interface StoreState {
     setCatchLocation: (latitude: number, longitude: number) => void;
     setAuthUser: (user: FirebaseUser | null) => void;
     setFirestoreUser: (user: FirestoreUser | null) => void;
-
-    fetchAllUsers: () => Promise<void>;
 }
 
 export const useAuthStore = create<StoreState>()(
@@ -123,10 +121,6 @@ export const useAuthStore = create<StoreState>()(
 
             setAuthUser: (user) => set({ authUser: user }),
             setFirestoreUser: (user) => set({ firestoreUser: user }),
-            fetchAllUsers: async () => {
-                const allUsers = await UsersService.fetchAllUsers();
-                set({ allUsers });
-            },
         }),
         {
             name: "auth-storage",

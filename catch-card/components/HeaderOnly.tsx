@@ -2,7 +2,6 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { getTimeSinceUpload } from "@/helper-functions/getTimeSinceUpload";
-import { useGetUserName } from "@/hooks/getUsername";
 import { COLORS } from "@/constants/Colors";
 import { Catch } from "@/types/types";
 
@@ -11,7 +10,6 @@ interface HeaderOnlyProps {
 }
 
 const HeaderOnly = ({ catchData }: HeaderOnlyProps) => {
-    const username = useGetUserName(catchData.userId);
     return (
         <View style={styles.headerOnly}>
             <Ionicons
@@ -20,7 +18,7 @@ const HeaderOnly = ({ catchData }: HeaderOnlyProps) => {
                 color={COLORS.white}
             />
             <View>
-                <Text style={styles.largeText}>{username}</Text>
+                <Text style={styles.largeText}>{catchData.user.username}</Text>
                 <Text style={styles.smallText}>
                     {getTimeSinceUpload(catchData.createdAt)} -{" "}
                     {catchData.speciesName}
