@@ -1,5 +1,10 @@
 import { Timestamp } from "firebase/firestore";
 
+export type Like = {
+    userId: string;
+    username: string;
+};
+
 export interface User {
     uid: string;
     userName: string;

@@ -1,4 +1,4 @@
-import { Catch, User } from "@/types/types";
+import { Catch, Like, User } from "@/types/types";
 import { auth, db } from "@/firebaseConfig";
 import {
     collection,
@@ -198,16 +198,24 @@ const CatchesService = {
             }
 
             const catchData = catchSnap.data();
-            const likes = catchData.likes || [];
+            const likes: Like[] = catchData.likes || [];
 
-            if (likes.includes(likeData)) {
+            const hasLiked = likes.some(
+                (like) => like.userId === likeData.userId
+            );
+
+            if (hasLiked) {
+                const updatedLikes = likes.filter(
+                    (like) => like.userId !== likeData.userId
+                );
                 await updateDoc(catchRef, {
-                    likes: arrayRemove(likeData),
+                    likes: updatedLikes,
                 });
                 console.log("Removed like from catch");
             } else {
+                const updatedLikes = [...likes, likeData];
                 await updateDoc(catchRef, {
-                    likes: arrayUnion(likeData),
+                    likes: updatedLikes,
                 });
                 console.log("Like added to catch");
             }
