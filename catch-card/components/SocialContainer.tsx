@@ -7,6 +7,7 @@ import { Catch } from "@/types/types";
 import { useAuthStore } from "@/store/useStore";
 import { db } from "@/firebaseConfig";
 import { doc, onSnapshot } from "firebase/firestore";
+import { useGetUserName } from "@/hooks/getUsername";
 
 //TODO: show username for the users who have liked a catch
 
@@ -14,9 +15,15 @@ interface SocialContainerProps {
     catchData: Catch;
 }
 
+type Like = {
+    userId: string;
+    username: string;
+};
+
 const SocialContainer = ({ catchData }: SocialContainerProps) => {
     const { firestoreUser } = useAuthStore((state) => state);
-    const [likes, setLikes] = useState<string[]>(catchData.likes);
+    const [likes, setLikes] = useState<Like[]>(catchData.likes);
+    const [userName, setUsername] = useState();
 
     useEffect(() => {
         const catchRef = doc(db, "catches", catchData.catchId);
@@ -30,14 +37,25 @@ const SocialContainer = ({ catchData }: SocialContainerProps) => {
         return () => unsubscribe();
     }, [catchData.catchId]);
 
-    const handleAddLike = () => {
+    const handleAddLike = async () => {
         // call update function
         if (!catchData.catchId || !firestoreUser) {
             console.log("Failed to add like");
             return;
         }
-        CatchesService.updateCatchLike(catchData.catchId, firestoreUser?.uid);
+        const username = await useGetUserName(firestoreUser.uid);
+
+        if (!username) {
+            console.log("Username not found");
+            return;
+        }
+
+        CatchesService.updateCatchLike(catchData.catchId, {
+            userId: firestoreUser.uid,
+            username,
+        });
     };
+
     return (
         <View style={styles.socialContainer}>
             <View style={styles.wrapper}>
@@ -45,6 +63,13 @@ const SocialContainer = ({ catchData }: SocialContainerProps) => {
                     <Feather name="thumbs-up" size={24} color={COLORS.white} />
                 </TouchableOpacity>
                 <Text style={styles.largeText}>{likes.length} likes</Text>
+                {likes.map((like) => {
+                    return (
+                        <Text key={like.userId} style={styles.smallText}>
+                            {like.username}
+                        </Text>
+                    );
+                })}
             </View>
             {/* TODO: Add comments <TouchableOpacity>
                 <FontAwesome

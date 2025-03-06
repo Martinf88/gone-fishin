@@ -12,7 +12,10 @@ export interface User {
 
 export interface Catch {
     catchId: string;
-    userId: string;
+    user: {
+        userId: string;
+        username: string;
+    };
     imageUrl: string;
     bait: string;
     length: number;
@@ -27,5 +30,10 @@ export interface Catch {
     time: Timestamp;
     createdAt: Timestamp;
     description: string;
-    likes: string[];
+    likes: [
+        {
+            userId: string;
+            username: string;
+        },
+    ];
 }

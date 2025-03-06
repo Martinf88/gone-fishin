@@ -1,4 +1,4 @@
-import { Catch } from "@/types/types";
+import { Catch, User } from "@/types/types";
 import { auth, db } from "@/firebaseConfig";
 import {
     collection,
@@ -19,7 +19,7 @@ import {
     onSnapshot,
 } from "firebase/firestore";
 import CloudinaryService from "./uploadToCloudinary";
-import { useAuthStore } from "@/store/useStore";
+import { CatchForm, useAuthStore } from "@/store/useStore";
 import { Alert } from "react-native";
 const PAGE_SIZE = 10;
 const catchesRef = collection(db, "catches");
@@ -94,7 +94,7 @@ const CatchesService = {
 
             let q = query(
                 catchesRef,
-                where("userId", "==", userId),
+                where("user.userId", "==", userId),
                 orderBy("createdAt", "desc"),
                 limit(PAGE_SIZE)
             );
@@ -127,10 +127,10 @@ const CatchesService = {
         }
     },
 
-    async handleRegisterCatch({ ...catchData }) {
+    async handleRegisterCatch(catchData: CatchForm, user: User) {
         console.log("handleRegisterCatch is being called!");
 
-        const user = auth.currentUser;
+        // const user = auth.currentUser;
         if (!user) {
             console.error("No user signed in");
             return;
@@ -150,34 +150,45 @@ const CatchesService = {
                     );
                 console.log("✅ Image uploaded successfully:", imageUrl);
             }
-            await addDoc(collection(db, "catches"), {
+            const userData = {
                 userId: user.uid,
+                username: user.userName ?? "Unknown",
+            };
+
+            await addDoc(collection(db, "catches"), {
+                user: userData,
                 ...catchData,
                 imageUrl,
                 createdAt: new Date(),
                 likes: [],
             });
+
             console.log("Catch registered successfully");
-            Alert.alert("Succe!", "Din fångst är upplad!");
+
+            Alert.alert("Succe!", "Din fångst är uppladdad!");
 
             const userRef = doc(db, "users", user.uid);
             await updateDoc(userRef, {
                 totalCatches: increment(1),
             });
+
             console.log("✅ Updated totalCatches for user:", user.uid);
         } catch (error) {
             console.error("Error registering catch:", error);
         }
     },
     // Update Catch
-    async updateCatchLike(catchId: string, userId: string) {
-        if (!catchId || !userId) {
+    async updateCatchLike(
+        catchId: string,
+        likeData: { userId: string; username: string }
+    ) {
+        if (!catchId || !likeData) {
             console.warn("Missing id");
             return;
         }
 
         try {
-            console.log("Starting update of catch");
+            console.log("Updating likes for catch: ", catchId);
             const catchRef = doc(db, "catches", catchId);
             const catchSnap = await getDoc(catchRef);
 
@@ -189,14 +200,14 @@ const CatchesService = {
             const catchData = catchSnap.data();
             const likes = catchData.likes || [];
 
-            if (likes.includes(userId)) {
+            if (likes.includes(likeData)) {
                 await updateDoc(catchRef, {
-                    likes: arrayRemove(userId),
+                    likes: arrayRemove(likeData),
                 });
                 console.log("Removed like from catch");
             } else {
                 await updateDoc(catchRef, {
-                    likes: arrayUnion(userId),
+                    likes: arrayUnion(likeData),
                 });
                 console.log("Like added to catch");
             }

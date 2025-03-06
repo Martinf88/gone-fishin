@@ -12,12 +12,10 @@ import CatchesService from "@/services/catches";
 import UserCard from "@/components/user-card/UserCard";
 import { handleRefreshHelper } from "@/helper-functions/handleRefresh";
 
-//TODO: add loading when waiting for catches
-
 const Profile = () => {
     const { firestoreUser } = useAuthStore((state) => state);
     const [userCatches, setUserCatches] = useState<Catch[]>([]);
-    const [totalCatches, setTotalCatches] = useState(null);
+    const [totalCatches, setTotalCatches] = useState<number | null>(null);
     const [lastDoc, setLastDoc] = useState<DocumentSnapshot | null>(null);
     const [hasMore, setHasMore] = useState<boolean>(true);
     const [loading, setLoading] = useState<boolean>(false);
@@ -25,46 +23,81 @@ const Profile = () => {
 
     const fetchInitialCatches = async () => {
         setLoading(true);
+        console.log("📢 Fetching initial catches...");
+
         if (!firestoreUser?.uid) {
+            console.warn("🚨 No `firestoreUser` found, exiting function.");
+            console.log("Debug `firestoreUser`:", firestoreUser);
             setLoading(false);
             return;
         }
 
-        const { userCatches, lastDoc, hasMore } =
-            await CatchesService.fetchCatchesWithUidLazy(
-                firestoreUser.uid,
-                null
+        console.log("✅ Found `firestoreUser.uid`:", firestoreUser.uid);
+
+        try {
+            const { userCatches, lastDoc, hasMore } =
+                await CatchesService.fetchCatchesWithUidLazy(
+                    firestoreUser.uid,
+                    null
+                );
+
+            console.log("📤 Received catches:", userCatches);
+            console.log("📤 Last document:", lastDoc);
+            console.log("📤 More catches available?", hasMore);
+
+            const totalCatches = await CatchesService.fetchTotalCatches(
+                firestoreUser.uid
             );
-        // await UsersService.fetchLoggedInUser(firestoreUser.uid);
-        const totalCatches = await CatchesService.fetchTotalCatches(
-            firestoreUser.uid
-        );
-        setUserCatches(userCatches);
-        setTotalCatches(totalCatches);
-        setLastDoc(lastDoc);
-        setHasMore(hasMore);
-        setLoading(false);
+
+            console.log("🎯 Total catches for user:", totalCatches);
+
+            setUserCatches(userCatches);
+            setTotalCatches(totalCatches);
+            setLastDoc(lastDoc);
+            setHasMore(hasMore);
+        } catch (error) {
+            console.error("❌ Error fetching catches:", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const fetchMoreCatches = async () => {
-        if (!hasMore || loading || !firestoreUser?.uid) return;
+        if (!hasMore || loading || !firestoreUser?.uid) {
+            console.warn("🚨 Skipping `fetchMoreCatches`. Conditions not met.");
+            return;
+        }
+
         setLoading(true);
-        const {
-            userCatches: newCatches,
-            lastDoc: newLastDoc,
-            hasMore: moreData,
-        } = await CatchesService.fetchCatchesWithUidLazy(
-            firestoreUser.uid,
-            lastDoc
-        );
-        setUserCatches((prev) => [...prev, ...newCatches]);
-        setLastDoc(newLastDoc);
-        setHasMore(moreData);
-        setLoading(false);
+        console.log("📢 Fetching more catches...");
+
+        try {
+            const {
+                userCatches: newCatches,
+                lastDoc: newLastDoc,
+                hasMore: moreData,
+            } = await CatchesService.fetchCatchesWithUidLazy(
+                firestoreUser.uid,
+                lastDoc
+            );
+
+            console.log("📤 New catches received:", newCatches);
+            console.log("📤 Updated last document:", newLastDoc);
+            console.log("📤 More catches available?", moreData);
+
+            setUserCatches((prev) => [...prev, ...newCatches]);
+            setLastDoc(newLastDoc);
+            setHasMore(moreData);
+        } catch (error) {
+            console.error("❌ Error fetching more catches:", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    //Helper function
+    // Helper function for refreshing
     const handleRefresh = async () => {
+        console.log("🔄 Refreshing profile data...");
         handleRefreshHelper({
             setRefreshing,
             fetchFunction: fetchInitialCatches,
@@ -74,12 +107,17 @@ const Profile = () => {
     useEffect(() => {
         if (firestoreUser?.uid) {
             console.log(
-                "📢 Fetching catches for user lazy:",
+                "📢 useEffect - Fetching user catches:",
                 firestoreUser.uid
             );
             fetchInitialCatches();
+        } else {
+            console.warn(
+                "🚨 No `firestoreUser.uid` in useEffect, skipping fetch."
+            );
         }
     }, [firestoreUser]);
+
     return (
         <>
             <StatusBar style="light" backgroundColor={COLORS.secondary} />

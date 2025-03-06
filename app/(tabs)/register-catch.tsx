@@ -22,9 +22,8 @@ import fishSpecies from "@/constants/fishSpecies.json";
 import fishingMethods from "@/constants/fishingMethods.json";
 
 const Create = () => {
-    const { catchForm, updateCatchField, resetCatchForm } = useAuthStore(
-        (state) => state
-    );
+    const { catchForm, updateCatchField, resetCatchForm, firestoreUser } =
+        useAuthStore((state) => state);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [selectedTime, setSelectedTime] = useState<Date | null>(null);
@@ -36,9 +35,13 @@ const Create = () => {
     };
 
     const handleSubmit = async () => {
+        if (!firestoreUser) {
+            console.log("No user found");
+            return;
+        }
         try {
             setIsLoading(true);
-            await CatchesService.handleRegisterCatch(catchForm);
+            await CatchesService.handleRegisterCatch(catchForm, firestoreUser);
             resetCatchForm();
             setSelectedDate(null);
             setSelectedTime(null);
