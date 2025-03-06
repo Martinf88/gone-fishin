@@ -20,8 +20,11 @@ import { useRouter } from "expo-router";
 import CustomPicker from "@/components/register-catch/CustomPicker";
 import fishSpecies from "@/constants/fishSpecies.json";
 import fishingMethods from "@/constants/fishingMethods.json";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-const Create = () => {
+const RegisterCatch = () => {
+    const insets = useSafeAreaInsets();
+
     const { catchForm, updateCatchField, resetCatchForm, firestoreUser } =
         useAuthStore((state) => state);
     const [isLoading, setIsLoading] = useState(false);
@@ -53,7 +56,7 @@ const Create = () => {
     };
 
     return (
-        <SafeAreaView style={styles.safeArea}>
+        <SafeAreaView style={[styles.safeArea, { paddingTop: insets.top }]}>
             <FormNav title={"FångstData"} onPress={() => router.back()} />
             <ScrollView contentContainerStyle={styles.scrollView}>
                 <View style={styles.container}>
@@ -177,7 +180,7 @@ const Create = () => {
     );
 };
 
-export default Create;
+export default RegisterCatch;
 
 const styles = StyleSheet.create({
     safeArea: {
@@ -186,11 +189,10 @@ const styles = StyleSheet.create({
     },
     scrollView: {
         flexGrow: 1,
-        marginTop: 20,
-        paddingBottom: 40,
     },
     container: {
         paddingHorizontal: 10,
+        paddingVertical: 20,
     },
 
     /* 📌 Individual Input Wrapper */

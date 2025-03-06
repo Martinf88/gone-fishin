@@ -40,5 +40,3 @@ const CatchList = ({
 };
 
 export default CatchList;
-
-const styles = StyleSheet.create({});

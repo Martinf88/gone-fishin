@@ -132,12 +132,10 @@ const styles = StyleSheet.create({
         flexGrow: 1,
     },
     container: {
-        paddingTop: 30,
         paddingHorizontal: 10,
         width: "100%",
-        // minHeight: height * 0.85,
-        height: "100%",
-        // justifyContent: "center",
+        minHeight: height * 0.85,
+        justifyContent: "center",
     },
     title: {
         fontSize: 42,
