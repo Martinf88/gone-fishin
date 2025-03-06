@@ -1,12 +1,21 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+    FlatList,
+    Modal,
+    Pressable,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
-import { Feather, FontAwesome } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { COLORS } from "@/constants/Colors";
 import CatchesService from "@/services/catches";
-import { Catch } from "@/types/types";
+import { Catch, Like } from "@/types/types";
 import { useAuthStore } from "@/store/useStore";
 import { db } from "@/firebaseConfig";
 import { doc, onSnapshot } from "firebase/firestore";
+import CustomButton from "@/components/common/CustomButton";
 
 //TODO: show username for the users who have liked a catch
 
@@ -16,7 +25,8 @@ interface SocialContainerProps {
 
 const SocialContainer = ({ catchData }: SocialContainerProps) => {
     const { firestoreUser } = useAuthStore((state) => state);
-    const [likes, setLikes] = useState<string[]>(catchData.likes);
+    const [likes, setLikes] = useState<Like[]>(catchData.likes);
+    const [showLikesDetails, setShowLikesDetails] = useState(false);
 
     useEffect(() => {
         const catchRef = doc(db, "catches", catchData.catchId);
@@ -30,29 +40,71 @@ const SocialContainer = ({ catchData }: SocialContainerProps) => {
         return () => unsubscribe();
     }, [catchData.catchId]);
 
-    const handleAddLike = () => {
+    const handleAddLike = async () => {
         // call update function
         if (!catchData.catchId || !firestoreUser) {
             console.log("Failed to add like");
             return;
         }
-        CatchesService.updateCatchLike(catchData.catchId, firestoreUser?.uid);
+
+        CatchesService.updateCatchLike(catchData.catchId, {
+            userId: firestoreUser.uid,
+            username: firestoreUser.userName,
+        });
     };
+
     return (
         <View style={styles.socialContainer}>
             <View style={styles.wrapper}>
                 <TouchableOpacity onPress={handleAddLike}>
                     <Feather name="thumbs-up" size={24} color={COLORS.white} />
                 </TouchableOpacity>
-                <Text style={styles.largeText}>{likes.length} likes</Text>
+                <TouchableOpacity
+                    onPress={() => setShowLikesDetails(!showLikesDetails)}
+                >
+                    <Text style={styles.largeText}>{likes.length} likes</Text>
+                </TouchableOpacity>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={showLikesDetails}
+                    onRequestClose={() =>
+                        setShowLikesDetails(!showLikesDetails)
+                    }
+                >
+                    <View style={styles.modalOverlay}>
+                        <View style={styles.modalView}>
+                            <Text style={styles.modalTitle}>
+                                Folk som gillar
+                            </Text>
+                            <FlatList
+                                data={likes}
+                                renderItem={({ item }) => (
+                                    <View style={styles.itemwrapper}>
+                                        <Text style={styles.modalText}>
+                                            {item.username}
+                                        </Text>
+                                        <Pressable style={styles.buttonFollow}>
+                                            <Text
+                                                style={styles.textButtonFollow}
+                                            >
+                                                Följ
+                                            </Text>
+                                        </Pressable>
+                                    </View>
+                                )}
+                                keyExtractor={(item) => item.userId}
+                            />
+                            <CustomButton
+                                handlePress={() =>
+                                    setShowLikesDetails(!showLikesDetails)
+                                }
+                                title="Stäng"
+                            />
+                        </View>
+                    </View>
+                </Modal>
             </View>
-            {/* TODO: Add comments <TouchableOpacity>
-                <FontAwesome
-                    name="commenting-o"
-                    size={24}
-                    color={COLORS.white}
-                />
-            </TouchableOpacity> */}
         </View>
     );
 };
@@ -78,5 +130,65 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: COLORS.white,
         fontFamily: "Kurale-Regular",
+    },
+    modalOverlay: {
+        flex: 1,
+        justifyContent: "flex-end",
+        alignItems: "center",
+    },
+    modalView: {
+        backgroundColor: COLORS.primary,
+        width: "100%",
+        height: "100%",
+        padding: 20,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    itemwrapper: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
+    buttonFollow: {
+        backgroundColor: COLORS.white,
+        color: COLORS.primary,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 999,
+    },
+    textButtonFollow: {
+        color: COLORS.black,
+        fontWeight: "bold",
+        fontSize: 14,
+        textAlign: "center",
+    },
+    buttonClose: {
+        backgroundColor: "#2196F3",
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+    },
+    textButtonClose: {
+        color: COLORS.white,
+        fontWeight: "bold",
+        fontSize: 16,
+        textAlign: "center",
+    },
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: COLORS.white,
+        marginBottom: 10,
+    },
+    modalText: {
+        fontSize: 18,
+        color: COLORS.white,
+        marginBottom: 5,
     },
 });

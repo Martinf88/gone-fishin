@@ -50,6 +50,7 @@ const TabsLayout = () => {
                     backgroundColor: COLORS.secondary,
                     height: 60,
                     paddingTop: 0,
+                    borderTopWidth: 0,
                 },
                 tabBarShowLabel: false,
                 tabBarIconStyle: { height: 48, width: 64 },

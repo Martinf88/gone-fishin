@@ -59,7 +59,7 @@ export default UserCard;
 const styles = StyleSheet.create({
     container: {
         alignItems: "center",
-        backgroundColor: COLORS.secondary,
+        paddingTop: 10,
     },
     userName: {
         color: COLORS.white,

@@ -15,7 +15,7 @@ interface ImageAndHeaderProps {
 
 const ImageAndHeader = ({ catchData, onPress }: ImageAndHeaderProps) => {
     const { firestoreUser } = useAuthStore((state) => state);
-    const username = useGetUserName(catchData.userId);
+    // const username = useGetUserName(catchData.userId);
     return (
         <View style={styles.ImageAndHeader}>
             <Image source={{ uri: catchData.imageUrl }} style={styles.image} />
@@ -38,7 +38,9 @@ const ImageAndHeader = ({ catchData, onPress }: ImageAndHeaderProps) => {
                         )}
                     </View>
                     <View>
-                        <Text style={styles.largeText}>{username}</Text>
+                        <Text style={styles.largeText}>
+                            {catchData.user.username}
+                        </Text>
                         <Text style={styles.smallText}>
                             {getTimeSinceUpload(catchData.createdAt)} -{" "}
                             {catchData.speciesName}

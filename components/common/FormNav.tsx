@@ -27,7 +27,8 @@ export default FormNav;
 
 const styles = StyleSheet.create({
     header: {
-        paddingTop: 30,
+        paddingTop: 10,
+        paddingBottom: 10,
         paddingHorizontal: 10,
         backgroundColor: COLORS.primary,
         flexDirection: "row",
@@ -36,10 +37,8 @@ const styles = StyleSheet.create({
     },
 
     backButtonText: {
-        fontSize: 18,
+        fontSize: 20,
         color: COLORS.white,
-        fontFamily: "Kurale-Regular",
         fontWeight: "bold",
-        marginBottom: 3,
     },
 });
