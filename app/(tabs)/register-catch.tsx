@@ -22,6 +22,8 @@ import fishSpecies from "@/constants/fishSpecies.json";
 import fishingMethods from "@/constants/fishingMethods.json";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+//TODO: validate form. Atlest speacies needs to be selected
+
 const RegisterCatch = () => {
     const insets = useSafeAreaInsets();
 

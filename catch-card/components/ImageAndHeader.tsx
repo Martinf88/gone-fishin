@@ -4,9 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Catch } from "@/types/types";
 import { COLORS } from "@/constants/Colors";
 import { getTimeSinceUpload } from "@/helper-functions/getTimeSinceUpload";
-import { useGetUserName } from "@/hooks/getUsername";
 import { useAuthStore } from "@/store/useStore";
-import Profile from "@/app/(tabs)/profile";
 
 interface ImageAndHeaderProps {
     catchData: Catch;

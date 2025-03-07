@@ -12,13 +12,12 @@ import FormNav from "@/components/common/FormNav";
 import { useRouter } from "expo-router";
 
 //TODO: validate form
-//TODO: add repeatPassword functionality
 
 const SignUp = () => {
     const [form, setForm] = useState({
         email: "",
         password: "",
-        repeatPassword: "",
+        confirmPassword: "",
         username: "",
     });
     const [isLoading, setIsLoading] = useState(false);
@@ -85,9 +84,9 @@ const SignUp = () => {
                         />
                         <FormField
                             title="Upprepa Lösenord"
-                            value={form.repeatPassword}
+                            value={form.confirmPassword}
                             handleChangeText={(e: string) =>
-                                handleInputChange("repeatPassword", e)
+                                handleInputChange("confirmPassword", e)
                             }
                             keyboardType="password"
                             placeholderText="Upprepa lösenord"
@@ -105,6 +104,7 @@ const SignUp = () => {
                                 handleSignUp({
                                     email: form.email,
                                     password: form.password,
+                                    confirmPassword: form.confirmPassword,
                                     setIsLoading,
                                     userName: form.username,
                                 })

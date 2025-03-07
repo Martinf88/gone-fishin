@@ -8,6 +8,7 @@ import { auth, db } from "../firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { router } from "expo-router";
 import { useAuthStore } from "@/store/useStore";
+import { Alert } from "react-native";
 
 //TODO: Move file logic to use AuthStore
 
@@ -19,6 +20,7 @@ interface SignInProps {
 interface SignUpProps {
     email: string;
     password: string;
+    confirmPassword: string;
     setIsLoading: (value: boolean) => void;
     userName: string;
 }
@@ -58,9 +60,16 @@ export const handleSignOut = async () => {
 export const handleSignUp = async ({
     email,
     password,
+    confirmPassword,
     setIsLoading,
     userName,
 }: SignUpProps) => {
+    if (password !== confirmPassword) {
+        console.error("Password and confirmPassword does not match");
+        Alert.alert("Lösenorden matchar inte varandra");
+        return;
+    }
+
     setIsLoading(true);
     try {
         // 1. Create user in Firebase Authentication

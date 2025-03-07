@@ -42,22 +42,6 @@ const UsersService = {
             return null;
         }
     },
-    async fetchAllUsers(): Promise<User[]> {
-        try {
-            console.log("📡 Fetching all users from Firestore...");
-
-            const usersRef = collection(db, "users");
-            const docSnap = await getDocs(usersRef);
-
-            return docSnap.docs.map((doc) => ({
-                uid: doc.id,
-                ...(doc.data() as Omit<User, "uid">),
-            }));
-        } catch (error) {
-            console.error("❌ Error fetching users:", error);
-            return [];
-        }
-    },
 
     async uploadProfileImgToFirestore(
         userId: string,
