@@ -84,7 +84,7 @@ const TabsLayout = () => {
                         <TabIcon
                             icon="add-circle-outline"
                             focused={false}
-                            color={COLORS.action}
+                            color={COLORS.link}
                             size={48}
                         />
                     ),
