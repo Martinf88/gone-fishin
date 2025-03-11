@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { COLORS } from "@/constants/Colors";
 import ProfileImgPicker from "./ProfileImgPicker";
 import { useAuthStore } from "@/store/useStore";
-//TODO: ask for permission of using images and camera
+//TODO: ask for permission of using camera
 
 interface UserCardProps {
     totalCatches: number | null;

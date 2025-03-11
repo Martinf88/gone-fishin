@@ -84,10 +84,11 @@ export const handleSignUp = async ({
         // 2. Create user document in Firestore
         await setDoc(doc(db, "users", user.uid), {
             userName: userName,
-            badges: [],
-            imageUrl: "",
-            createdAt: new Date(),
             email: email,
+            createdAt: new Date(),
+            imageUrl: "",
+            totalCatches: null,
+            uniqueSpeciesCount: null,
         });
         console.log("User document created successfully: ", user.uid);
 

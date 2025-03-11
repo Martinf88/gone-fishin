@@ -7,14 +7,15 @@ import {
     TouchableOpacity,
     ActivityIndicator,
 } from "react-native";
-import MapView, { Marker, MapPressEvent } from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { COLORS } from "@/constants/Colors";
 import CustomButton from "../common/CustomButton";
 import { useAuthStore } from "@/store/useStore";
 import { Octicons, Entypo } from "@expo/vector-icons";
 
-//TODO: When the screen is touched and then released place pin in the center of the map after a short delay
+//TODO: setTimeout on loading
+// Ideas: Track the users location when they open the app
 
 interface MapPickerProps {
     isVisible: boolean;
@@ -22,10 +23,13 @@ interface MapPickerProps {
 }
 
 const MapPicker = ({ isVisible, onClose }: MapPickerProps) => {
+    // 🔹 STATE-HANTERING
     const { setCatchLocation } = useAuthStore((state) => state);
     const [location, setLocation] = useState<{
         latitude: number;
         longitude: number;
+        latitudeDelta?: number;
+        longitudeDelta?: number;
     } | null>(null);
     const [selectedLocation, setSelectedLocation] = useState<{
         latitude: number;
@@ -35,8 +39,14 @@ const MapPicker = ({ isVisible, onClose }: MapPickerProps) => {
     const [showDot, setShowDot] = useState(true);
     const [loading, setLoading] = useState<boolean>(true);
 
+    // 🔹 REF FÖR MAP & TIMEOUT
     const mapRef = useRef<MapView>(null);
+    const pressTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+    const latD: number = 0.03;
+    const longD: number = 0.03;
+
+    // 🔹 HÄMTA ANVÄNDARENS PLATS VID FÖRSTA LADDNING
     useEffect(() => {
         const getCurrentLocation = async () => {
             try {
@@ -46,7 +56,6 @@ const MapPicker = ({ isVisible, onClose }: MapPickerProps) => {
                     setLoading(false);
                     return;
                 }
-
                 let loc = await Location.getCurrentPositionAsync({});
                 setLocation({
                     latitude: loc.coords.latitude,
@@ -58,25 +67,38 @@ const MapPicker = ({ isVisible, onClose }: MapPickerProps) => {
                 setLoading(false);
             }
         };
-
         getCurrentLocation();
     }, []);
 
+    // 🔹 RENSAR TIMEOUT VID UNMOUNT
+    useEffect(() => {
+        return () => {
+            if (pressTimeoutRef.current) {
+                clearTimeout(pressTimeoutRef.current);
+            }
+        };
+    }, []);
+
+    // 🔹 FUNKTIONER FÖR MAP-INTERAKTION
     const handleMapPressIn = () => {
         setShowDot(true);
         setIsPressed(true);
+        if (pressTimeoutRef.current) {
+            clearTimeout(pressTimeoutRef.current);
+        }
     };
 
     const handleMapPressOut = () => {
-        setTimeout(async () => {
+        if (pressTimeoutRef.current) {
+            clearTimeout(pressTimeoutRef.current);
+        }
+        pressTimeoutRef.current = setTimeout(async () => {
             if (isPressed && mapRef.current) {
                 const camera = await mapRef.current.getCamera();
-                const newLocation = {
+                setSelectedLocation({
                     latitude: camera.center.latitude,
                     longitude: camera.center.longitude,
-                };
-
-                setSelectedLocation(newLocation);
+                });
                 setShowDot(false);
             }
         }, 800);
@@ -96,12 +118,14 @@ const MapPicker = ({ isVisible, onClose }: MapPickerProps) => {
     };
 
     const handleCenterOnPin = () => {
-        if (!selectedLocation) {
-            return;
-        }
-        setLocation({
-            latitude: selectedLocation?.latitude,
-            longitude: selectedLocation?.longitude,
+        if (!selectedLocation || !mapRef.current) return;
+
+        mapRef.current.animateCamera({
+            center: {
+                latitude: selectedLocation.latitude,
+                longitude: selectedLocation.longitude,
+            },
+            zoom: 15,
         });
     };
 
@@ -111,7 +135,7 @@ const MapPicker = ({ isVisible, onClose }: MapPickerProps) => {
             visible={isVisible}
             onRequestClose={onClose}
         >
-            {/* Header with Search Input */}
+            {/* 🔹 HEADER */}
             <View style={styles.header}>
                 <TouchableOpacity
                     onPress={handleCancel}
@@ -121,60 +145,66 @@ const MapPicker = ({ isVisible, onClose }: MapPickerProps) => {
                 </TouchableOpacity>
             </View>
 
-            {/* Loading Indicator */}
-            {loading ? (
-                <View style={styles.loaderContainer}>
-                    <ActivityIndicator size="large" color={COLORS.primary} />
-                </View>
-            ) : (
-                <View style={styles.mapContainer}>
-                    {showDot && (
-                        <View style={styles.dotWrapper}>
-                            <Octicons name="dot" size={16} color="red" />
-                        </View>
-                    )}
+            <View style={styles.mapContainer}>
+                {/* 🔹 LOADING INDICATOR */}
+                {loading && (
+                    <View style={styles.loaderContainer}>
+                        <ActivityIndicator size="large" color={COLORS.action} />
+                        <Text style={styles.text}>Laddar plats...</Text>
+                    </View>
+                )}
+                {showDot && (
+                    <View style={styles.dotWrapper}>
+                        <Octicons name="dot" size={16} color="red" />
+                    </View>
+                )}
 
-                    <TouchableOpacity
-                        onPress={handleCenterOnPin}
-                        style={styles.centerOnPinButton}
-                    >
-                        <Entypo
-                            name="location-pin"
-                            size={24}
-                            color={COLORS.lightGray}
+                <TouchableOpacity
+                    onPress={handleCenterOnPin}
+                    style={styles.centerOnPinButton}
+                >
+                    <Entypo
+                        name="location-pin"
+                        size={24}
+                        color={COLORS.lightGray}
+                    />
+                </TouchableOpacity>
+
+                {/* 🔹 KARTA */}
+                <MapView
+                    ref={mapRef}
+                    style={styles.map}
+                    region={
+                        location
+                            ? {
+                                  latitude: location.latitude,
+                                  longitude: location.longitude,
+                                  latitudeDelta: latD || 0.03,
+                                  longitudeDelta: longD || 0.03,
+                              }
+                            : {
+                                  latitude: 59.3293,
+                                  longitude: 18.0686,
+                                  latitudeDelta: 0.05,
+                                  longitudeDelta: 0.05,
+                              }
+                    }
+                    showsUserLocation
+                    showsMyLocationButton
+                    onTouchStart={handleMapPressIn}
+                    onTouchEnd={handleMapPressOut}
+                >
+                    {selectedLocation && (
+                        <Marker
+                            pinColor="red"
+                            coordinate={selectedLocation}
+                            anchor={{ x: 0.65, y: 0.8 }}
                         />
-                    </TouchableOpacity>
-                    <MapView
-                        ref={mapRef}
-                        style={styles.map}
-                        region={
-                            location
-                                ? {
-                                      latitude: location.latitude,
-                                      longitude: location.longitude,
-                                      latitudeDelta: 0.05,
-                                      longitudeDelta: 0.05,
-                                  }
-                                : undefined
-                        }
-                        showsUserLocation
-                        showsMyLocationButton
-                        onTouchStart={handleMapPressIn}
-                        onTouchEnd={handleMapPressOut}
-                    >
-                        {selectedLocation && (
-                            <Marker
-                                pinColor="red"
-                                coordinate={selectedLocation}
-                                anchor={{ x: 0.65, y: 0.8 }}
-                            />
-                        )}
-                    </MapView>
-                </View>
-            )}
+                    )}
+                </MapView>
+            </View>
 
-            {/* Footer */}
-
+            {/* 🔹 FOOTER */}
             <View style={styles.footer}>
                 <CustomButton title="Bekräfta" handlePress={handleConfirm} />
             </View>
@@ -186,15 +216,18 @@ export default MapPicker;
 
 const styles = StyleSheet.create({
     container: { flex: 1 },
-    mapContainer: {
-        flex: 1,
-        position: "relative",
-    },
+    mapContainer: { flex: 1, position: "relative" },
     map: { flex: 1 },
     loaderContainer: {
-        flex: 1,
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0,0,0,0.3)",
         justifyContent: "center",
         alignItems: "center",
+        zIndex: 100,
     },
     dotWrapper: {
         position: "absolute",
@@ -213,24 +246,12 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
     },
-    text: {
-        color: COLORS.white,
-        fontSize: 18,
-        fontFamily: "Kurale-Regular",
-    },
-    searchInput: {
-        flex: 1,
-        backgroundColor: COLORS.white,
-        borderRadius: 5,
-        padding: 8,
-        marginLeft: 10,
-    },
+    text: { color: COLORS.white, fontSize: 18, fontFamily: "Kurale-Regular" },
     centerOnPinButton: {
         position: "absolute",
         bottom: 10,
         right: 10,
         zIndex: 50,
-
         backgroundColor: "rgba(255,255,255,0.8)",
         width: 50,
         height: 50,
@@ -243,24 +264,10 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5,
     },
-
-    cancelButton: {
-        padding: 8,
-    },
+    cancelButton: { padding: 8 },
     footer: {
         paddingVertical: 10,
         paddingHorizontal: 50,
         backgroundColor: COLORS.primary,
-        // alignItems: "center",
-    },
-    footerText: {
-        color: COLORS.white,
-        fontSize: 16,
-        fontFamily: "Kurale-Regular",
-        marginBottom: 10,
-    },
-    buttonText: {
-        color: COLORS.primary,
-        fontSize: 16,
     },
 });
