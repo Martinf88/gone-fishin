@@ -14,6 +14,9 @@ import CustomButton from "../common/CustomButton";
 import { useAuthStore } from "@/store/useStore";
 import { Octicons, Entypo } from "@expo/vector-icons";
 
+//TODO: setTimeout on loading
+// Ideas: Track the users location when they open the app
+
 interface MapPickerProps {
     isVisible: boolean;
     onClose: () => void;
@@ -45,8 +48,6 @@ const MapPicker = ({ isVisible, onClose }: MapPickerProps) => {
 
     // 🔹 HÄMTA ANVÄNDARENS PLATS VID FÖRSTA LADDNING
     useEffect(() => {
-        console.log("körs jag????");
-
         const getCurrentLocation = async () => {
             try {
                 let { status } =
@@ -144,59 +145,64 @@ const MapPicker = ({ isVisible, onClose }: MapPickerProps) => {
                 </TouchableOpacity>
             </View>
 
-            {/* 🔹 LOADING INDICATOR */}
-            {loading ? (
-                <View style={styles.loaderContainer}>
-                    <ActivityIndicator size="large" color={COLORS.primary} />
-                </View>
-            ) : (
-                <View style={styles.mapContainer}>
-                    {showDot && (
-                        <View style={styles.dotWrapper}>
-                            <Octicons name="dot" size={16} color="red" />
-                        </View>
-                    )}
+            <View style={styles.mapContainer}>
+                {/* 🔹 LOADING INDICATOR */}
+                {loading && (
+                    <View style={styles.loaderContainer}>
+                        <ActivityIndicator size="large" color={COLORS.action} />
+                        <Text style={styles.text}>Laddar plats...</Text>
+                    </View>
+                )}
+                {showDot && (
+                    <View style={styles.dotWrapper}>
+                        <Octicons name="dot" size={16} color="red" />
+                    </View>
+                )}
 
-                    <TouchableOpacity
-                        onPress={handleCenterOnPin}
-                        style={styles.centerOnPinButton}
-                    >
-                        <Entypo
-                            name="location-pin"
-                            size={24}
-                            color={COLORS.lightGray}
+                <TouchableOpacity
+                    onPress={handleCenterOnPin}
+                    style={styles.centerOnPinButton}
+                >
+                    <Entypo
+                        name="location-pin"
+                        size={24}
+                        color={COLORS.lightGray}
+                    />
+                </TouchableOpacity>
+
+                {/* 🔹 KARTA */}
+                <MapView
+                    ref={mapRef}
+                    style={styles.map}
+                    region={
+                        location
+                            ? {
+                                  latitude: location.latitude,
+                                  longitude: location.longitude,
+                                  latitudeDelta: latD || 0.03,
+                                  longitudeDelta: longD || 0.03,
+                              }
+                            : {
+                                  latitude: 59.3293,
+                                  longitude: 18.0686,
+                                  latitudeDelta: 0.05,
+                                  longitudeDelta: 0.05,
+                              }
+                    }
+                    showsUserLocation
+                    showsMyLocationButton
+                    onTouchStart={handleMapPressIn}
+                    onTouchEnd={handleMapPressOut}
+                >
+                    {selectedLocation && (
+                        <Marker
+                            pinColor="red"
+                            coordinate={selectedLocation}
+                            anchor={{ x: 0.65, y: 0.8 }}
                         />
-                    </TouchableOpacity>
-
-                    {/* 🔹 KARTA */}
-                    <MapView
-                        ref={mapRef}
-                        style={styles.map}
-                        region={
-                            location
-                                ? {
-                                      latitude: location.latitude,
-                                      longitude: location.longitude,
-                                      latitudeDelta: latD,
-                                      longitudeDelta: longD,
-                                  }
-                                : undefined
-                        }
-                        showsUserLocation
-                        showsMyLocationButton
-                        onTouchStart={handleMapPressIn}
-                        onTouchEnd={handleMapPressOut}
-                    >
-                        {selectedLocation && (
-                            <Marker
-                                pinColor="red"
-                                coordinate={selectedLocation}
-                                anchor={{ x: 0.65, y: 0.8 }}
-                            />
-                        )}
-                    </MapView>
-                </View>
-            )}
+                    )}
+                </MapView>
+            </View>
 
             {/* 🔹 FOOTER */}
             <View style={styles.footer}>
@@ -213,9 +219,15 @@ const styles = StyleSheet.create({
     mapContainer: { flex: 1, position: "relative" },
     map: { flex: 1 },
     loaderContainer: {
-        flex: 1,
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0,0,0,0.3)",
         justifyContent: "center",
         alignItems: "center",
+        zIndex: 100,
     },
     dotWrapper: {
         position: "absolute",
