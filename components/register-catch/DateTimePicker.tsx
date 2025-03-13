@@ -68,7 +68,7 @@ const DateTimePicker = ({
                     <Ionicons
                         name="calendar-outline"
                         size={24}
-                        color={COLORS.white}
+                        color={COLORS.placeholder}
                     />
                 </TouchableOpacity>
                 <DateTimePickerModal
@@ -94,7 +94,7 @@ const DateTimePicker = ({
                     <Ionicons
                         name="time-outline"
                         size={24}
-                        color={COLORS.white}
+                        color={COLORS.placeholder}
                     />
                 </TouchableOpacity>
                 <DateTimePickerModal
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
         // alignItems: "center",
     },
     label: {
-        color: COLORS.white,
+        color: COLORS.placeholder,
         fontSize: 18,
         fontFamily: "Kurale-Regular",
     },
@@ -131,11 +131,9 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         flexDirection: "row",
         justifyContent: "space-between",
-        borderWidth: 1,
-        borderColor: COLORS.placeholder,
     },
     buttonText: {
-        color: COLORS.white,
+        color: COLORS.placeholder,
         fontSize: 16,
         fontFamily: "Kurale-Regular",
     },

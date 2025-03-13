@@ -9,18 +9,19 @@ import { useAuthStore } from "@/store/useStore";
 interface ImageAndHeaderProps {
     catchData: Catch;
     onPress: () => void;
+    showDetails: boolean;
 }
 
-const ImageAndHeader = ({ catchData, onPress }: ImageAndHeaderProps) => {
+const ImageAndHeader = ({ catchData }: ImageAndHeaderProps) => {
     const { firestoreUser } = useAuthStore((state) => state);
-    // const username = useGetUserName(catchData.userId);
+
     return (
         <View style={styles.ImageAndHeader}>
             <Image source={{ uri: catchData.imageUrl }} style={styles.image} />
 
-            {/* Overlay Header */}
             <View style={styles.overlay}>
-                <View style={styles.overlayDetails}>
+                {/* Left Section: Image and User Info */}
+                <View style={styles.leftSection}>
                     <View style={styles.ProfileImageWrapper}>
                         {firestoreUser?.imageUrl ? (
                             <Image
@@ -35,7 +36,7 @@ const ImageAndHeader = ({ catchData, onPress }: ImageAndHeaderProps) => {
                             />
                         )}
                     </View>
-                    <View>
+                    <View style={styles.userInfo}>
                         <Text style={styles.largeText}>
                             {catchData.user.username}
                         </Text>
@@ -45,9 +46,6 @@ const ImageAndHeader = ({ catchData, onPress }: ImageAndHeaderProps) => {
                         </Text>
                     </View>
                 </View>
-                <TouchableOpacity onPress={onPress} activeOpacity={0.7}>
-                    <Text style={styles.largeText}>Visa detaljer</Text>
-                </TouchableOpacity>
             </View>
         </View>
     );
@@ -59,22 +57,12 @@ const styles = StyleSheet.create({
     ImageAndHeader: {
         width: "100%",
         height: 400,
-        overflow: "hidden",
         position: "relative",
     },
     image: {
         width: "100%",
         height: "100%",
         resizeMode: "cover",
-    },
-    ProfileImageWrapper: {
-        width: 50,
-        height: 50,
-    },
-    profileImage: {
-        width: "100%",
-        height: "100%",
-        borderRadius: 999,
     },
     overlay: {
         position: "absolute",
@@ -85,20 +73,31 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        gap: 8,
         padding: 10,
     },
-    overlayDetails: {
+    leftSection: {
         flexDirection: "row",
+        alignItems: "center",
+        gap: 10,
     },
-    smallText: {
-        fontSize: 16,
-        color: COLORS.white,
-        fontFamily: "Kurale-Regular",
+    ProfileImageWrapper: {
+        width: 50,
+        height: 50,
+    },
+    profileImage: {
+        width: "100%",
+        height: "100%",
+        borderRadius: 999,
+    },
+    userInfo: {
+        flexDirection: "column",
     },
     largeText: {
         fontSize: 18,
         color: COLORS.white,
-        fontFamily: "Kurale-Regular",
+    },
+    smallText: {
+        fontSize: 16,
+        color: COLORS.white,
     },
 });

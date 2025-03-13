@@ -28,7 +28,7 @@ const FormSelectLocation = () => {
                 <Ionicons
                     name="location-outline"
                     size={20}
-                    color={COLORS.white}
+                    color={COLORS.placeholder}
                 />
             </TouchableOpacity>
             <MapPicker
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 18,
-        color: COLORS.white,
+        color: COLORS.placeholder,
         marginBottom: 5,
         fontFamily: "Kurale-Regular",
     },
@@ -58,11 +58,9 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.secondary,
         padding: 12,
         borderRadius: 5,
-        borderWidth: 1,
-        borderColor: COLORS.placeholder,
     },
     buttonText: {
-        color: COLORS.white,
+        color: COLORS.placeholder,
         fontSize: 16,
         fontFamily: "Kurale-Regular",
     },

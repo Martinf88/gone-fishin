@@ -30,7 +30,11 @@ const FormAddImg = () => {
                     style={styles.imagePickerButton}
                     onPress={pickImage}
                 >
-                    <Ionicons name="camera" size={32} color={COLORS.white} />
+                    <Ionicons
+                        name="camera"
+                        size={32}
+                        color={COLORS.placeholder}
+                    />
                     <Text style={styles.imagePickerText}>Lägg till bild</Text>
                 </TouchableOpacity>
             )}
@@ -63,13 +67,13 @@ const styles = StyleSheet.create({
         height: 100,
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: COLORS.white,
+        borderColor: COLORS.placeholder,
         backgroundColor: COLORS.secondary,
         justifyContent: "center",
         alignItems: "center",
     },
     imagePickerText: {
-        color: COLORS.white,
+        color: COLORS.placeholder,
         marginTop: 8,
         fontSize: 14,
     },

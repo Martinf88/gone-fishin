@@ -57,7 +57,11 @@ const SocialContainer = ({ catchData }: SocialContainerProps) => {
         <View style={styles.socialContainer}>
             <View style={styles.wrapper}>
                 <TouchableOpacity onPress={handleAddLike}>
-                    <Feather name="thumbs-up" size={24} color={COLORS.white} />
+                    <Feather
+                        name="thumbs-up"
+                        size={24}
+                        color={COLORS.primary}
+                    />
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => setShowLikesDetails(!showLikesDetails)}
@@ -114,7 +118,11 @@ export default SocialContainer;
 const styles = StyleSheet.create({
     socialContainer: {
         flexDirection: "row",
-        padding: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 15,
+        backgroundColor: COLORS.action,
+        // borderBottomLeftRadius: 20,
+        // borderBottomRightRadius: 20,
     },
     wrapper: {
         flexDirection: "row",
@@ -123,12 +131,12 @@ const styles = StyleSheet.create({
     },
     smallText: {
         fontSize: 16,
-        color: COLORS.white,
+        color: COLORS.primary,
         fontFamily: "Kurale-Regular",
     },
     largeText: {
         fontSize: 18,
-        color: COLORS.white,
+        color: COLORS.primary,
         fontFamily: "Kurale-Regular",
     },
     modalOverlay: {
