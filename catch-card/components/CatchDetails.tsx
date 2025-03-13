@@ -62,7 +62,7 @@ const CatchDetails = ({ catchData }: CatchDetailsProps) => {
                         </Text>
                     </View>
                 )}
-                {catchData.location && (
+                {catchData.location.latitude && (
                     <TouchableOpacity
                         style={styles.mapButton}
                         onPress={() => setModalVisible(true)}
@@ -90,8 +90,9 @@ export default CatchDetails;
 const styles = StyleSheet.create({
     detailsContainer: {
         padding: 8,
-        minHeight: 150,
+        // minHeight: 150,
         justifyContent: "space-between",
+        gap: 5,
     },
     title: {
         fontSize: 20,

@@ -78,9 +78,22 @@ const SocialContainer = ({ catchData }: SocialContainerProps) => {
                 >
                     <View style={styles.modalOverlay}>
                         <View style={styles.modalView}>
-                            <Text style={styles.modalTitle}>
-                                Folk som gillar
-                            </Text>
+                            <View style={styles.header}>
+                                <TouchableOpacity
+                                    onPress={() =>
+                                        setShowLikesDetails(!showLikesDetails)
+                                    }
+                                >
+                                    <Feather
+                                        name="arrow-left"
+                                        size={24}
+                                        color={COLORS.white}
+                                    />
+                                </TouchableOpacity>
+                                <Text style={styles.headerText}>
+                                    Folk som gillar
+                                </Text>
+                            </View>
                             <FlatList
                                 data={likes}
                                 renderItem={({ item }) => (
@@ -99,12 +112,6 @@ const SocialContainer = ({ catchData }: SocialContainerProps) => {
                                 )}
                                 keyExtractor={(item) => item.userId}
                             />
-                            <CustomButton
-                                handlePress={() =>
-                                    setShowLikesDetails(!showLikesDetails)
-                                }
-                                title="Stäng"
-                            />
                         </View>
                     </View>
                 </Modal>
@@ -121,13 +128,21 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 15,
         backgroundColor: COLORS.action,
-        // borderBottomLeftRadius: 20,
-        // borderBottomRightRadius: 20,
+    },
+    header: {
+        flexDirection: "row",
+        alignItems: "center",
+        paddingVertical: 10,
+        backgroundColor: COLORS.secondary,
+        gap: 15,
+    },
+    headerText: {
+        fontFamily: "Roboto-Bold",
+        fontSize: 18,
+        color: COLORS.white,
     },
     wrapper: {
         flexDirection: "row",
-        marginLeft: 5,
-        gap: 10,
     },
     smallText: {
         fontSize: 16,
@@ -145,7 +160,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     modalView: {
-        backgroundColor: COLORS.primary,
+        backgroundColor: COLORS.secondary,
         width: "100%",
         height: "100%",
         padding: 20,
@@ -162,13 +177,14 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+        paddingVertical: 10,
     },
     buttonFollow: {
         backgroundColor: COLORS.white,
         color: COLORS.primary,
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 999,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderRadius: 5,
     },
     textButtonFollow: {
         color: COLORS.black,

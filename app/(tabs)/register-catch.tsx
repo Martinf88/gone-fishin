@@ -168,7 +168,7 @@ const RegisterCatch = () => {
                             />
                         </View>
                     </View>
-
+                    {/*TODO: Disable button if Species is not picked */}
                     <CustomButton
                         title="Bekräfta"
                         handlePress={handleSubmit}
