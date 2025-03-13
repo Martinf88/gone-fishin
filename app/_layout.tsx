@@ -10,6 +10,7 @@ SplashScreen.preventAutoHideAsync();
 const RootLayout = () => {
     const [fontsLoaded, error] = useFonts({
         "Kurale-Regular": require("../assets/fonts/Kurale-Regular.ttf"),
+        "Roboto-Bold": require("../assets/fonts/Roboto-Bold.ttf"),
     });
     useAuthListener();
 

@@ -40,7 +40,7 @@ const CustomPicker = ({
             <Ionicons
                 name="chevron-down"
                 size={24}
-                color="white"
+                color={COLORS.placeholder}
                 style={styles.icon}
             />
         </View>
@@ -53,11 +53,11 @@ const styles = StyleSheet.create({
     pickerWrapper: {
         backgroundColor: COLORS.secondary,
         borderRadius: 5,
-        borderWidth: 1,
+        // borderWidth: 1,
         borderColor: COLORS.placeholder,
     },
     picker: {
-        color: COLORS.white,
+        color: COLORS.placeholder,
         fontFamily: "Kurale-Regular",
     },
     icon: {

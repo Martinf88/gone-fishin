@@ -16,12 +16,13 @@ const CatchCard: React.FC<CatchCardProps> = ({ catchData, index }) => {
     const hasImage = Boolean(catchData.imageUrl);
     const [showDetails, setShowDetails] = useState(!hasImage);
     return (
-        <View style={[styles.card, index !== 0 && { marginTop: 10 }]}>
+        <View style={[styles.card, index !== 0 && { marginTop: 20 }]}>
             {/* Render Image + Header if Image Exists */}
             {hasImage ? (
                 <ImageAndHeader
                     catchData={catchData}
                     onPress={() => setShowDetails(!showDetails)}
+                    showDetails={showDetails}
                 />
             ) : (
                 /* Render Only Header if No Image */
@@ -29,9 +30,8 @@ const CatchCard: React.FC<CatchCardProps> = ({ catchData, index }) => {
             )}
 
             {/* Catch Details */}
-            {(showDetails || !hasImage) && (
-                <CatchDetails catchData={catchData} />
-            )}
+            <CatchDetails catchData={catchData} />
+
             <SocialContainer catchData={catchData} />
         </View>
     );
@@ -41,11 +41,17 @@ export default CatchCard;
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: COLORS.darkGray,
+        backgroundColor: COLORS.primary,
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 4,
         elevation: 3,
+        // borderRadius: 20,
     },
+    // wapper: {
+    //     margin: 10,
+    //     backgroundColor: COLORS.darkGray,
+    //     borderRadius: 5,
+    // },
 });

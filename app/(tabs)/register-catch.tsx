@@ -207,15 +207,15 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         marginBottom: 15,
+        gap: 10,
     },
     inputWrapperHalf: {
         flex: 1,
-        marginRight: 10,
     },
 
     /* 📌 Wrapper for TextInputs (fixes border issues) */
     inputContainer: {
-        borderWidth: 1,
+        // borderWidth: 1,
         borderColor: COLORS.placeholder,
         borderRadius: 5,
         overflow: "hidden", // ✅ Ensures background doesn't cover border
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     /* 📌 Label Styling */
     label: {
         fontSize: 18,
-        color: COLORS.white,
+        color: COLORS.placeholder,
         marginBottom: 5,
         fontFamily: "Kurale-Regular",
     },
